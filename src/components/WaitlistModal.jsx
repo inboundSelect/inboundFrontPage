@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
+const API_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://app.inboundselect.com'
+).trim().replace(/\/$/, '');
 const WAITLIST_ENDPOINT = `${API_BASE_URL}/api/inbound-select/leads`;
 
 function WaitlistModal({ isOpen, onClose }) {
@@ -49,7 +52,12 @@ function WaitlistModal({ isOpen, onClose }) {
           source_url: typeof window !== 'undefined' ? window.location.href : '',
         }),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setStatus('error');
+        setErrorMsg(data.message || 'Unable to submit right now. Please try again in a moment.');
+        return;
+      }
       if (data.success) {
         setSuccessMsg(
           data.message || "Thanks for your interest in Inbound Select. We'll be in touch with early access details soon."
