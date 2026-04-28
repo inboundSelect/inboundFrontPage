@@ -4,7 +4,7 @@
 
 This is a React + Vite landing page project (JSX, not TSX). It follows the same architecture as the `../inbound` project:
 - **Frontend:** React 19 with Vite, `.jsx` files
-- **Backend:** Node.js + Express with a `/api/waitlist` endpoint
+- **API:** Integrate with the main PayPerCall backend (this repo is client-only; previously used Express `/api/waitlist`)
 - **Styling:** Global CSS with CSS Custom Properties (no Tailwind, no CSS Modules, no styled-components)
 
 ---
@@ -138,6 +138,4 @@ Before marking a Figma component implementation complete:
 
 ## Backend API
 
-- Waitlist form submissions POST to `/api/waitlist` (Express handler in `server.js`)
-- The server sends email notifications via nodemailer (configured via `.env`)
-- Do not add new API routes without updating `server.js`
+- `WaitlistModal` POSTs JSON to `/api/waitlist` (see `client/src/components/WaitlistModal.jsx`). Point this at your main backend or configure a dev proxy in `vite.config.js` when integrating.

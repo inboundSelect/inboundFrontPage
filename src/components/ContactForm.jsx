@@ -60,8 +60,8 @@ function ContactForm({ onOpenWaitlist }) {
           {/* Enquiry type */}
           <div className="cform__field">
             <label className="cform__label">Enquiry Type</label>
-            <select className="cform__select">
-              <option value="" disabled selected>Select enquiry type</option>
+            <select className="cform__select" defaultValue="">
+              <option value="" disabled>Select enquiry type</option>
               <option>Agency Setup Inquiry</option>
               <option>Agent Access Inquiry</option>
               <option>Beta Application</option>

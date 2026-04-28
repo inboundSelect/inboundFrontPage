@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
+const WAITLIST_ENDPOINT = `${API_BASE_URL}/api/inbound-select/leads`;
+
 function WaitlistModal({ isOpen, onClose }) {
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState("Thanks for your interest in Inbound Select. We'll be in touch with early access details soon.");
 
   useEffect(() => {
     if (isOpen) {
@@ -19,6 +23,7 @@ function WaitlistModal({ isOpen, onClose }) {
       setForm({ name: '', email: '', company: '', message: '' });
       setStatus('idle');
       setErrorMsg('');
+      setSuccessMsg("Thanks for your interest in Inbound Select. We'll be in touch with early access details soon.");
     }
   }, [isOpen]);
 
@@ -35,13 +40,20 @@ function WaitlistModal({ isOpen, onClose }) {
     setStatus('loading');
     setErrorMsg('');
     try {
-      const res = await fetch('/api/waitlist', {
+      const res = await fetch(WAITLIST_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          source_page: 'waitlist_modal',
+          source_url: typeof window !== 'undefined' ? window.location.href : '',
+        }),
       });
       const data = await res.json();
       if (data.success) {
+        setSuccessMsg(
+          data.message || "Thanks for your interest in Inbound Select. We'll be in touch with early access details soon."
+        );
         setStatus('success');
       } else {
         setStatus('error');
@@ -74,7 +86,7 @@ function WaitlistModal({ isOpen, onClose }) {
             </div>
             <h3 className="modal-box__heading">You're on the list!</h3>
             <p className="modal-box__sub">
-              Thanks for your interest in Inbound Select. We'll be in touch with early access details soon.
+              {successMsg}
             </p>
             <button className="btn btn--fill" style={{ width: '100%' }} onClick={onClose}>Done</button>
           </div>
