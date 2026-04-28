@@ -73,7 +73,12 @@ function Navbar({ onOpenWaitlist, currentPage, onNavigate }) {
         </ul>
 
         <div className="navbar__actions">
-          <button className="btn btn--stroke btn--sm" onClick={() => onNavigate('contact')}>Sign In</button>
+          <button
+            className="btn btn--stroke btn--sm"
+            onClick={() => window.location.href = 'https://app.inboundselect.com/login'}
+          >
+            Sign In
+          </button>
           <button className="btn btn--fill btn--sm" onClick={onOpenWaitlist}>Get Started</button>
         </div>
 

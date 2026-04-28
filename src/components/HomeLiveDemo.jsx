@@ -1,8 +1,5 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
   {
@@ -36,6 +33,9 @@ function HomeLiveDemo({ onOpenWaitlist }) {
   useEffect(() => {
     const cards = cardRefs.current;
     const stepEls = stepRefs.current;
+    let hasAnimatedHeader = false;
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
     // ── Set initial state immediately ──────────────────────────
     cards.forEach((card, i) => {
@@ -81,32 +81,42 @@ function HomeLiveDemo({ onOpenWaitlist }) {
       });
     };
 
-    // ── Header entrance ─────────────────────────────────────────
-    const headerST = ScrollTrigger.create({
-      trigger: headerRef.current,
-      start: 'top 80%',
-      once: true,
-      onEnter: () => gsap.fromTo(headerRef.current,
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' }
-      ),
-    });
+    // ── Header entrance + scroll-driven switcher ───────────────
+    const handleScroll = () => {
+      const headerEl = headerRef.current;
+      const scrollAreaEl = scrollAreaRef.current;
+      if (!scrollAreaEl) return;
 
-    // ── Scroll-driven switcher ──────────────────────────────────
-    const switcherST = ScrollTrigger.create({
-      trigger: scrollAreaRef.current,
-      start: 'top top',
-      end: 'bottom bottom',
-      onUpdate: (self) => {
-        const p = self.progress;
-        const next = p < 0.333 ? 0 : p < 0.667 ? 1 : 2;
-        goTo(next);
-      },
-    });
+      // Animate header once when it enters viewport.
+      if (headerEl && !hasAnimatedHeader) {
+        const rect = headerEl.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.8) {
+          hasAnimatedHeader = true;
+          gsap.fromTo(
+            headerEl,
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out' }
+          );
+        }
+      }
+
+      // Derive progress from sticky section geometry (0 -> 1).
+      const rect = scrollAreaEl.getBoundingClientRect();
+      const totalScrollable = Math.max(rect.height - window.innerHeight, 1);
+      const rawProgress = -rect.top / totalScrollable;
+      const p = clamp(rawProgress, 0, 1);
+      const next = p < 0.333 ? 0 : p < 0.667 ? 1 : 2;
+      goTo(next);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    // Initial paint sync.
+    requestAnimationFrame(handleScroll);
 
     return () => {
-      headerST.kill();
-      switcherST.kill();
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
       gsap.killTweensOf([...cards, ...stepEls, headerRef.current]);
     };
   }, []);
