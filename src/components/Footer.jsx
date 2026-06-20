@@ -176,7 +176,7 @@ function Footer({ onOpenWaitlist }) {
         <div className="home-footer__top">
           <div className="home-footer__brand">
             <div className="home-footer__logo">
-              <img className="home-footer__logo-img" src="/assets/inbound_logo.svg" alt="inboundSelect" />
+              <img className="home-footer__logo-img" src="/assets/Inbound_Logo.svg" alt="inboundSelect" />
               <span>InboundSelect</span>
             </div>
             <p className="home-footer__tagline">

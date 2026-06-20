@@ -48,7 +48,7 @@ function Navbar({ onOpenWaitlist, currentPage, onNavigate }) {
     <header className={`navbar-wrap${scrolled ? ' scrolled' : ''}`}>
       <nav className="navbar">
         <button className="navbar__logo" onClick={() => onNavigate('home')}>
-          <img className="navbar__logo-img" src="/assets/inbound_logo.svg" alt="inboundSelect" />
+          <img className="navbar__logo-img" src="/assets/Inbound_Logo.svg" alt="inboundSelect" />
           <span className="navbar__logo-text">InboundSelect</span>
         </button>
 
