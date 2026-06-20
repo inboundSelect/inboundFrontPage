@@ -32,20 +32,13 @@ const searchIcon = '/assets/b7fafca0f4ac72b36868b02593d67d23813b3ef9.svg';
 
 const revBars = [43, 60, 38, 104, 132];
 
-const footerCols = [
-  {
-    head: 'Product',
-    links: ['Features', 'Integrations', 'Pricing', 'Documentation'],
-  },
-  {
-    head: 'Company',
-    links: ['About Us', 'Blog', 'Customers'],
-  },
-  {
-    head: 'Resources',
-    links: ['Community', 'Contact', 'System Status', 'Terms of Service'],
-  },
-];
+// Placeholder footer navigation columns — not wired to real pages yet.
+// Commented out so the homepage shows no dummy "#" links during Google review.
+// const footerCols = [
+//   { head: 'Product', links: ['Features', 'Integrations', 'Pricing', 'Documentation'] },
+//   { head: 'Company', links: ['About Us', 'Blog', 'Customers'] },
+//   { head: 'Resources', links: ['Community', 'Contact', 'System Status', 'Terms of Service'] },
+// ];
 
 function Footer({ onOpenWaitlist }) {
   return (
@@ -183,6 +176,7 @@ function Footer({ onOpenWaitlist }) {
         <div className="home-footer__top">
           <div className="home-footer__brand">
             <div className="home-footer__logo">
+              <img className="home-footer__logo-img" src="/assets/inbound_logo.svg" alt="inboundSelect" />
               <span>InboundSelect</span>
             </div>
             <p className="home-footer__tagline">
@@ -194,6 +188,8 @@ function Footer({ onOpenWaitlist }) {
             </div>
           </div>
 
+          {/* Placeholder navigation columns — these point to "#" and aren't live yet.
+              Commented out so the homepage shows no dummy/broken links during review.
           <nav className="home-footer__cols">
             {footerCols.map(col => (
               <div key={col.head} className="home-footer__col">
@@ -204,14 +200,15 @@ function Footer({ onOpenWaitlist }) {
               </div>
             ))}
           </nav>
+          */}
         </div>
 
         <div className="home-footer__bottom">
           <p>© 2026 InboundSelect. All rights reserved.</p>
           <div className="home-footer__bottom-links">
             <a href="/privacy">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Data Processing Agreement</a>
+            <a href="/terms">Terms of Service</a>
+            {/* <a href="#">Data Processing Agreement</a> */}
           </div>
         </div>
       </div>
