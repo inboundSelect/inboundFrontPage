@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>inboundSelect — Track inbound marketing calls and book them into your calendar</title>
+  <meta name="description" content="inboundSelect is a marketing attribution and lead-management platform. It tracks Google Ads and Twilio call campaigns, routes each inbound lead to the right person, and schedules the appointment directly in your Google Calendar." />
+  <style>
+    :root {
+      --brand: #6d5efc;
+      --brand-soft: rgba(109, 94, 252, 0.12);
+      --ink: #0e1020;
+      --body: #4a4a5a;
+      --muted: #7d7d90;
+      --line: #e7e7f0;
+      --bg: #ffffff;
+      --bg-alt: #f7f7fc;
+      --ok: #12a150;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--body);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--brand); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+    h1, h2, h3 { color: var(--ink); line-height: 1.2; margin: 0; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 12px 20px; border-radius: 10px; font-weight: 600; font-size: 15px;
+      border: 1px solid transparent; cursor: pointer;
+    }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: #5b4cf0; text-decoration: none; }
+    .btn-ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+    .btn-ghost:hover { border-color: #c9c9da; text-decoration: none; }
+    .g-logo { width: 18px; height: 18px; flex: none; }
+
+    /* Header */
+    header.site {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,255,255,0.9); backdrop-filter: saturate(180%) blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--ink); font-size: 18px; }
+    .brand .mark {
+      width: 30px; height: 30px; border-radius: 8px; background: var(--brand);
+      display: grid; place-items: center; color: #fff;
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a.navlink { color: var(--body); font-weight: 500; }
+    @media (max-width: 720px) { .nav-links a.navlink { display: none; } }
+
+    /* Hero */
+    .hero { padding: 80px 0 64px; }
+    .eyebrow {
+      display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .04em;
+      color: var(--brand); background: var(--brand-soft); padding: 6px 12px; border-radius: 999px; margin-bottom: 22px;
+    }
+    .hero h1 { font-size: clamp(32px, 5vw, 52px); letter-spacing: -0.02em; }
+    .hero p.lead { font-size: clamp(17px, 2.2vw, 20px); color: var(--body); max-width: 720px; margin: 20px 0 32px; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 14px; }
+    .hero small.trust { display: block; margin-top: 18px; color: var(--muted); font-size: 14px; }
+
+    /* Sections */
+    section { padding: 72px 0; }
+    section.alt { background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .section-head { max-width: 680px; margin-bottom: 40px; }
+    .section-head h2 { font-size: clamp(26px, 3.5vw, 36px); letter-spacing: -0.01em; }
+    .section-head p { font-size: 17px; margin: 14px 0 0; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } }
+    .card {
+      background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 26px;
+    }
+    .card .icon {
+      width: 44px; height: 44px; border-radius: 10px; background: var(--brand-soft);
+      display: grid; place-items: center; color: var(--brand); margin-bottom: 16px;
+    }
+    .card h3 { font-size: 19px; margin-bottom: 8px; }
+    .card p { margin: 0; font-size: 15px; }
+    .step-no { font-weight: 700; color: var(--brand); font-size: 14px; letter-spacing: .08em; }
+
+    /* Google data-usage section */
+    .google-card {
+      background: #fff; border: 1px solid var(--line); border-radius: 18px;
+      padding: clamp(28px, 4vw, 44px);
+      box-shadow: 0 14px 50px rgba(20, 20, 60, 0.06);
+    }
+    .google-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .google-head .gicon { width: 40px; height: 40px; }
+    .google-head h2 { font-size: clamp(24px, 3.2vw, 32px); }
+    .google-card > p.intro { font-size: 17px; margin: 0 0 24px; }
+    .data-list { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 14px; }
+    .data-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 15.5px; }
+    .data-list .tick { color: var(--ok); flex: none; margin-top: 3px; }
+    .scopes { display: grid; gap: 8px; margin: 0 0 24px; }
+    .scope {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px;
+      background: var(--bg-alt); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; color: var(--ink);
+      word-break: break-all;
+    }
+    .limited-use {
+      border-left: 3px solid var(--brand); background: var(--brand-soft);
+      padding: 16px 18px; border-radius: 0 10px 10px 0; font-size: 14.5px; color: var(--ink);
+    }
+    .promise { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 24px; }
+    @media (max-width: 640px) { .promise { grid-template-columns: 1fr; } }
+    .promise div { display: flex; gap: 10px; align-items: flex-start; font-size: 14.5px; }
+    .promise .tick { color: var(--ok); flex: none; margin-top: 3px; }
+
+    /* Footer */
+    footer.site { background: var(--ink); color: #c7c7d6; padding: 48px 0 36px; }
+    footer.site .frow { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; align-items: center; }
+    footer.site .brand { color: #fff; }
+    footer.site .brand .mark { background: var(--brand); }
+    footer.site nav { display: flex; flex-wrap: wrap; gap: 24px; }
+    footer.site nav a { color: #c7c7d6; font-weight: 500; }
+    footer.site nav a:hover { color: #fff; }
+    footer.site .copy { margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.1); font-size: 13.5px; color: #8c8ca3; }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site">
+    <div class="wrap nav">
+      <a class="brand" href="/">
+        <span class="mark">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </span>
+        inboundSelect
+      </a>
+      <div class="nav-links">
+        <a class="navlink" href="#how">How it works</a>
+        <a class="navlink" href="#google">Google integration</a>
+        <a class="navlink" href="#security">Security</a>
+        <a class="btn btn-primary" href="https://app.inboundselect.com/login">
+          <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.8C34.6 3.2 29.8 1 24 1 14.6 1 6.5 6.4 2.7 14.3l6.9 5.3C11.4 13.4 17.2 9.5 24 9.5z" opacity=".9"/><path fill="#fff" d="M46.1 24.5c0-1.6-.1-2.8-.4-4H24v7.6h12.7c-.3 2-1.6 5-4.7 7l7.2 5.6c4.3-4 6.9-9.9 6.9-16.2z" opacity=".9"/></svg>
+          Sign in with Google
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap">
+        <span class="eyebrow">Marketing attribution &amp; lead management</span>
+        <h1>Turn inbound marketing calls into booked appointments.</h1>
+        <p class="lead">
+          inboundSelect tracks the calls your Google Ads and Twilio campaigns generate, routes each
+          inbound lead to the right team member in real time, and books the consultation straight into
+          your Google Calendar &mdash; so no lead is lost between the click and the conversation.
+        </p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="https://app.inboundselect.com/login">
+            <svg class="g-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#fff" d="M24 9.5c3.9 0 6.6 1.7 8.1 3.1l5.9-5.8C34.6 3.2 29.8 1 24 1 14.6 1 6.5 6.4 2.7 14.3l6.9 5.3C11.4 13.4 17.2 9.5 24 9.5z"/></svg>
+            Sign in with Google
+          </a>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+        <small class="trust">Built for agencies and teams running inbound call campaigns for insurance, finance, and home services.</small>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="how" class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>What inboundSelect does</h2>
+          <p>Three connected steps take a marketing lead from first ring to a confirmed appointment on your calendar.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v6h-6"/></svg>
+            </div>
+            <span class="step-no">STEP 1</span>
+            <h3>Track every campaign</h3>
+            <p>Connect Google Ads and Twilio to attribute each inbound call to the exact campaign, ad, and keyword that produced it. Every lead is measured, not guessed.</p>
+          </div>
+          <div class="card">
+            <div class="icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            </div>
+            <span class="step-no">STEP 2</span>
+            <h3>Route the lead instantly</h3>
+            <p>Twilio webhooks pass each inbound call to inboundSelect, which routes it to an available, eligible team member in seconds and logs the outcome of the conversation.</p>
+          </div>
+          <div class="card">
+            <div class="icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M9 15l2 2 4-4"/></svg>
+            </div>
+            <span class="step-no">STEP 3</span>
+            <h3>Book it on your calendar</h3>
+            <p>When a lead is ready, your team schedules the consultation and inboundSelect writes the appointment to your Google Calendar &mdash; with reminders &mdash; so it is never double-booked or forgotten.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GOOGLE INTEGRATION / DATA USAGE (CRITICAL) ============ -->
+    <section id="google">
+      <div class="wrap">
+        <div class="google-card">
+          <div class="google-head">
+            <svg class="gicon" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C39 35.2 44 30 44 24c0-1.3-.1-2.7-.4-3.9z"/></svg>
+            <h2>Why inboundSelect connects to your Google Calendar</h2>
+          </div>
+
+          <p class="intro">
+            Signing in with Google is how your team links inboundSelect to the calendar where lead
+            appointments live. We request access for one clear reason: <strong>to schedule and manage
+            the consultations generated from your inbound marketing leads</strong>. Connecting Google
+            Calendar is optional &mdash; the rest of the platform works without it &mdash; and you can
+            disconnect at any time.
+          </p>
+
+          <ul class="data-list">
+            <li><span class="tick">✓</span><span><strong>Check availability</strong> &mdash; we read your calendar so we can offer open times and avoid double-booking when an appointment is set.</span></li>
+            <li><span class="tick">✓</span><span><strong>Create appointments</strong> &mdash; when your team books a lead, we add the event (with the contact and notes) to your Google Calendar, including reminders.</span></li>
+            <li><span class="tick">✓</span><span><strong>Keep appointments in sync</strong> &mdash; if an appointment is rescheduled or cancelled in inboundSelect, we update or remove the matching calendar event.</span></li>
+          </ul>
+
+          <p style="margin:0 0 10px; font-weight:600; color:var(--ink);">The specific Google scopes we request:</p>
+          <div class="scopes">
+            <span class="scope">https://www.googleapis.com/auth/calendar</span>
+            <span class="scope">https://www.googleapis.com/auth/calendar.events</span>
+          </div>
+
+          <p class="limited-use">
+            inboundSelect's use and transfer of information received from Google APIs to any other app
+            will adhere to the
+            <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener noreferrer">Google API Services User Data Policy</a>,
+            including the Limited Use requirements.
+          </p>
+
+          <div id="security" class="promise">
+            <div><span class="tick">✓</span><span>We <strong>never sell</strong> your Google data and never use it for advertising.</span></div>
+            <div><span class="tick">✓</span><span>We <strong>do not</strong> use your Google data to train AI or machine-learning models.</span></div>
+            <div><span class="tick">✓</span><span>Access tokens are stored securely and used <strong>only</strong> for the calendar features above.</span></div>
+            <div><span class="tick">✓</span><span>You can <strong>revoke access anytime</strong> in inboundSelect settings or your <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener noreferrer">Google Account</a>.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site">
+    <div class="wrap">
+      <div class="frow">
+        <a class="brand" href="/">
+          <span class="mark">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </span>
+          inboundSelect
+        </a>
+        <nav>
+          <a href="#how">How it works</a>
+          <a href="#google">Google integration</a>
+          <!-- TODO: replace # with your live Privacy Policy URL -->
+          <a href="/privacy">Privacy Policy</a>
+          <!-- TODO: replace # with your live Terms of Service URL -->
+          <a href="/terms">Terms of Service</a>
+        </nav>
+      </div>
+      <p class="copy">© 2026 inboundSelect. All rights reserved. inboundSelect is a marketing attribution and lead-management platform and is not affiliated with or endorsed by Google.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
