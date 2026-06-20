@@ -8,9 +8,86 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!--
+      Static, no-JavaScript homepage content lives inside #root below.
+      It explains the app's purpose and Google Calendar usage so reviewers and
+      crawlers that do NOT execute JavaScript still see a complete page.
+      React (main.jsx) replaces this content on load for interactive users.
+    -->
+    <style>
+      .nojs-home { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #4a4a5a; line-height: 1.65; margin: 0; }
+      .nojs-home a { color: #6d5efc; }
+      .nojs-wrap { max-width: 860px; margin: 0 auto; padding: 40px 24px 64px; }
+      .nojs-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: #0e1020; font-size: 18px; margin-bottom: 40px; }
+      .nojs-brand span { width: 30px; height: 30px; border-radius: 8px; background: #6d5efc; display: inline-block; }
+      .nojs-home h1 { color: #0e1020; font-size: 38px; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 16px; }
+      .nojs-home h2 { color: #0e1020; font-size: 24px; margin: 40px 0 12px; }
+      .nojs-lead { font-size: 19px; color: #4a4a5a; margin: 0 0 28px; }
+      .nojs-home ul { padding-left: 20px; margin: 0 0 20px; }
+      .nojs-home li { margin-bottom: 8px; }
+      .nojs-card { border: 1px solid #e7e7f0; border-radius: 16px; padding: 28px; background: #f7f7fc; margin-top: 28px; }
+      .nojs-card code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; background: #fff; border: 1px solid #e7e7f0; border-radius: 6px; padding: 3px 8px; display: inline-block; margin: 3px 0; word-break: break-all; }
+      .nojs-foot { margin-top: 48px; padding-top: 24px; border-top: 1px solid #e7e7f0; font-size: 14px; color: #7d7d90; }
+      .nojs-foot a { margin-right: 18px; }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- ===== Static fallback homepage (replaced by React on load) ===== -->
+      <main class="nojs-home">
+        <div class="nojs-wrap">
+          <div class="nojs-brand"><span></span> Inbound Select</div>
+
+          <h1>Inbound call routing &amp; appointment scheduling for insurance agencies</h1>
+          <p class="nojs-lead">
+            Inbound Select is a marketing-attribution and lead-management platform for insurance
+            agencies and their agents. It tracks the calls your Google Ads and Twilio campaigns
+            generate, routes each inbound lead to the right licensed, available agent in real time,
+            and books the consultation directly into the agent&rsquo;s Google Calendar &mdash; so no
+            lead is lost between the click and the conversation.
+          </p>
+
+          <h2>What Inbound Select does</h2>
+          <ul>
+            <li><strong>Track every campaign</strong> &mdash; attribute each inbound call to the exact Google Ads campaign and Twilio number that produced it.</li>
+            <li><strong>Route the lead instantly</strong> &mdash; Twilio webhooks pass each call to Inbound Select, which connects it to an available, eligible agent in seconds and logs the outcome.</li>
+            <li><strong>Book it on the calendar</strong> &mdash; when a lead is ready, the agent schedules the consultation and Inbound Select writes the appointment to their Google Calendar with reminders.</li>
+          </ul>
+
+          <div class="nojs-card">
+            <h2 style="margin-top:0">Why Inbound Select connects to your Google Calendar</h2>
+            <p>
+              Signing in with Google lets an agent link Inbound Select to the calendar where lead
+              appointments live. We request access for one reason: <strong>to schedule and manage the
+              consultations generated from inbound marketing leads</strong>. Connecting Google Calendar
+              is optional, and an agent can disconnect at any time.
+            </p>
+            <ul>
+              <li><strong>Check availability</strong> so the platform can offer open times and avoid double-booking.</li>
+              <li><strong>Create appointments</strong> by adding the event &mdash; with contact and notes &mdash; to the agent&rsquo;s Google Calendar.</li>
+              <li><strong>Keep appointments in sync</strong> by updating or removing the event when an appointment is rescheduled or cancelled.</li>
+            </ul>
+            <p style="margin-bottom:6px"><strong>Google scopes we request:</strong></p>
+            <code>https://www.googleapis.com/auth/calendar</code><br>
+            <code>https://www.googleapis.com/auth/calendar.events</code>
+            <p style="margin-top:16px">
+              Inbound Select&rsquo;s use and transfer of information received from Google APIs to any
+              other app will adhere to the
+              <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>,
+              including the Limited Use requirements. We never sell Google data, never use it for
+              advertising, and never use it to train AI models.
+            </p>
+          </div>
+
+          <div class="nojs-foot">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <span>&copy; 2026 Inbound Select</span>
+          </div>
+        </div>
+      </main>
+      <!-- ===== End static fallback ===== -->
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
