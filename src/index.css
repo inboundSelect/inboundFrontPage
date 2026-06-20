@@ -10,6 +10,11 @@
   --black: #0a0a0f;
   --white: #ffffff;
 
+  /* ── Logo lock-up (matches the app's login/registration brand mark) ── */
+  --logo-blue: #1CA7EC;
+  --logo-ink: #1A1A2E;
+  --logo-tagline: #6B7280;
+
   /* ── Text ── */
   --text: #4a4a5a;
   --text-secondary: #7D7D90;
@@ -127,43 +132,66 @@ body {
   max-width: 1300px;
 }
 
+/* Brand lock-up — mirrors the login / registration page:
+   icon supplies the "I", the wordmark continues with "nbound" + "Select",
+   and a slogan sits beneath. */
 .navbar__logo {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-end;        /* baseline-align letters with the chart bars in the icon */
+  gap: 0;
   text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 .navbar__logo-img {
-  height: 52px;
+  height: 48px;
   width: auto;
   display: block;
   object-fit: contain;
-}
-
-.navbar__logo-mark {
-  width: 28px;
-  height: 28px;
-  background: var(--brand);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
-.navbar__logo-mark svg {
-  width: 16px;
-  height: 16px;
-  fill: var(--white);
+.navbar__logo-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  /* pull the wordmark left so the "n" kisses the tallest bar of the icon */
+  margin-left: -4px;
+  position: relative;
+  z-index: 1;
 }
 
-.navbar__logo-text {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  color: var(--brand);
+.navbar__logo-wordmark {
+  font-family: 'Montserrat', 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 23px;
   letter-spacing: -0.3px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.navbar__logo-wordmark--inbound {
+  color: var(--logo-blue);
+  font-weight: 600;
+}
+
+.navbar__logo-wordmark--select {
+  color: var(--logo-ink);
+  font-weight: 700;
+}
+
+.navbar__logo-slogan {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--logo-tagline);
+  line-height: 1;
+  margin-top: 2px;
   white-space: nowrap;
 }
 
@@ -1379,8 +1407,8 @@ button.navbar__logo {
   border: none;
   cursor: pointer;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-end;
+  gap: 0;
   text-decoration: none;
 }
 
