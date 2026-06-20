@@ -62,6 +62,17 @@ const features = [
     title: 'Full Reporting',
     desc: 'Track call volume, agent performance, wallet activity, and lead source outcomes. Know exactly which part of your operation is working and which isn\'t.',
   },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--brand)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="4" width="16" height="15" rx="2"/>
+        <path d="M3 8h16M8 2v4M14 2v4"/>
+        <path d="M8.5 13.5l2 2 3.5-4" />
+      </svg>
+    ),
+    title: 'Appointments & Calendar Sync',
+    desc: 'Right after a call, agents book a follow-up appointment and it syncs to their Google Calendar automatically. Connecting Google Calendar is optional and used only to add and manage these appointment events.',
+  },
 ];
 
 function ProductOverview() {

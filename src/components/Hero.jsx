@@ -16,12 +16,12 @@ function Hero({ onOpenWaitlist }) {
           </div>
 
           <h1 className="hero__heading">
-            Every Inbound Lead<br />
-            Deserves a <span className="hero__heading-gradient">Live Conversation</span>
+            Inbound Call Routing &amp; Appointments<br />
+            for <span className="hero__heading-gradient">Insurance Agencies</span>
           </h1>
 
           <p className="hero__subtext">
-            InboundSelect routes calls from your existing lead sources to the right agent in seconds. Whatever platform you're generating leads on, we handle what happens the moment a prospect picks up the phone.
+            Inbound Select is a platform for insurance agencies and their agents. It connects inbound phone leads to the right licensed, available agent in seconds &mdash; then helps agents log call outcomes, book appointments, and sync them to their Google Calendar, so no lead goes unworked.
           </p>
 
           <div className="hero__social-proof">

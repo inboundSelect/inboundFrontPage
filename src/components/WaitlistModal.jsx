@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 
 const API_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ||
-  'https://app.inboundselect.com'
+  import.meta.env.VITE_PUBLIC_URL ||
+  'https://paypercall-testingphase-backend-production-cf08.up.railway.app'
 ).trim().replace(/\/$/, '');
 const WAITLIST_ENDPOINT = `${API_BASE_URL}/api/inbound-select/leads`;
 

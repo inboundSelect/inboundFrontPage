@@ -14,10 +14,20 @@ import RolePage from './components/RolePage';
 import PricingPage from './components/PricingPage';
 import ContactPage from './components/ContactPage';
 import MarketplacePage from './components/MarketplacePage';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   const [page, setPage] = useState('home');
+
+  // Public legal page served at /privacy (same domain as the home page).
+  // vercel.json rewrites every path to index.html, so we route on pathname.
+  const path = typeof window !== 'undefined'
+    ? window.location.pathname.replace(/\/+$/, '')
+    : '';
+  if (path === '/privacy' || path === '/privacy-policy') {
+    return <PrivacyPolicy />;
+  }
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);

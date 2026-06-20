@@ -209,8 +209,8 @@ function Footer({ onOpenWaitlist }) {
         <div className="home-footer__bottom">
           <p>© 2026 InboundSelect. All rights reserved.</p>
           <div className="home-footer__bottom-links">
+            <a href="/privacy">Privacy Policy</a>
             <a href="#">Terms of Service</a>
-            <a href="#">API</a>
             <a href="#">Data Processing Agreement</a>
           </div>
         </div>
