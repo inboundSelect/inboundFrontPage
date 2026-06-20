@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductOverview from './components/ProductOverview';
+import GoogleIntegration from './components/GoogleIntegration';
 import HomeLiveDemo from './components/HomeLiveDemo';
 import IndustrySolutions from './components/IndustrySolutions';
 import EnterpriseSecurity from './components/EnterpriseSecurity';
@@ -50,6 +51,7 @@ function App() {
           <main>
             <Hero onOpenWaitlist={openModal} />
             <ProductOverview />
+            <GoogleIntegration />
             <HomeLiveDemo onOpenWaitlist={openModal} />
             <MarketingHub onOpenWaitlist={openModal} />
             <IndustrySolutions onOpenWaitlist={openModal} onNavigate={handleNavigate} />
