@@ -18,8 +18,12 @@
       .nojs-home { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #4a4a5a; line-height: 1.65; margin: 0; }
       .nojs-home a { color: #6d5efc; }
       .nojs-wrap { max-width: 860px; margin: 0 auto; padding: 40px 24px 64px; }
-      .nojs-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: #0e1020; font-size: 18px; margin-bottom: 40px; }
+      .nojs-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+      .nojs-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; color: #0e1020; font-size: 18px; }
       .nojs-brand span { width: 30px; height: 30px; border-radius: 8px; background: #6d5efc; display: inline-block; }
+      .nojs-signin { display: inline-flex; align-items: center; gap: 9px; background: #6d5efc; color: #fff; font-weight: 600; font-size: 15px; padding: 11px 18px; border-radius: 10px; text-decoration: none; }
+      .nojs-signin img { width: 18px; height: 18px; background: #fff; border-radius: 3px; padding: 1px; }
+      .nojs-magic { background: #f7f7fc; border: 1px solid #e7e7f0; border-left: 4px solid #6d5efc; border-radius: 0 12px 12px 0; padding: 20px 22px; font-size: 17px; color: #0e1020; margin: 0 0 28px; }
       .nojs-home h1 { color: #0e1020; font-size: 38px; line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 16px; }
       .nojs-home h2 { color: #0e1020; font-size: 24px; margin: 40px 0 12px; }
       .nojs-lead { font-size: 19px; color: #4a4a5a; margin: 0 0 28px; }
@@ -36,15 +40,35 @@
       <!-- ===== Static fallback homepage (replaced by React on load) ===== -->
       <main class="nojs-home">
         <div class="nojs-wrap">
-          <div class="nojs-brand"><span></span> Inbound Select</div>
+          <div class="nojs-top">
+            <div class="nojs-brand"><span></span> inboundSelect</div>
+            <a class="nojs-signin" href="https://app.inboundselect.com/login">
+              <img src="https://www.google.com/favicon.ico" alt="Google" width="18" height="18" />
+              Sign in with Google
+            </a>
+          </div>
 
           <h1>Inbound call routing &amp; appointment scheduling for insurance agencies</h1>
+
+          <p class="nojs-magic">
+            inboundSelect is a lead management and marketing attribution platform. To fully utilize our
+            scheduling features, inboundSelect requires users to sign in with their Google account. We
+            request access to your Google Calendar to automatically check your availability and schedule
+            appointments generated from inbound marketing leads directly onto your calendar.
+          </p>
+
           <p class="nojs-lead">
-            Inbound Select is a marketing-attribution and lead-management platform for insurance
-            agencies and their agents. It tracks the calls your Google Ads and Twilio campaigns
-            generate, routes each inbound lead to the right licensed, available agent in real time,
-            and books the consultation directly into the agent&rsquo;s Google Calendar &mdash; so no
-            lead is lost between the click and the conversation.
+            inboundSelect tracks the calls your Google Ads and Twilio campaigns generate, routes each
+            inbound lead to the right licensed, available agent in real time, and books the consultation
+            directly into the agent&rsquo;s Google Calendar &mdash; so no lead is lost between the click
+            and the conversation.
+          </p>
+
+          <p style="margin:0 0 8px;">
+            <a class="nojs-signin" href="https://app.inboundselect.com/login">
+              <img src="https://www.google.com/favicon.ico" alt="Google" width="18" height="18" />
+              Sign in with Google
+            </a>
           </p>
 
           <h2>What Inbound Select does</h2>
