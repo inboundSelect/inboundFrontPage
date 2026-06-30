@@ -1,0 +1,5 @@
+# https://inboundselect.com — crawl rules
+User-agent: *
+Allow: /
+
+Sitemap: https://inboundselect.com/sitemap.xml
