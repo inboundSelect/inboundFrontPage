@@ -6,7 +6,7 @@ const steps = [
     step: '01',
     tag: 'LEAD COMES IN',
     title: 'Prospect calls from any source',
-    desc: "Whether it's Meta Ads, Google, or a lead vendor — InboundSelect picks up the call the moment it comes in.",
+    desc: "Whether it's Meta Ads, Google, or a lead vendor — Inbound Select picks up the call the moment it comes in.",
   },
   {
     step: '02',

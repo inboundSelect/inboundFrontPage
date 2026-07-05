@@ -2,23 +2,23 @@ const mockListings = [
   {
     state: 'TX',
     product: 'Final Expense',
-    age: '1 day old',
-    price: '$18',
+    age: '0–7 days',
+    price: '$XX',
     hot: false,
   },
   {
     state: 'FL',
     product: 'Medicare Advantage',
-    age: 'Same day',
-    price: '$26',
+    age: '0–7 days',
+    price: '$XX',
     hot: true,
     featured: true,
   },
   {
     state: 'CA',
     product: 'Life Insurance',
-    age: '3 days old',
-    price: '$14',
+    age: '8–30 days',
+    price: '$YY',
     hot: false,
   },
 ];
@@ -37,7 +37,7 @@ function MarketplaceHero({ onOpenWaitlist }) {
           <span className="mkt-hero__heading-grad">Sell What You Can't Cover.</span>
         </h1>
         <p className="mkt-hero__sub">
-          The marketplace is only available to approved agencies and active agents on InboundSelect. Agencies list calls that went unworked. Agents browse, filter, and buy what fits their book.
+          The marketplace is only available to approved agencies and active agents on Inbound Select. Agencies list calls that went unworked. Agents browse, filter, and buy what fits their book.
         </p>
         <div className="mkt-hero__btns">
           <button className="btn btn--stroke btn--sm" onClick={onOpenWaitlist}>Apply as an Agency</button>

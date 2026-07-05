@@ -1,12 +1,8 @@
 import { useState } from 'react';
 
-const faqImg     = 'https://www.figma.com/api/mcp/asset/c016c2ad-fe2c-4fba-b17d-58920f91c840';
-const caretDown  = 'https://www.figma.com/api/mcp/asset/610d06b6-53f8-4925-9d29-035887873528';
-const caretUp    = 'https://www.figma.com/api/mcp/asset/bc4a4723-99a8-464a-86e5-e0db205527b1';
-
 const faqs = [
   {
-    q: 'Do I need to run my own marketing to use InboundSelect?',
+    q: 'Do I need to run my own marketing to use Inbound Select?',
     a: 'No. As an agent, you join an agency already on the platform. They handle the marketing. You receive the calls. If you\'re an agency owner, you connect your existing lead sources to your tracked numbers.',
   },
   {
@@ -41,9 +37,6 @@ function PricingFAQ() {
         </p>
       </div>
       <div className="pfaq__body">
-        <div className="pfaq__image-wrap">
-          <img src={faqImg} alt="FAQ illustration" className="pfaq__image" />
-        </div>
         <div className="pfaq__list">
           {faqs.map((faq, i) => (
             <div
@@ -53,11 +46,19 @@ function PricingFAQ() {
             >
               <div className="pfaq__item-header">
                 <span className="pfaq__item-q">{faq.q}</span>
-                <img
-                  src={openIdx === i ? caretUp : caretDown}
-                  alt=""
+                <svg
                   className="pfaq__caret"
-                />
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--color-primary)"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  style={{ transform: openIdx === i ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
               </div>
               {openIdx === i && (
                 <p className="pfaq__item-a">{faq.a}</p>

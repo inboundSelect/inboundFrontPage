@@ -4,20 +4,27 @@ import FeaturesProductOverview from './FeaturesProductOverview';
 import MarketingHub from './MarketingHub';
 import FeaturesEnterpriseSecurity from './FeaturesEnterpriseSecurity';
 import PricingSection from './PricingSection';
-import WhyErphoria from './WhyErphoria';
-import FeaturesCTA from './FeaturesCTA';
+import AgencyLaunchpad from './AgencyLaunchpad';
+import CtaBand from './CtaBand';
 
-function FeaturesPage({ onOpenWaitlist }) {
+function FeaturesPage({ onOpenWaitlist, onNavigate }) {
   return (
-    <main>
-      <FeaturesHero onOpenWaitlist={onOpenWaitlist} />
+    <main id="main">
+      <FeaturesHero onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
       <KeyFeaturesBenefits />
       <FeaturesProductOverview />
-      <MarketingHub onOpenWaitlist={onOpenWaitlist} />
-      <FeaturesEnterpriseSecurity onOpenWaitlist={onOpenWaitlist} />
-      <PricingSection onOpenWaitlist={onOpenWaitlist} />
-      <WhyErphoria />
-      <FeaturesCTA onOpenWaitlist={onOpenWaitlist} />
+      <AgencyLaunchpad />
+      <MarketingHub onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
+      <FeaturesEnterpriseSecurity onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
+      <PricingSection onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
+      <CtaBand
+        title="Bring your team and your marketing."
+        titleAccent="We run the rest."
+        sub="Routing, billing, marketplace, and reporting — set up once and distribute live calls across your whole operation."
+        onPrimary={onOpenWaitlist}
+        secondaryLabel="Book a Demo"
+        onSecondary={() => onNavigate('/contact')}
+      />
     </main>
   );
 }

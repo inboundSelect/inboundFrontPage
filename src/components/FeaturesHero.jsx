@@ -1,34 +1,8 @@
-const heroBg = 'https://www.figma.com/api/mcp/asset/dfb178cf-a412-49e9-9c94-fc42cdc9d3b3';
-
-const logos = [
-  'https://www.figma.com/api/mcp/asset/8b7d5f86-f34f-4061-a6f7-b0c0899aa3f8',
-  'https://www.figma.com/api/mcp/asset/0e027096-e1a7-43b4-a7bf-4bf30426eab1',
-  'https://www.figma.com/api/mcp/asset/289d8efc-f904-4c8a-a1eb-7aeacd118c59',
-  'https://www.figma.com/api/mcp/asset/61eff555-bad0-42a5-aa50-e64c037f663a',
-  'https://www.figma.com/api/mcp/asset/45d87519-7b6a-46cd-9346-4adf29e47e4e',
-  'https://www.figma.com/api/mcp/asset/dbd16e79-31b6-4c52-b1be-f32c84e939c0',
-  'https://www.figma.com/api/mcp/asset/ff519444-881d-4992-90d3-07b34e64545d',
-  'https://www.figma.com/api/mcp/asset/6f0bae5c-4800-4273-8891-f90595ffab28',
-  'https://www.figma.com/api/mcp/asset/0e027096-e1a7-43b4-a7bf-4bf30426eab1',
-];
-
-const logos2 = [
-  'https://www.figma.com/api/mcp/asset/ff519444-881d-4992-90d3-07b34e64545d',
-  'https://www.figma.com/api/mcp/asset/dbd16e79-31b6-4c52-b1be-f32c84e939c0',
-  'https://www.figma.com/api/mcp/asset/45d87519-7b6a-46cd-9346-4adf29e47e4e',
-  'https://www.figma.com/api/mcp/asset/8b7d5f86-f34f-4061-a6f7-b0c0899aa3f8',
-  'https://www.figma.com/api/mcp/asset/0e027096-e1a7-43b4-a7bf-4bf30426eab1',
-  'https://www.figma.com/api/mcp/asset/61eff555-bad0-42a5-aa50-e64c037f663a',
-  'https://www.figma.com/api/mcp/asset/289d8efc-f904-4c8a-a1eb-7aeacd118c59',
-  'https://www.figma.com/api/mcp/asset/6f0bae5c-4800-4273-8891-f90595ffab28',
-  'https://www.figma.com/api/mcp/asset/61eff555-bad0-42a5-aa50-e64c037f663a',
-  'https://www.figma.com/api/mcp/asset/dbd16e79-31b6-4c52-b1be-f32c84e939c0',
-];
-
 function FeaturesHero({ onOpenWaitlist }) {
   return (
     <section className="features-hero">
-      <img className="features-hero__bg" src={heroBg} alt="" aria-hidden="true" />
+      <div className="aurora" aria-hidden="true" />
+      <div className="dot-grid" aria-hidden="true" />
 
       <div className="features-hero__inner">
         <div className="features-hero__badge">
@@ -46,7 +20,7 @@ function FeaturesHero({ onOpenWaitlist }) {
         </h1>
 
         <p className="features-hero__sub">
-          You bring the team and the marketing. InboundSelect handles live call routing, agent
+          You bring the team and the marketing. Inbound Select handles live call routing, agent
           billing, marketplace resale, and reporting, from the moment a prospect calls to the
           final outcome on your agency dashboard.
         </p>
@@ -54,23 +28,6 @@ function FeaturesHero({ onOpenWaitlist }) {
         <div className="features-hero__btns">
           <button className="btn btn--stroke" onClick={onOpenWaitlist}>Apply for Beta Access</button>
           <button className="btn btn--fill" onClick={onOpenWaitlist}>See How It Works</button>
-        </div>
-      </div>
-
-      <div className="features-hero__logos">
-        <div className="features-hero__logos-row">
-          {logos.map((src, i) => (
-            <div key={i} className="features-hero__logo-tile">
-              <img src={src} alt="" />
-            </div>
-          ))}
-        </div>
-        <div className="features-hero__logos-row">
-          {logos2.map((src, i) => (
-            <div key={i} className="features-hero__logo-tile">
-              <img src={src} alt="" />
-            </div>
-          ))}
         </div>
       </div>
     </section>

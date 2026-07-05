@@ -1,53 +1,39 @@
 import { useState, useEffect } from 'react';
 
-function Navbar({ onOpenWaitlist, currentPage, onNavigate }) {
+const NAV_LINKS = [
+  { label: 'How It Works', path: '/how-it-works' },
+  { label: 'For Agencies', path: '/for-agencies' },
+  { label: 'For Agents', path: '/for-agents' },
+  { label: 'Marketplace', path: '/marketplace' },
+  { label: 'Pricing', path: '/pricing' },
+  { label: 'Contact', path: '/contact' },
+];
+
+function Navbar({ onOpenWaitlist, currentPath, onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToAnchor = (hash) => {
-    const el = document.querySelector(hash);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
-  const handleAnchorLink = (hash) => {
+  const go = (path) => {
     setMenuOpen(false);
-    if (currentPage !== 'home') {
-      onNavigate('home');
-      // Wait for home page to render, then scroll
-      setTimeout(() => scrollToAnchor(hash), 120);
-    } else {
-      scrollToAnchor(hash);
-    }
-  };
-
-  const navLinks = [
-    { label: 'How It Works', action: () => onNavigate('home') },
-    { label: 'For Agencies', action: () => onNavigate('features') },
-    { label: 'For Agents', action: () => onNavigate('role') },
-    { label: 'Marketplace', action: () => onNavigate('marketplace') },
-    { label: 'Pricing', action: () => onNavigate('pricing') },
-    { label: 'Contact Us', action: () => onNavigate('contact') },
-  ];
-
-  const handleNavClick = (link) => {
-    setMenuOpen(false);
-    if (link.action) {
-      link.action();
-    }
+    onNavigate(path);
   };
 
   return (
     <header className={`navbar-wrap${scrolled ? ' scrolled' : ''}`}>
-      <nav className="navbar">
-        <button className="navbar__logo" onClick={() => onNavigate('home')} aria-label="InboundSelect home">
+      <nav className="navbar" aria-label="Primary">
+        <button className="navbar__logo" onClick={() => go('/')} aria-label="Inbound Select home">
           <img className="navbar__logo-img" src="/assets/Inbound_Logo.svg" alt="" aria-hidden="true" />
           <span className="navbar__logo-lockup">
             <span className="navbar__logo-wordmark">
@@ -58,24 +44,19 @@ function Navbar({ onOpenWaitlist, currentPage, onNavigate }) {
         </button>
 
         <ul className={`navbar__links${menuOpen ? ' open' : ''}`}>
-          {navLinks.map((link) => (
-            <li key={link.label}>
-              {link.action ? (
-                <button
-                  className={currentPage === (link.label === 'How It Works' ? 'home' : link.label === 'For Agencies' ? 'features' : link.label === 'For Agents' ? 'role' : link.label === 'Marketplace' ? 'marketplace' : link.label === 'Pricing' ? 'pricing' : link.label === 'Contact Us' ? 'contact' : '') ? 'active' : ''}
-                  onClick={() => handleNavClick(link)}
-                >
-                  {link.label}
-                </button>
-              ) : (
-                <button
-                  onClick={() => handleAnchorLink(link.anchor)}
-                >
-                  {link.label}
-                </button>
-              )}
+          {NAV_LINKS.map((link) => (
+            <li key={link.path}>
+              <button
+                className={currentPath === link.path ? 'active' : ''}
+                onClick={() => go(link.path)}
+              >
+                {link.label}
+              </button>
             </li>
           ))}
+          <li className="navbar__links-cta">
+            <button className="btn btn--fill btn--sm" onClick={() => { setMenuOpen(false); onOpenWaitlist(); }}>Get Started</button>
+          </li>
         </ul>
 
         <div className="navbar__actions">
@@ -92,6 +73,7 @@ function Navbar({ onOpenWaitlist, currentPage, onNavigate }) {
           className={`navbar__hamburger${menuOpen ? ' open' : ''}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
         >
           <span />
           <span />

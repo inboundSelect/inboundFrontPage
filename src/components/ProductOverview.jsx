@@ -83,7 +83,7 @@ function ProductOverview() {
           <p className="section__label">HOW IT WORKS</p>
           <h2 className="section__heading">From inbound lead to live conversation. Automatically.</h2>
           <p className="section__sub">
-            Most agencies lose leads in the gap between form fill and first call. InboundSelect closes that gap. Your lead comes in, your agent gets a live call routed to them before the prospect moves on.
+            Most agencies lose leads in the gap between form fill and first call. Inbound Select closes that gap. Your lead comes in, your agent gets a live call routed to them before the prospect moves on.
           </p>
         </div>
 

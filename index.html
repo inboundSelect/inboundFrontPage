@@ -118,9 +118,16 @@
               <li><strong>Create appointments</strong> by adding the event &mdash; with contact and notes &mdash; to the agent&rsquo;s Google Calendar.</li>
               <li><strong>Keep appointments in sync</strong> by updating or removing the event when an appointment is rescheduled or cancelled.</li>
             </ul>
-            <p style="margin-bottom:6px"><strong>Google scopes we request:</strong></p>
+            <p style="margin-bottom:6px"><strong>Google Calendar scopes we request:</strong></p>
             <code>https://www.googleapis.com/auth/calendar</code><br>
             <code>https://www.googleapis.com/auth/calendar.events</code>
+
+            <p style="margin-top:20px"><strong>Optional: Google Ads (read-only).</strong> An agency may also connect its
+              <strong>own</strong> Google Ads account so campaign spend can be shown beside call results. We request the
+              scope below <strong>read-only</strong> and only ever read reporting metrics &mdash; we never modify campaigns,
+              budgets, keywords, or bids.</p>
+            <code>https://www.googleapis.com/auth/adwords</code>
+
             <p style="margin-top:16px">
               Inbound Select&rsquo;s use and transfer of information received from Google APIs to any
               other app will adhere to the
@@ -130,9 +137,16 @@
             </p>
           </div>
 
+          <p style="font-size:14px;color:#616B80;margin-top:24px">
+            <strong>Email &amp; communications.</strong> We send transactional messages (invitations, one-time passcodes,
+            invoices, receipts, and notifications) to people who hold an account or requested access. You can unsubscribe
+            from non-essential email at any time; security and billing messages are required to run the Service. See our
+            <a href="/privacy.html">Privacy Policy</a> for details.
+          </p>
+
           <div class="nojs-foot">
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/terms">Terms of Service</a>
+            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms of Service</a>
             <span>&copy; 2026 Inbound Select</span>
           </div>
         </div>

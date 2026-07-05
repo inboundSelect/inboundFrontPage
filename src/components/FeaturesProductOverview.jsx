@@ -1,39 +1,72 @@
-const iconFinance = 'https://www.figma.com/api/mcp/asset/494d93db-6c7d-44e2-b99b-72a2cbea8b23';
-const iconInventory = 'https://www.figma.com/api/mcp/asset/d8c85116-6405-48f9-becc-aec586bec6d5';
-const iconHR = 'https://www.figma.com/api/mcp/asset/27cf4914-9abd-4b19-949c-45d9b87ee751';
-const iconSales = 'https://www.figma.com/api/mcp/asset/89601e85-822a-497a-9708-87a96ce34a8b';
-const iconPurchasing = 'https://www.figma.com/api/mcp/asset/ee49d82e-1286-46ae-8587-d13fdde5353d';
-const iconBI = 'https://www.figma.com/api/mcp/asset/0ed7f2a0-0ec4-4be2-a41a-8a71111d954c';
-
 const modules = [
   {
-    icon: iconFinance,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 20V6l7-3 7 3v14" />
+        <path d="M2 20h20" />
+        <path d="M9 20v-5h6v5" />
+        <path d="M8 9h.01M12 9h.01M16 9h.01" />
+      </svg>
+    ),
     title: 'Set Up Your Agency',
     desc: 'Complete your launchpad setup. Configure your agency name, branding, and workspace. Define the products you support, the states your agents can work, and your call pricing rules.',
     accent: true,
   },
   {
-    icon: iconInventory,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M19 8v6M22 11h-6" />
+      </svg>
+    ),
     title: 'Invite Your Agent Team',
     desc: 'Send invites to your agents. They complete onboarding through their own launchpad. You review profiles, confirm state licensing, and approve routing access before calls go live.',
   },
   {
-    icon: iconHR,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M20 12l-8.5 8.5a2 2 0 0 1-2.8 0L3 15V4h11z" />
+        <circle cx="8.5" cy="8.5" r="1.4" />
+        <path d="M11 12v5M9 14h2.6a1.2 1.2 0 0 1 0 2.4H9" />
+      </svg>
+    ),
     title: 'Configure Pricing and Plans',
     desc: 'Define subscription tiers, wallet minimums, and per-call pricing for your agency. Agents activate billing through the platform. You control access. The system enforces it.',
   },
   {
-    icon: iconSales,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="6" cy="6" r="2.5" />
+        <circle cx="18" cy="18" r="2.5" />
+        <circle cx="18" cy="6" r="2.5" />
+        <path d="M6 8.5v3a4 4 0 0 0 4 4h5.5" />
+        <path d="M15.5 6H8.5" />
+      </svg>
+    ),
     title: 'Go Live with Routing',
     desc: 'Connect your tracked phone numbers. Set agents to available. Inbound calls are distributed in real time to eligible agents based on your routing rules. No manual dispatch.',
   },
   {
-    icon: iconPurchasing,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 3v18h18" />
+        <path d="M7 15l3.5-4 3 2.5L21 7" />
+        <path d="M21 11V7h-4" />
+      </svg>
+    ),
     title: 'Monitor and Manage',
     desc: 'Watch live call activity, track agent performance, manage wallet funding, and handle refund requests, all from your agency dashboard. Full operational visibility in one place.',
   },
   {
-    icon: iconBI,
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <circle cx="9" cy="20" r="1.4" />
+        <circle cx="18" cy="20" r="1.4" />
+        <path d="M2 3h3l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h8.1a1.5 1.5 0 0 0 1.5-1.2L21.5 7H6" />
+        <path d="M13 9v4M11 11h4" />
+      </svg>
+    ),
     title: 'Monetize Every Call',
     desc: 'Missed and unworked calls go into your marketplace inventory. Set listing prices, apply filters by state and product, and let agents purchase leads that match their book.',
   },
@@ -48,7 +81,7 @@ function FeaturesProductOverview() {
           <h2 className="section__heading">Set up once. Route calls automatically.</h2>
           <p className="section__sub">
             Most agency owners spend more time managing lead distribution than running their business.
-            InboundSelect automates the routing so you can focus on growing the team.
+            Inbound Select automates the routing so you can focus on growing the team.
           </p>
         </div>
 
@@ -59,7 +92,7 @@ function FeaturesProductOverview() {
               className={`erp-card animate-up delay-${(i % 3) + 1}${mod.accent ? ' erp-card--accent' : ''}`}
             >
               <div className="erp-card__icon">
-                <img src={mod.icon} alt="" />
+                {mod.icon}
               </div>
               <div className="erp-card__body">
                 <p className="erp-card__title">{mod.title}</p>
