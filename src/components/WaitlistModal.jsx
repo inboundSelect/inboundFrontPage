@@ -101,9 +101,9 @@ function WaitlistModal({ isOpen, onClose }) {
           </div>
         ) : (
           <>
-            <h3 className="modal-box__heading">Get Early Access</h3>
+            <h3 className="modal-box__heading">Apply for Beta Access</h3>
             <p className="modal-box__sub">
-              Join the waitlist and be the first to experience the future of business operations.
+              Tell us about your agency and we'll be in touch with early access to Inbound Select's call routing for insurance teams.
             </p>
 
             <form onSubmit={handleSubmit} noValidate>

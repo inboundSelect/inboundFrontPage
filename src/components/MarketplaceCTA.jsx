@@ -16,7 +16,7 @@ function MarketplaceCTA({ onOpenWaitlist }) {
             Ready to browse the marketplace?
           </h2>
           <p className="mkt-cta__sub">
-            The marketplace is exclusive to approved agencies and active agents. It is not open to the general public. Get access by joining InboundSelect as an agency or agent.
+            The marketplace is exclusive to approved agencies and active agents. It is not open to the general public. Get access by joining Inbound Select as an agency or agent.
           </p>
           <div className="mkt-cta__btns">
             <button className="btn btn--fill btn--sm" onClick={onOpenWaitlist}>Get Agent Access</button>

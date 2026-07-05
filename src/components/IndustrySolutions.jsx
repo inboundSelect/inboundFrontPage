@@ -58,36 +58,27 @@ function IndustrySolutions({ onOpenWaitlist, onNavigate }) {
   useEffect(() => {
     const ctx = gsap.context(() => {
 
-      // ── Header block fades + slides up ──────────────────────
-      gsap.from(headerRef.current, {
-        y: 44,
-        opacity: 0,
-        duration: 0.9,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 82%',
-          once: true,
-        },
+      const cardRefs = [card0Ref.current, card1Ref.current];
+      const mm = gsap.matchMedia();
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        // ── Header block fades + slides up ──────────────────────
+        gsap.from(headerRef.current, {
+          y: 44, opacity: 0, duration: 0.9, ease: 'power3.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 82%', once: true },
+        });
+        // ── Cards slide in from opposite sides ──────────────────
+        const origins = [-80, 80];
+        cardRefs.forEach((card, i) => {
+          gsap.from(card, {
+            x: origins[i], opacity: 0, duration: 0.85, ease: 'power3.out', delay: i * 0.12,
+            scrollTrigger: { trigger: card, start: 'top 85%', once: true },
+          });
+        });
       });
 
-      // ── Cards slide in from opposite sides ──────────────────
-      const cardRefs = [card0Ref.current, card1Ref.current];
-      const origins  = [-80, 80]; // left card from left, right card from right
-
-      cardRefs.forEach((card, i) => {
-        gsap.from(card, {
-          x: origins[i],
-          opacity: 0,
-          duration: 0.85,
-          ease: 'power3.out',
-          delay: i * 0.12,
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            once: true,
-          },
-        });
+      mm.add('(prefers-reduced-motion: reduce)', () => {
+        gsap.set([headerRef.current, ...cardRefs], { opacity: 1, x: 0, y: 0 });
       });
 
       // ── Card hover: lift + glow ─────────────────────────────
@@ -121,7 +112,7 @@ function IndustrySolutions({ onOpenWaitlist, onNavigate }) {
           <div className="section__label-tag">WHO IT'S BUILT FOR</div>
           <h2 className="who-for__heading">One platform. Two ways to use it.</h2>
           <p className="who-for__sub">
-            Whether you run a team of agents or work your own book, the problem is the same. Leads come in and the follow-up system can't keep up. InboundSelect fixes the routing, not the marketing.
+            Whether you run a team of agents or work your own book, the problem is the same. Leads come in and the follow-up system can't keep up. Inbound Select fixes the routing, not the marketing.
           </p>
         </div>
 

@@ -1,10 +1,10 @@
 const listings = [
-  { state: 'TX', product: 'Final Expense', age: '1 day old',  price: '$18', calls: 1,  hot: false },
-  { state: 'FL', product: 'Medicare Advantage', age: 'Same day', price: '$26', calls: 1,  hot: true  },
-  { state: 'OH', product: 'Final Expense', age: '2 days old', price: '$15', calls: 3,  hot: false },
-  { state: 'GA', product: 'Life Insurance', age: '4 days old', price: '$12', calls: 5,  hot: false },
-  { state: 'NC', product: 'Medicare Advantage', age: '1 day old', price: '$22', calls: 2,  hot: true  },
-  { state: 'AZ', product: 'Final Expense', age: 'Same day',   price: '$20', calls: 1,  hot: false },
+  { state: 'TX', product: 'Final Expense', age: '0–7 days',  price: '$XX', calls: 1,  hot: false },
+  { state: 'FL', product: 'Medicare Advantage', age: '0–7 days', price: '$XX', calls: 1,  hot: true  },
+  { state: 'OH', product: 'Final Expense', age: '8–30 days', price: '$YY', calls: 3,  hot: false },
+  { state: 'GA', product: 'Life Insurance', age: '30+ days', price: '$YY', calls: 5,  hot: false },
+  { state: 'NC', product: 'Medicare Advantage', age: '0–7 days', price: '$XX', calls: 2,  hot: true  },
+  { state: 'AZ', product: 'Final Expense', age: '8–30 days',   price: '$YY', calls: 1,  hot: false },
 ];
 
 const filterTags = ['All', 'Final Expense', 'Medicare', 'Life Insurance'];
@@ -78,7 +78,7 @@ function MarketplaceListings({ onOpenWaitlist }) {
             </svg>
           </div>
           <p className="mkt-list__lock-title">Access is exclusive to members</p>
-          <p className="mkt-list__lock-desc">The marketplace is only open to approved agencies and active agents on InboundSelect. Not available to the general public.</p>
+          <p className="mkt-list__lock-desc">The marketplace is only open to approved agencies and active agents on Inbound Select. Not available to the general public.</p>
           <button className="btn btn--fill btn--sm" onClick={onOpenWaitlist}>Get Access</button>
         </div>
       </div>

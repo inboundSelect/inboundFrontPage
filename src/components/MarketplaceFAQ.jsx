@@ -3,7 +3,7 @@ import { useState } from 'react';
 const faqs = [
   {
     q: 'Who can buy from the marketplace?',
-    a: 'Any agent approved by an agency on InboundSelect. You need an active account with a funded wallet. Once you\'re approved and set up, marketplace access is included.',
+    a: 'Any agent approved by an agency on Inbound Select. You need an active account with a funded wallet. Once you\'re approved and set up, marketplace access is included.',
   },
   {
     q: 'What information is shown before I buy?',
@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: 'How are listing prices set?',
-    a: 'Agencies set their own prices per listing. There is no platform markup. You pay the price the listing agency set, and the transaction clears directly through your wallet.',
+    a: 'Agencies set their own prices, and defaults typically vary by lead age (0–7, 8–30, or 30+ days) and whether a recording is included (for example, around $XX with a recording and $YY without). You pay the listed price from your wallet; a separate platform fee applies to the agency, not to your purchase price.',
   },
   {
     q: 'Can I buy multiple listings at once?',
