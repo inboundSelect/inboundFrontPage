@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import HomeProblem from './components/HomeProblem';
+import HomeDifferentiation from './components/HomeDifferentiation';
 import ProductOverview from './components/ProductOverview';
-import HomeLiveDemo from './components/HomeLiveDemo';
+import HomeJourney from './components/HomeJourney';
+import HomeRevenue from './components/HomeRevenue';
 import IndustrySolutions from './components/IndustrySolutions';
 import EnterpriseSecurity from './components/EnterpriseSecurity';
 import MarketingHub from './components/MarketingHub';
@@ -39,12 +42,15 @@ function App() {
         <>
           <main>
             <Hero onOpenWaitlist={openModal} />
+            <HomeProblem />
             <ProductOverview />
-            <HomeLiveDemo onOpenWaitlist={openModal} />
+            <HomeJourney onOpenWaitlist={openModal} />
+            <HomeRevenue />
             <MarketingHub onOpenWaitlist={openModal} />
+            <HomeDifferentiation />
             <IndustrySolutions onOpenWaitlist={openModal} onNavigate={handleNavigate} />
             <EnterpriseSecurity />
-            <PricingSection onOpenWaitlist={openModal} />
+            <PricingSection onOpenWaitlist={openModal} onNavigate={handleNavigate} />
           </main>
           <Footer onOpenWaitlist={openModal} />
         </>

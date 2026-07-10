@@ -9,9 +9,9 @@ const securityLogos = [
 ];
 
 const certifications = [
-  { label: 'Your routing rules, your call controls', desc: 'You define which agents receive which calls, by state, product, availability, and billing status. The platform enforces your rules automatically.' },
-  { label: 'Your pricing, your margins', desc: 'Set subscription tiers, wallet requirements, and per-call pricing. Agents pay what you decide. The platform handles collection, invoicing, and billing portal access.' },
-  { label: 'Your marketplace, your inventory', desc: 'Missed and unworked calls belong to your agency. List them, price them, and sell them to agents on your terms. You control what\'s available and at what cost.' },
+  { label: 'Live routing revenue', desc: 'Agents pay for subscription access and per-call billing to stay in your routing queue. You set those prices. The platform collects automatically. Every call your team works generates revenue on your terms.' },
+  { label: 'Marketplace revenue', desc: 'Every call your agents don\'t work is inventory, not waste. List it in your Select Marketplace at a price you set. Other agents buy it. Unworked calls become a second revenue line instead of a write-off.' },
+  { label: 'Your margin, your rules', desc: 'What agents pay, what marketplace leads cost, what products they access. All yours to define. InboundSelect enforces the rules you create.' },
 ];
 
 function CheckIcon() {
@@ -27,8 +27,8 @@ function FeaturesEnterpriseSecurity({ onOpenWaitlist }) {
     <section className="security section">
       <div className="container">
         <div className="security__header animate-up">
-          <div className="section__label-tag">LET'S BE CLEAR</div>
-          <h2 className="section__heading">You own the leads. You set the price.<br />You run the team.</h2>
+          <div className="section__label-tag">YOUR REVENUE MODEL</div>
+          <h2 className="section__heading">You earn twice on every inbound call.</h2>
         </div>
 
         <div className="security__panel animate-up delay-1">
@@ -62,11 +62,12 @@ function FeaturesEnterpriseSecurity({ onOpenWaitlist }) {
 
           <div className="security__content">
             <div className="security__content-top">
-              <p className="security__subheading">InboundSelect is the infrastructure layer.</p>
+              <p className="security__subheading">You earn twice on every inbound call.</p>
               <p className="security__sub">
-                We don't generate your leads, recruit your agents, or set your pricing. You bring
-                the operation. We give you the routing engine, billing layer, marketplace, and
-                reporting tools to run it without the overhead.
+                Most agency owners leave money on the table twice. First, when a lead comes in and
+                no agent picks up fast enough. Second, when that unworked call gets deleted from a
+                CRM queue and never touched again. Both of those are revenue leaks. InboundSelect
+                closes both.
               </p>
             </div>
 

@@ -7,24 +7,28 @@ const caretUp    = 'https://www.figma.com/api/mcp/asset/bc4a4723-99a8-464a-86e5-
 const faqs = [
   {
     q: 'Do I need to run my own marketing to use InboundSelect?',
-    a: 'No. As an agent, you join an agency already on the platform. They handle the marketing. You receive the calls. If you\'re an agency owner, you connect your existing lead sources to your tracked numbers.',
+    a: 'As an agent, no. You join an agency already on the platform and receive calls from their existing marketing. As an agency owner, yes. We route the demand you generate. We don\'t generate it for you.',
   },
   {
-    q: 'What does it cost to receive a call?',
-    a: 'Pricing is set by the agency you\'re under. Agents need an active subscription and a funded wallet to stay in the routing queue. Exact call costs depend on your agency\'s pricing rules.',
+    q: 'What does it cost to receive a call as an agent?',
+    a: 'Pricing is set by the agency you\'re under. You need an active subscription and funded wallet to stay in the routing queue. Exact call costs depend on your agency\'s pricing rules.',
     open: true,
   },
   {
-    q: 'Can I buy leads if there are no live calls coming in?',
-    a: 'Yes. The marketplace is always available. Agencies list unworked calls there. You browse by state, product, and lead age, then purchase what fits your book.',
+    q: 'How does the agency earn on the platform?',
+    a: 'Two ways. Agents pay for subscription access and per-call billing, which you price and the platform collects. And unworked calls listed in your Select Marketplace earn you on resale. You set the price on both.',
   },
   {
-    q: 'What happens to a call I don\'t accept?',
-    a: 'If you don\'t accept an inbound call, it either routes to the next eligible agent or, if unworked, becomes available for the agency to list in the marketplace.',
+    q: 'Can I buy leads if there are no live calls coming in?',
+    a: 'Yes. The Select Marketplace is always open. Agencies list unworked calls there. Filter by state, product, and lead age, then buy what fits your current focus.',
   },
   {
     q: 'Is there a contract or long-term commitment?',
-    a: 'No. Subscription access is month to month. You control your wallet balance and can adjust your participation at any time.',
+    a: 'No. Month to month. You control your wallet balance and subscription status. Adjust your participation whenever you want.',
+  },
+  {
+    q: 'How is this different from platforms that sell inbound calls?',
+    a: 'Those platforms generate the demand and charge you $45 to $85 per call, because the per-call fee is their revenue. InboundSelect routes the demand you already generate and charges for platform access. You set what agents pay, and every dollar of call economics stays inside your agency.',
   },
 ];
 
@@ -35,7 +39,7 @@ function PricingFAQ() {
     <section className="pfaq">
       <div className="pfaq__header">
         <div className="section__label-tag">COMMON QUESTIONS</div>
-        <h2 className="pfaq__heading">Frequently asked questions</h2>
+        <h2 className="pfaq__heading">Straightforward answers.</h2>
         <p className="pfaq__sub">
           Straightforward answers about how the platform and billing work.
         </p>

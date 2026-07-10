@@ -1,35 +1,6 @@
-const heroBg = 'https://www.figma.com/api/mcp/asset/dfb178cf-a412-49e9-9c94-fc42cdc9d3b3';
-
-const logos = [
-  'https://www.figma.com/api/mcp/asset/8b7d5f86-f34f-4061-a6f7-b0c0899aa3f8',
-  'https://www.figma.com/api/mcp/asset/0e027096-e1a7-43b4-a7bf-4bf30426eab1',
-  'https://www.figma.com/api/mcp/asset/289d8efc-f904-4c8a-a1eb-7aeacd118c59',
-  'https://www.figma.com/api/mcp/asset/61eff555-bad0-42a5-aa50-e64c037f663a',
-  'https://www.figma.com/api/mcp/asset/45d87519-7b6a-46cd-9346-4adf29e47e4e',
-  'https://www.figma.com/api/mcp/asset/dbd16e79-31b6-4c52-b1be-f32c84e939c0',
-  'https://www.figma.com/api/mcp/asset/ff519444-881d-4992-90d3-07b34e64545d',
-  'https://www.figma.com/api/mcp/asset/6f0bae5c-4800-4273-8891-f90595ffab28',
-  'https://www.figma.com/api/mcp/asset/0e027096-e1a7-43b4-a7bf-4bf30426eab1',
-];
-
-const logos2 = [
-  'https://www.figma.com/api/mcp/asset/ff519444-881d-4992-90d3-07b34e64545d',
-  'https://www.figma.com/api/mcp/asset/dbd16e79-31b6-4c52-b1be-f32c84e939c0',
-  'https://www.figma.com/api/mcp/asset/45d87519-7b6a-46cd-9346-4adf29e47e4e',
-  'https://www.figma.com/api/mcp/asset/8b7d5f86-f34f-4061-a6f7-b0c0899aa3f8',
-  'https://www.figma.com/api/mcp/asset/0e027096-e1a7-43b4-a7bf-4bf30426eab1',
-  'https://www.figma.com/api/mcp/asset/61eff555-bad0-42a5-aa50-e64c037f663a',
-  'https://www.figma.com/api/mcp/asset/289d8efc-f904-4c8a-a1eb-7aeacd118c59',
-  'https://www.figma.com/api/mcp/asset/6f0bae5c-4800-4273-8891-f90595ffab28',
-  'https://www.figma.com/api/mcp/asset/61eff555-bad0-42a5-aa50-e64c037f663a',
-  'https://www.figma.com/api/mcp/asset/dbd16e79-31b6-4c52-b1be-f32c84e939c0',
-];
-
 function FeaturesHero({ onOpenWaitlist }) {
   return (
     <section className="features-hero">
-      <img className="features-hero__bg" src={heroBg} alt="" aria-hidden="true" />
-
       <div className="features-hero__inner">
         <div className="features-hero__badge">
           <div className="features-hero__badge-icon">
@@ -41,14 +12,14 @@ function FeaturesHero({ onOpenWaitlist }) {
         </div>
 
         <h1 className="features-hero__heading">
-          Give Your Agents Inbound{' '}
-          <span className="features-hero__heading-gradient">Calls to Work</span>
+          Your Agents Earn. Your Agency Earns.{' '}
+          <span className="features-hero__heading-gradient">You Control Both.</span>
         </h1>
 
         <p className="features-hero__sub">
-          You bring the team and the marketing. InboundSelect handles live call routing, agent
-          billing, marketplace resale, and reporting, from the moment a prospect calls to the
-          final outcome on your agency dashboard.
+          InboundSelect gives you the infrastructure to route inbound calls to your team in seconds,
+          set your own pricing, and earn on every lead your marketing generates. You run the
+          economics. We run the platform.
         </p>
 
         <div className="features-hero__btns">
@@ -57,20 +28,52 @@ function FeaturesHero({ onOpenWaitlist }) {
         </div>
       </div>
 
-      <div className="features-hero__logos">
-        <div className="features-hero__logos-row">
-          {logos.map((src, i) => (
-            <div key={i} className="features-hero__logo-tile">
-              <img src={src} alt="" />
+      <div className="hero-showcase">
+        <div className="hs-card reveal d1">
+          <div className="hs-card__top">
+            <div className="hs-card__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="5" cy="5" r="2" /><circle cx="15" cy="15" r="2" />
+                <path d="M7 5h6a2 2 0 0 1 2 2v6" />
+              </svg>
             </div>
-          ))}
+            <span className="hs-card__pill">+12%</span>
+          </div>
+          <div className="hs-card__value">1,284</div>
+          <div className="hs-card__label">Calls routed today</div>
         </div>
-        <div className="features-hero__logos-row">
-          {logos2.map((src, i) => (
-            <div key={i} className="features-hero__logo-tile">
-              <img src={src} alt="" />
+
+        <div className="hs-card reveal d2">
+          <div className="hs-card__top">
+            <div className="hs-card__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="7" cy="7" r="3" /><path d="M2 17a5 5 0 0 1 10 0" />
+                <path d="M14 5a3 3 0 0 1 0 6M14 17a5 5 0 0 0-2-4" opacity="0.5" />
+              </svg>
             </div>
-          ))}
+            <span className="hs-card__pill hs-card__pill--blue">18 live</span>
+          </div>
+          <div className="hs-card__value">Team</div>
+          <div className="hs-card__label">Agents available now</div>
+          <div className="hs-card__bars">
+            {[50, 80, 60, 95, 70, 85].map((h, i) => (
+              <div key={i} className={`hs-card__bar${i === 3 ? ' hs-card__bar--on' : ''}`} style={{ height: `${h}%` }} />
+            ))}
+          </div>
+        </div>
+
+        <div className="hs-card reveal d3">
+          <div className="hs-card__top">
+            <div className="hs-card__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 4h2l1.5 9h8l1.5-6H6" />
+                <circle cx="8" cy="16.5" r="1" /><circle cx="14" cy="16.5" r="1" />
+              </svg>
+            </div>
+            <span className="hs-card__pill">recovered</span>
+          </div>
+          <div className="hs-card__value">$4.2K</div>
+          <div className="hs-card__label">Marketplace this week</div>
         </div>
       </div>
     </section>

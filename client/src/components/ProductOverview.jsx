@@ -9,7 +9,7 @@ const features = [
       </svg>
     ),
     title: 'Any Lead Source',
-    desc: 'Running Meta forms, Google ads, a referral network, or buying leads from a vendor? It doesn\'t matter. If a prospect calls your tracked number, the platform picks it up and routes it.',
+    desc: 'Meta forms, Google ads, referrals, bought leads. It doesn\'t matter where the call comes from. If it hits your tracked number, the platform picks it up and routes it. Your marketing keeps running exactly as it is.',
   },
   {
     icon: (
@@ -18,8 +18,8 @@ const features = [
         <path d="M11 7v4l3 2"/>
       </svg>
     ),
-    title: 'Real-Time Routing',
-    desc: 'The system checks which agents are available, licensed in that state, and billing-ready the moment a call comes in. The right agent gets the alert. They accept. The call connects.',
+    title: 'SelectRoute™ Real-Time Routing',
+    desc: 'SelectRoute checks agent availability, state licensing, product eligibility, and billing status in real time. First qualified agent gets the alert. They accept. Call connects. The whole thing takes seconds.',
   },
   {
     icon: (
@@ -27,8 +27,8 @@ const features = [
         <path d="M11 2L13.5 8H20L14.5 12L16.5 18L11 14L5.5 18L7.5 12L2 8H8.5L11 2Z"/>
       </svg>
     ),
-    title: 'Wallet and Subscription Billing',
-    desc: 'Agents fund a wallet and hold an active subscription to stay in the routing queue. Pricing is enforced by the platform automatically. No spreadsheets, no manual tracking.',
+    title: 'Automatic Billing',
+    desc: 'Every accepted call is billed against your pricing rules. Agents hold an active subscription and funded wallet to stay in the queue. No manual invoicing. No chasing payments.',
   },
   {
     icon: (
@@ -38,19 +38,8 @@ const features = [
         <path d="M11 8h3a3 3 0 0 1 0 6" opacity="0.5"/>
       </svg>
     ),
-    title: 'Agency Controls',
-    desc: 'Set your products, pricing rules, state coverage, and agent access from one dashboard. You decide who gets what calls and at what price.',
-  },
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--brand)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="6" width="16" height="12" rx="2"/>
-        <path d="M7 6V5a4 4 0 0 1 8 0v1"/>
-        <circle cx="11" cy="12" r="1.5" fill="var(--brand)" stroke="none"/>
-      </svg>
-    ),
-    title: 'Lead Marketplace',
-    desc: 'Calls that didn\'t connect or went unworked don\'t have to die. List them in the marketplace. Other agents buy what fits their book. Nothing gets wasted.',
+    title: 'Select Marketplace™ Recovery',
+    desc: 'Calls that didn\'t get worked aren\'t write-offs. List them in your Select Marketplace. Other agents buy them at a price you set. Unworked inventory becomes a second revenue line.',
   },
   {
     icon: (
@@ -60,7 +49,18 @@ const features = [
       </svg>
     ),
     title: 'Full Reporting',
-    desc: 'Track call volume, agent performance, wallet activity, and lead source outcomes. Know exactly which part of your operation is working and which isn\'t.',
+    desc: 'Call volume, revenue per lead source, agent performance, marketplace earnings. Every number feeds into reporting you can act on.',
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--brand)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="6" width="16" height="12" rx="2"/>
+        <path d="M7 6V5a4 4 0 0 1 8 0v1"/>
+        <circle cx="11" cy="12" r="1.5" fill="var(--brand)" stroke="none"/>
+      </svg>
+    ),
+    title: 'Your Rules',
+    desc: 'Pricing, routing logic, agent access, product configuration. Every decision is yours to make. InboundSelect enforces what you set up.',
   },
 ];
 
@@ -70,9 +70,9 @@ function ProductOverview() {
       <div className="container">
         <div className="product-overview__header animate-up">
           <p className="section__label">HOW IT WORKS</p>
-          <h2 className="section__heading">From inbound lead to live conversation. Automatically.</h2>
+          <h2 className="section__heading">Inbound lead to billed conversation.<br />No manual steps.</h2>
           <p className="section__sub">
-            Most agencies lose leads in the gap between form fill and first call. InboundSelect closes that gap. Your lead comes in, your agent gets a live call routed to them before the prospect moves on.
+            Whatever lead source you're running, the moment a prospect calls your tracked number the platform takes over. Routing, billing, recording, and reporting happen automatically.
           </p>
         </div>
 

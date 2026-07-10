@@ -8,34 +8,34 @@ const iconBI = 'https://www.figma.com/api/mcp/asset/0ed7f2a0-0ec4-4be2-a41a-8a71
 const modules = [
   {
     icon: iconFinance,
-    title: 'Set Up Your Agency',
-    desc: 'Complete your launchpad setup. Configure your agency name, branding, and workspace. Define the products you support, the states your agents can work, and your call pricing rules.',
+    title: 'Connect your lead sources',
+    desc: 'Point your tracked numbers at InboundSelect. Calls from any source route through the platform. Your marketing keeps running exactly as it is.',
     accent: true,
   },
   {
     icon: iconInventory,
-    title: 'Invite Your Agent Team',
-    desc: 'Send invites to your agents. They complete onboarding through their own launchpad. You review profiles, confirm state licensing, and approve routing access before calls go live.',
+    title: 'Build your agent roster',
+    desc: 'Invite agents, set state coverage, assign products, approve routing access. You decide who\'s eligible before the first call comes in.',
   },
   {
     icon: iconHR,
-    title: 'Configure Pricing and Plans',
-    desc: 'Define subscription tiers, wallet minimums, and per-call pricing for your agency. Agents activate billing through the platform. You control access. The system enforces it.',
+    title: 'Set your pricing',
+    desc: 'Define subscription tiers, wallet requirements, and per-call costs. Agents know what participation costs upfront. The platform collects on your behalf.',
   },
   {
     icon: iconSales,
-    title: 'Go Live with Routing',
-    desc: 'Connect your tracked phone numbers. Set agents to available. Inbound calls are distributed in real time to eligible agents based on your routing rules. No manual dispatch.',
+    title: 'Go live',
+    desc: 'Flip agents to available. Inbound calls start routing through SelectRoute. Every session is tracked, billed, and logged to your dashboard automatically.',
   },
   {
     icon: iconPurchasing,
-    title: 'Monitor and Manage',
-    desc: 'Watch live call activity, track agent performance, manage wallet funding, and handle refund requests, all from your agency dashboard. Full operational visibility in one place.',
+    title: 'Monetize unworked calls',
+    desc: 'List missed or declined calls in your Select Marketplace. Set the price. Other agents buy them. Wasted inventory becomes revenue.',
   },
   {
     icon: iconBI,
-    title: 'Monetize Every Call',
-    desc: 'Missed and unworked calls go into your marketplace inventory. Set listing prices, apply filters by state and product, and let agents purchase leads that match their book.',
+    title: 'Track everything',
+    desc: 'Call volume, revenue per agent, marketplace earnings, routing performance. All of it feeds into your agency dashboard in real time.',
   },
 ];
 
@@ -44,8 +44,8 @@ function FeaturesProductOverview() {
     <section className="erp-overview section">
       <div className="container">
         <div className="erp-overview__header animate-up">
-          <div className="section__label-tag">How It Works For Agencies</div>
-          <h2 className="section__heading">Set up once. Route calls automatically.</h2>
+          <div className="section__label-tag">HOW IT WORKS FOR AGENCIES</div>
+          <h2 className="section__heading">Set up once. Earn automatically.</h2>
           <p className="section__sub">
             Most agency owners spend more time managing lead distribution than running their business.
             InboundSelect automates the routing so you can focus on growing the team.

@@ -1,7 +1,21 @@
+import { useEffect, useState } from 'react';
+
+const audiences = ['final expense', 'Medicare', 'life insurance'];
+
 function Hero({ onOpenWaitlist }) {
+  const [wordIdx, setWordIdx] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setWordIdx((i) => (i + 1) % audiences.length);
+    }, 2200);
+    return () => clearInterval(id);
+  }, []);
+
+  const prevIdx = (wordIdx + audiences.length - 1) % audiences.length;
+
   return (
     <section className="hero" id="home">
-      <div className="hero__bg" />
       <div className="hero__inner">
         <div className="hero__content animate-down">
           <div className="hero__badge">
@@ -12,39 +26,48 @@ function Hero({ onOpenWaitlist }) {
                 <path d="M2 10h16" stroke="var(--brand)" strokeWidth="1.5" strokeLinecap="round"/>
               </svg>
             </span>
-            <span className="hero__badge-text">Now Accepting Beta Agencies</span>
+            <span className="hero__badge-text">We don't sell calls. We power them.</span>
           </div>
 
           <h1 className="hero__heading">
-            Every Inbound Lead<br />
-            Deserves a <span className="hero__heading-gradient">Live Conversation</span>
+            <span className="hero__heading-lead">The Infrastructure Behind Every Call Your Agency</span>{' '}
+            <span className="hero__heading-gradient">Makes Money On</span>
           </h1>
 
           <p className="hero__subtext">
-            InboundSelect routes calls from your existing lead sources to the right agent in seconds. Whatever platform you're generating leads on, we handle what happens the moment a prospect picks up the phone.
+            InboundSelect gives insurance agencies the platform to receive inbound calls, route them to the right agent in seconds, set their own pricing, and earn on every lead they generate. You own the economics. We run the pipes.
           </p>
 
-          <div className="hero__social-proof">
-            <div className="hero__avatars">
-              {['A', 'B', 'C'].map((letter) => (
-                <div key={letter} className="hero__avatar">{letter}</div>
-              ))}
-            </div>
-            <span className="hero__social-text">
-              Built for <strong>final expense, Medicare, and life insurance</strong> operations
-            </span>
+          <div className="hero__ctas">
+            <button className="btn btn--fill btn--lg" onClick={onOpenWaitlist}>Apply for Beta Access</button>
+            <a href="#features" className="btn btn--stroke btn--lg">See How It Works</a>
           </div>
 
-          <div className="hero__ctas">
-            <a href="#contact" className="btn btn--stroke btn--lg">See How It Works</a>
-            <button className="btn btn--fill btn--lg" onClick={onOpenWaitlist}>Apply for Beta Access</button>
-          </div>
+          <p
+            className="hero__trust"
+            aria-label="Built for final expense, Medicare, and life insurance agencies already generating their own demand"
+          >
+            Built for{' '}
+            <span className="rotate-words" aria-hidden="true">
+              {audiences.map((w, i) => (
+                <span
+                  key={w}
+                  className={`rotate-words__item${
+                    i === wordIdx ? ' is-on' : i === prevIdx ? ' is-out' : ''
+                  }`}
+                >
+                  {w}
+                </span>
+              ))}
+            </span>{' '}
+            agencies already generating their own demand
+          </p>
         </div>
 
         <div className="hero__dashboard animate-up delay-3">
           <div className="hero__card">
             <div className="hero__card-header">
-              <span className="hero__card-title">Revenue Overview</span>
+              <span className="hero__card-title">Routed Revenue</span>
               <span className="hero__card-badge hero__card-badge--success">+12.4%</span>
             </div>
             <div className="hero__chart-bars">
@@ -57,14 +80,14 @@ function Hero({ onOpenWaitlist }) {
               ))}
             </div>
             <div className="hero__stat">
-              <span className="hero__stat-value">$2.4M</span>
-              <span className="hero__stat-delta">Total Revenue Q4</span>
+              <span className="hero__stat-value">$248K</span>
+              <span className="hero__stat-delta">Live + marketplace · Q4</span>
             </div>
           </div>
 
           <div className="hero__cards-row">
             <div className="hero__card">
-              <p className="hero__card-title">Active Users</p>
+              <p className="hero__card-title">Calls Live</p>
               <div className="hero__sparkline">
                 <svg viewBox="0 0 80 32" fill="none" preserveAspectRatio="none" width="100%" height="40">
                   <defs>
@@ -89,19 +112,19 @@ function Hero({ onOpenWaitlist }) {
                 </svg>
               </div>
               <span className="hero__stat-value" style={{ fontSize: '20px' }}>1,284</span>
-              <span className="hero__user-name" style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Online now</span>
+              <span className="hero__user-name" style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Connected this week</span>
             </div>
 
             <div className="hero__card">
               <div className="hero__card-header">
-                <span className="hero__card-title">Pipeline</span>
-                <span className="hero__card-badge hero__card-badge--warning">3 urgent</span>
+                <span className="hero__card-title">Routing Queue</span>
+                <span className="hero__card-badge hero__card-badge--warning">3 in queue</span>
               </div>
               <div className="hero__pipeline">
                 {[
-                  { label: 'Enterprise deal', value: '$84K', pct: 75 },
-                  { label: 'SMB renewal', value: '$12K', pct: 40 },
-                  { label: 'Partnership', value: '$220K', pct: 90 },
+                  { label: 'Final Expense · FL', value: '42 calls', pct: 90 },
+                  { label: 'Medicare · TX', value: '28 calls', pct: 60 },
+                  { label: 'Life · CA', value: '17 calls', pct: 40 },
                 ].map((item) => (
                   <div key={item.label} className="hero__pipeline-item">
                     <div className="hero__pipeline-row">

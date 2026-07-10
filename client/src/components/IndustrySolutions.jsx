@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const personas = [
   {
     id: 'agency',
-    tag: 'For Agency Owners',
+    tag: 'Agency Owners and IMOs',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="10" width="22" height="15" rx="3" />
@@ -15,12 +15,12 @@ const personas = [
         <circle cx="14" cy="18" r="2" fill="currentColor" stroke="none" opacity="0.6" />
       </svg>
     ),
-    headline: 'Give your team inbound calls to work.',
+    headline: 'Build your routing operation inside the platform.',
     bullets: [
-      'Configure routing rules and pricing from one dashboard',
-      'Approve agents, define state coverage, set your margins',
-      'Distribute live calls from your existing lead sources',
-      'Track performance by agent, product, and source',
+      'Set products, pricing, and agent access',
+      'Route live calls to your team automatically',
+      'List unworked calls in your Select Marketplace',
+      'Track every dollar your operation generates',
     ],
     cta: 'See Agency Features',
     ctaPage: 'features',
@@ -28,7 +28,7 @@ const personas = [
   },
   {
     id: 'agent',
-    tag: 'For Independent Agents',
+    tag: 'Independent Agents',
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="14" cy="9" r="4" />
@@ -36,12 +36,12 @@ const personas = [
         <path d="M20 14l3 3-3 3" opacity="0.5" />
       </svg>
     ),
-    headline: 'Enter the queue. Receive live calls.',
+    headline: 'Join an agency on the platform and enter the call queue.',
     bullets: [
-      'Set your licensed states and availability in minutes',
-      'Fund your wallet and go live immediately',
-      'Accept live alerts and get bridged to the prospect instantly',
-      'Browse the marketplace between calls for extra leads',
+      'Set your states and products, fund your wallet',
+      'Live inbound calls in real time',
+      'Marketplace leads between calls',
+      'Earning potential not capped by your agency\'s daily marketing',
     ],
     cta: 'See Agent Features',
     ctaPage: 'role',
@@ -119,9 +119,9 @@ function IndustrySolutions({ onOpenWaitlist, onNavigate }) {
         {/* ── Header ─────────────────────────────────────────── */}
         <div className="who-for__header" ref={headerRef}>
           <div className="section__label-tag">WHO IT'S BUILT FOR</div>
-          <h2 className="who-for__heading">One platform. Two ways to use it.</h2>
+          <h2 className="who-for__heading">Big agency or solo operator.<br />The infrastructure works the same.</h2>
           <p className="who-for__sub">
-            Whether you run a team of agents or work your own book, the problem is the same. Leads come in and the follow-up system can't keep up. InboundSelect fixes the routing, not the marketing.
+            If you're generating inbound demand and losing money in the gap between lead and conversation, this closes that gap. Doesn't matter if you have 20 agents or you're working your own book.
           </p>
         </div>
 

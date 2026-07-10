@@ -18,9 +18,9 @@ const logoRows = [
 
 const certs = [
   { label: 'Call recordings saved automatically.', detail: 'Every inbound call session is recorded and accessible from your dashboard after the call ends.' },
-  { label: 'Download your reports anytime.', detail: 'Export call history, talk time, marketplace purchases, and performance stats whenever you need them.' },
+  { label: 'Download your reports anytime.', detail: 'Export call history, talk time, Marketplace purchases, and performance stats whenever you need them.' },
   { label: 'Live dashboard updates.', detail: 'Your call alerts, wallet balance, and routing status refresh in real time without reloading the page.' },
-  { label: 'Full transaction history.', detail: 'Every wallet top-up, call charge, and marketplace purchase is logged with timestamps so your billing is always clear.' },
+  { label: 'Full transaction history.', detail: 'Every wallet top-up, call charge, and Marketplace purchase is logged with timestamps so your billing is always clear.' },
 ];
 
 function RoleEnterpriseSecurity({ onOpenWaitlist }) {

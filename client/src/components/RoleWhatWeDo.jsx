@@ -35,7 +35,7 @@ function RoleWhatWeDo() {
       <div className="role-what__row role-what__row--three">
         {[
           { icon: chartPieIcon,  title: 'Live Calls',               desc: 'Get real-time alerts the moment an inbound call is routed to you. Accept from your dashboard and connect instantly. Every session is logged automatically.' },
-          { icon: cubeIcon,      title: 'Marketplace',              desc: 'Browse leads listed by agencies. Filter by state, product, and age. Buy individual leads or in bulk. Contact details unlock after purchase.' },
+          { icon: cubeIcon,      title: 'Select Marketplace™',      desc: 'Browse leads listed by agencies. Filter by state, product, and age. Buy individual leads or in bulk. Contact details unlock after purchase.' },
           { icon: buildingIcon,  title: 'Wallet and Transactions',  desc: 'Top up your wallet, track every debit and credit, and manage your subscription from one place. Your full billing history is always visible.' },
         ].map(({ icon, title, desc }) => (
           <div key={title} className="role-what__card">
@@ -86,7 +86,7 @@ function RoleWhatWeDo() {
           </div>
           <div>
             <p className="role-what__card-title">Reports and Leaderboard</p>
-            <p className="role-what__card-desc">Track your call volume, talk time, marketplace purchases, and conversion activity. See where you rank on the agency leaderboard.</p>
+            <p className="role-what__card-desc">Track your call volume, talk time, Marketplace purchases, and conversion activity. See where you rank on the agency leaderboard.</p>
           </div>
           <img className="role-what__line-chart" src={lineChart} alt="" aria-hidden="true" />
           <div className="role-what__green-labels" aria-hidden="true">

@@ -73,8 +73,8 @@ function Navbar({ onOpenWaitlist, currentPage, onNavigate }) {
         </ul>
 
         <div className="navbar__actions">
-          <button className="btn btn--stroke btn--sm" onClick={() => onNavigate('contact')}>Sign In</button>
-          <button className="btn btn--fill btn--sm" onClick={onOpenWaitlist}>Get Started</button>
+          <button className="btn btn--stroke btn--sm" onClick={() => onNavigate('contact')}>Book a Demo</button>
+          <button className="btn btn--fill btn--sm" onClick={onOpenWaitlist}>Apply for Beta</button>
         </div>
 
         <button

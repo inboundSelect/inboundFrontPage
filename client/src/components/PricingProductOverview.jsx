@@ -6,12 +6,12 @@ const iconProcure    = 'https://www.figma.com/api/mcp/asset/f180c5a0-d601-4f93-9
 const iconBI         = 'https://www.figma.com/api/mcp/asset/ce56cdfa-bff7-43b3-a6b9-28e7d66ed8aa';
 
 const modules = [
-  { icon: iconFinance,   title: 'Live Call Routing',               desc: 'Inbound calls from any lead source route to eligible agents automatically. No manual dispatch.', featured: true },
-  { icon: iconInventory, title: 'Lead Marketplace',                desc: 'Agencies list unworked calls. Agents buy what fits. Every lead gets a second chance at conversion.' },
-  { icon: iconHR,        title: 'Wallet Billing',                  desc: 'Agents fund a wallet for call access. Every transaction is logged. Billing is always transparent.' },
-  { icon: iconSales,     title: 'Call Recordings',                 desc: 'Every call session is recorded automatically and accessible from the agent dashboard after the call ends.' },
-  { icon: iconProcure,   title: 'Downloadable Reports',            desc: 'Export call history, talk time, marketplace activity, and performance stats anytime.' },
-  { icon: iconBI,        title: 'Client and Appointment Tracking', desc: 'Log clients and appointments directly in the platform. Keep your pipeline organized without a separate tool.' },
+  { icon: iconFinance,   title: 'SelectRoute™ Live Call Routing',   desc: 'Inbound calls from any lead source route to eligible agents automatically. No manual dispatch. No calls sitting unworked.', featured: true },
+  { icon: iconInventory, title: 'Select Marketplace™ Revenue',      desc: 'Agencies list unworked calls. Agents buy what fits. Every lead gets a lifecycle and your agency earns twice.' },
+  { icon: iconHR,        title: 'Automatic Billing',                desc: 'Wallet-based billing for agents. Subscription enforcement by the platform. No manual invoicing on either side.' },
+  { icon: iconSales,     title: 'Call Recordings',                  desc: 'Every call session is recorded and accessible from the dashboard. Agents review their own calls. Agencies monitor quality.' },
+  { icon: iconProcure,   title: 'Downloadable Reports',             desc: 'Export call history, revenue, marketplace activity, and performance stats anytime. Your numbers in a format you can use.' },
+  { icon: iconBI,        title: 'Full Visibility',                  desc: 'Agents see their own performance. Agencies see the whole team. Every number that matters is in the dashboard.' },
 ];
 
 function PricingProductOverview() {
@@ -19,9 +19,9 @@ function PricingProductOverview() {
     <section className="ppov">
       <div className="ppov__header">
         <div className="section__label-tag">WHAT'S INCLUDED</div>
-        <h2 className="ppov__heading">Every plan includes the full platform.</h2>
+        <h2 className="ppov__heading">No stripped-down tiers. Full platform at every level.</h2>
         <p className="ppov__sub">
-          There are no stripped-down tiers. Agents get the full agent dashboard. Agencies get the full agency dashboard. The difference is in how you use it, not what you can access.
+          Every plan includes the full routing infrastructure. The difference between plans is team size, usage economics, and branding control.
         </p>
       </div>
       <div className="ppov__grid">

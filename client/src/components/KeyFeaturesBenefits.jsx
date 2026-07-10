@@ -37,8 +37,8 @@ function KeyFeaturesBenefits() {
           <p className="section__label">AGENCY CONTROLS</p>
           <h2 className="section__heading">Run your entire call operation from one dashboard.</h2>
           <p className="section__sub">
-            Set up your team, define your pricing, control who gets what calls, and track every
-            outcome. You own the rules. The platform enforces them.
+            Set up your team, define pricing, control who gets what calls, and track every dollar
+            your operation generates. One system replaces the five tools your operation runs on today.
           </p>
         </div>
 
@@ -67,9 +67,9 @@ function KeyFeaturesBenefits() {
                   Call volume, wallet activity, agent revenue, and marketplace performance in one view.
                 </p>
                 <div>
-                  <p className="kf-card__title">Agency Analytics</p>
+                  <p className="kf-card__title">Agency Reporting</p>
                   <p className="kf-card__desc">
-                    Daily reporting, leaderboard rankings, and marketing attribution all feed into your agency dashboard. Export reports on demand. Every call tracked from first ring to final outcome.
+                    Call activity, wallet transactions, marketplace sales, and team performance. Every number your operation needs to make decisions.
                   </p>
                 </div>
               </div>
@@ -96,9 +96,9 @@ function KeyFeaturesBenefits() {
               </div>
               <div className="kf-card__panel">
                 <div>
-                  <p className="kf-card__title">CRM & Appointments</p>
+                  <p className="kf-card__title">SelectRoute™ Routing Rules</p>
                   <p className="kf-card__desc">
-                    Agents log clients, track conversation history, and book follow-up appointments with Google Calendar sync. Call recordings are stored and accessible for review. Every call has a lifecycle beyond the first ring.
+                    Define which agents receive which calls based on state, product, availability, and billing status. SelectRoute sends the right call to the right agent automatically.
                   </p>
                 </div>
               </div>
@@ -146,9 +146,9 @@ function KeyFeaturesBenefits() {
               </div>
               <div className="kf-card__panel">
                 <div>
-                  <p className="kf-card__title">Lead Marketplace</p>
+                  <p className="kf-card__title">Marketplace Management</p>
                   <p className="kf-card__desc">
-                    Missed and unworked calls become sellable inventory. List them by state, product, and lead age. Agents buy what fits their book. Nothing goes to waste.
+                    Control what goes into your Select Marketplace, at what price, and for how long. Every unworked call is a revenue opportunity, not a write-off.
                   </p>
                 </div>
               </div>
@@ -190,7 +190,7 @@ function KeyFeaturesBenefits() {
                 <div>
                   <p className="kf-card__title">Team Performance</p>
                   <p className="kf-card__desc">
-                    Monitor call volume, talk time, acceptance rates, and revenue by agent. Leaderboard views show who's converting. Adjust routing and access based on real data.
+                    Call volume, talk time, acceptance rates, and revenue by agent. Know who's performing without pulling a single manual report.
                   </p>
                 </div>
               </div>

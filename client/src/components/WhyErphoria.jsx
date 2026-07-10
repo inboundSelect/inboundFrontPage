@@ -29,8 +29,8 @@ function WhyErphoria() {
     <section className="why-erphoria section">
       <div className="container">
         <div className="why-erphoria__header animate-up">
-          <p className="section__label">AGENCY SETUP</p>
-          <h2 className="section__heading">From signup to routing live calls in under a day.</h2>
+          <p className="section__label">THE BOTTOM LINE</p>
+          <h2 className="section__heading">Every lead your marketing generates should make your agency money. Most don't.</h2>
         </div>
 
         <div className="why-erphoria__rows">

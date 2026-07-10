@@ -72,17 +72,17 @@ function WaitlistModal({ isOpen, onClose }) {
                 <path d="M13 22l6 6 12-12" stroke="var(--success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
-            <h3 className="modal-box__heading">You're on the list!</h3>
+            <h3 className="modal-box__heading">Application received.</h3>
             <p className="modal-box__sub">
-              Thanks for your interest in Inbound Select. We'll be in touch with early access details soon.
+              Thanks for applying to the InboundSelect beta. We'll review your operation and follow up within one business day.
             </p>
             <button className="btn btn--fill" style={{ width: '100%' }} onClick={onClose}>Done</button>
           </div>
         ) : (
           <>
-            <h3 className="modal-box__heading">Get Early Access</h3>
+            <h3 className="modal-box__heading">Apply for Beta Access</h3>
             <p className="modal-box__sub">
-              Join the waitlist and be the first to experience the future of business operations.
+              Five agencies onboard before public launch. Platform fees waived during beta, usage-only billing, and a 30-minute demo to confirm it fits your operation.
             </p>
 
             <form onSubmit={handleSubmit} noValidate>
@@ -128,11 +128,11 @@ function WaitlistModal({ isOpen, onClose }) {
               </div>
 
               <div className="form-group">
-                <label htmlFor="modal-message">What are you hoping to solve?</label>
+                <label htmlFor="modal-message">Tell us about your operation</label>
                 <textarea
                   id="modal-message"
                   name="message"
-                  placeholder="Tell us about your current challenges..."
+                  placeholder="How many agents, what products, and where your leads come from…"
                   value={form.message}
                   onChange={handleChange}
                   rows={3}
@@ -149,11 +149,11 @@ function WaitlistModal({ isOpen, onClose }) {
                 style={{ width: '100%' }}
                 disabled={status === 'loading'}
               >
-                {status === 'loading' ? 'Submitting…' : 'Join the Waitlist'}
+                {status === 'loading' ? 'Submitting…' : 'Apply for Beta Access'}
               </button>
 
               <p className="modal-box__fine-print">
-                No spam. We'll only contact you with relevant updates about early access.
+                No spam. We'll only reach out about your beta application and early access.
               </p>
             </form>
           </>

@@ -9,55 +9,46 @@ const checkLight = 'https://www.figma.com/api/mcp/asset/f6d64576-ee03-4bdd-bb90-
 
 const tiers = [
   {
-    name: 'Agent',
-    price: 'Usage-based',
-    period: '',
-    desc: 'For independent agents working their own calls. Set your states, fund your wallet, and start receiving inbound calls and marketplace leads.',
-    features: [
-      'Live inbound call routing',
-      'Marketplace lead access',
-      'Wallet and subscription management',
-      'States and products configuration',
-      'Call recordings',
-      'Downloadable performance reports',
-      'Client and appointment tracking',
-    ],
-    variant: 'free',
-    check: checkDark,
-    cta: 'Get Started',
-  },
-  {
     name: 'Agency',
-    price: 'Usage-based',
+    price: '$499/month + $30/seat + $1/call connection',
     period: '',
-    desc: 'For agency owners managing a team. Onboard agents, configure routing rules, set pricing, and distribute live calls across your operation.',
+    desc: 'For agencies that want centralized inbound routing, agent management, campaign visibility, and full control over call economics.',
     features: [
-      'Everything in Agent',
-      'Agent onboarding and approval',
-      'Custom routing rules',
-      'Agency pricing and margin controls',
-      'Team performance dashboard',
-      'Lead marketplace management',
-      'Agency-level reporting',
+      'Marketing Hub and Select Marketplace included',
+      'Admin dashboard and team management',
+      'Set agent subscriptions, custom billing thresholds, and custom call pricing tiers',
     ],
     variant: 'plus',
     check: checkLight,
+    badge: 'Best Fit for Growing Teams',
     cta: 'Apply for Beta',
   },
   {
     name: 'Enterprise',
-    price: 'Custom',
+    price: '$2,000/month',
     period: '',
-    desc: 'For larger networks with custom routing needs, multiple products, and dedicated support requirements.',
+    desc: 'Built for high-volume agencies that need scale, better economics, and a branded platform experience.',
     features: [
-      'Everything in Agency',
-      'Multiple product configurations',
-      'Custom state and routing logic',
-      'Dedicated support access',
-      'Priority onboarding',
-      'Direct access to development team',
+      '50 seats included',
+      'White Label included',
+      '$0.06/minute usage',
+      'Need more than 50 seats? Contact us for custom enterprise pricing.',
     ],
     variant: 'enterprise',
+    check: checkDark,
+    cta: 'Contact Us',
+  },
+  {
+    name: 'White Label Add-On',
+    price: '+$599/month',
+    period: '',
+    desc: 'For agencies and IMOs that want to present InboundSelect as their own platform.',
+    features: [
+      'Custom branding',
+      'Custom domain',
+      'Branded agent-facing experience',
+    ],
+    variant: 'free',
     check: checkDark,
     cta: 'Contact Us',
   },
@@ -78,14 +69,14 @@ function PricingHero({ onOpenWaitlist }) {
           <span className="pricing-hero__badge-icon">
             <img src={chartIcon} alt="" />
           </span>
-          Simple, usage-based pricing
+          Pricing
         </div>
         <h1 className="pricing-hero__heading">
-          Pay for what you use.{' '}
-          <span className="pricing-hero__heading-gradient">Nothing else.</span>
+          The platform pays for itself the first time an agent{' '}
+          <span className="pricing-hero__heading-gradient">closes a call.</span>
         </h1>
         <p className="pricing-hero__sub">
-          Platform fees are waived during beta. Agents pay for subscription access and wallet-funded call usage. Agencies set their own margins and pricing rules for their team.
+          One closed final expense policy covers months of platform cost. The question isn't what InboundSelect costs. It's what a missed inbound call costs your operation.
         </p>
         <div className="pricing-hero__btns">
           <button className="btn btn--stroke btn--sm" onClick={onOpenWaitlist}>Book a Demo</button>
@@ -98,6 +89,9 @@ function PricingHero({ onOpenWaitlist }) {
         {tiers.map((tier) => (
           <div key={tier.name} className={`pricing-hero__card pricing-hero__card--${tier.variant}`}>
             <div className="pricing-hero__card-top">
+              {tier.badge && (
+                <span className="pricing-hero__badge-pill pricing-hero__card-badge">{tier.badge}</span>
+              )}
               <p className="pricing-hero__tier-name">{tier.name}</p>
               <p className="pricing-hero__tier-desc">{tier.desc}</p>
             </div>

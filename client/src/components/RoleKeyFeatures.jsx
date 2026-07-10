@@ -166,7 +166,7 @@ function RoleKeyFeatures() {
           </div>
           <div className="rkf__card-foot">
             <p className="rkf__benefit">Buy what fits your current focus and work it on your schedule.</p>
-            <p className="rkf__card-title">Marketplace Buying</p>
+            <p className="rkf__card-title">Select Marketplace</p>
             <p className="rkf__card-desc">Leads that agencies didn't work live are listed for purchase. Filter by state, product, and lead age. Downloadable reports let you export your full activity history anytime.</p>
           </div>
         </div>

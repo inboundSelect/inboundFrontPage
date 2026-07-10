@@ -21,14 +21,13 @@ function FeaturesCTA({ onOpenWaitlist }) {
 
         <div className="fcta-panel__text">
           <h2 className="fcta-panel__heading">
-            5 beta spots left.{' '}
-            <span className="fcta-panel__gradient">No platform fee during beta.</span>
+            5 beta spots.{' '}
+            <span className="fcta-panel__gradient">No platform fee.</span>{' '}
+            You set the price and keep the margin.
           </h2>
           <p className="fcta-panel__sub">
-            We're onboarding five agencies before public launch. You get live routing, wallet and
-            subscription billing, marketplace access, and direct support from our team, with platform
-            fees waived. We do a 30-minute demo first to confirm it's the right fit. If it isn't,
-            we'll tell you straight.
+            Platform fees waived during beta. Usage-only billing. 30-minute demo to confirm it fits
+            your operation. If it isn't the right fit, we'll say so.
           </p>
           <div className="fcta-panel__btns">
             <button className="btn btn--stroke" onClick={onOpenWaitlist}>Apply for Beta Access</button>

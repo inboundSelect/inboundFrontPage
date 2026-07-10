@@ -3,9 +3,9 @@ const plans = [
     name: 'Agent',
     price: '',
     period: '',
-    desc: 'For independent agents working their own calls. Set your states, fund your wallet, and start receiving inbound calls and marketplace leads.',
+    desc: 'For independent agents working their own calls. Set your states, fund your wallet, and start receiving inbound calls and Select Marketplace leads.',
     features: [],
-    cta: 'Get Started',
+    cta: 'Apply for Beta',
     ctaType: 'stroke',
     featured: false,
   },
@@ -18,7 +18,7 @@ const plans = [
     cta: 'Apply for Beta',
     ctaType: 'fill',
     featured: true,
-    badge: 'Most Popular',
+    badge: 'Best Fit for Growing Teams',
   },
   {
     name: 'Enterprise',
@@ -32,7 +32,7 @@ const plans = [
   },
 ];
 
-function PricingSection({ onOpenWaitlist }) {
+function PricingSection({ onOpenWaitlist, onNavigate }) {
   return (
     <section className="pricing section" id="pricing">
       <div className="container">
@@ -86,6 +86,17 @@ function PricingSection({ onOpenWaitlist }) {
             </div>
           ))}
         </div>
+
+        {onNavigate && (
+          <p className="pricing__more">
+            <button className="pricing__more-link" onClick={() => onNavigate('pricing')}>
+              Compare plans and full pricing
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 8h10M9 4l4 4-4 4" />
+              </svg>
+            </button>
+          </p>
+        )}
       </div>
     </section>
   );

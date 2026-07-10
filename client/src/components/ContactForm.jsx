@@ -9,10 +9,10 @@ function ContactForm({ onOpenWaitlist }) {
       <div className="cform__left">
         <div className="cform__info">
           <div className="section__label-tag">REACH OUT</div>
-          <h2 className="cform__heading">We'll get back to you fast.</h2>
+          <h2 className="cform__heading">We'll get back to you within one business day.</h2>
           <p className="cform__desc">
-            Got a question about pricing, routing setup, or whether InboundSelect fits your
-            operation? Fill out the form and we'll follow up within one business day.
+            Whether you're an agency owner evaluating the platform, an agent looking for access, or
+            you have questions about how routing works, fill out the form and we'll follow up fast.
           </p>
         </div>
 
@@ -62,11 +62,11 @@ function ContactForm({ onOpenWaitlist }) {
             <label className="cform__label">Enquiry Type</label>
             <select className="cform__select">
               <option value="" disabled selected>Select enquiry type</option>
-              <option>Agency Setup Inquiry</option>
+              <option>Agency Beta Application</option>
               <option>Agent Access Inquiry</option>
-              <option>Beta Application</option>
+              <option>Demo Request</option>
+              <option>Pricing Question</option>
               <option>General Question</option>
-              <option>Technical Support</option>
             </select>
           </div>
         </div>
