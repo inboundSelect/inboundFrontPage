@@ -4,7 +4,7 @@ import ContactMap from './ContactMap';
 import IndustrySolutions from './IndustrySolutions';
 import Footer from './Footer';
 
-function ContactPage({ onOpenWaitlist }) {
+function ContactPage({ onOpenWaitlist, onNavigate }) {
   return (
     <>
       <main>
@@ -13,7 +13,7 @@ function ContactPage({ onOpenWaitlist }) {
         <ContactMap onOpenWaitlist={onOpenWaitlist} />
         <IndustrySolutions onOpenWaitlist={onOpenWaitlist} />
       </main>
-      <Footer onOpenWaitlist={onOpenWaitlist} />
+      <Footer onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
     </>
   );
 }

@@ -4,7 +4,7 @@ import PricingFAQ from './PricingFAQ';
 import IndustrySolutions from './IndustrySolutions';
 import Footer from './Footer';
 
-function PricingPage({ onOpenWaitlist }) {
+function PricingPage({ onOpenWaitlist, onNavigate }) {
   return (
     <>
       <main>
@@ -13,7 +13,7 @@ function PricingPage({ onOpenWaitlist }) {
         <PricingFAQ />
         <IndustrySolutions onOpenWaitlist={onOpenWaitlist} />
       </main>
-      <Footer onOpenWaitlist={onOpenWaitlist} />
+      <Footer onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
     </>
   );
 }

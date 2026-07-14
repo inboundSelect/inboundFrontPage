@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import HomeProblem from './components/HomeProblem';
@@ -17,16 +17,49 @@ import RolePage from './components/RolePage';
 import PricingPage from './components/PricingPage';
 import ContactPage from './components/ContactPage';
 import MarketplacePage from './components/MarketplacePage';
+import LegalPage from './components/LegalPage';
+
+/* The legal pages need real, shareable URLs — Google's OAuth consent screen and
+ * Meta's app review point at them directly. Every other page stays state-driven. */
+const LEGAL_PATHS = {
+  '/privacy': 'privacy',
+  '/privacy-policy': 'privacy',
+  '/terms': 'terms',
+  '/terms-of-service': 'terms',
+  '/data-deletion': 'data-deletion',
+  '/data-deletion-instructions': 'data-deletion',
+};
+
+const CANONICAL_PATH = {
+  privacy: '/privacy-policy',
+  terms: '/terms-of-service',
+  'data-deletion': '/data-deletion',
+};
+
+const pageFromPath = (pathname) =>
+  LEGAL_PATHS[pathname.replace(/\/+$/, '') || '/'] || 'home';
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
-  const [page, setPage] = useState('home');
+  const [page, setPage] = useState(() => pageFromPath(window.location.pathname));
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
+  useEffect(() => {
+    const onPop = () => setPage(pageFromPath(window.location.pathname));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
   const handleNavigate = (dest) => {
     setPage(dest);
+
+    const nextPath = CANONICAL_PATH[dest] || '/';
+    if (nextPath !== window.location.pathname) {
+      window.history.pushState({}, '', nextPath);
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -52,18 +85,20 @@ function App() {
             <EnterpriseSecurity />
             <PricingSection onOpenWaitlist={openModal} onNavigate={handleNavigate} />
           </main>
-          <Footer onOpenWaitlist={openModal} />
+          <Footer onOpenWaitlist={openModal} onNavigate={handleNavigate} />
         </>
       ) : page === 'features' ? (
         <FeaturesPage onOpenWaitlist={openModal} />
       ) : page === 'pricing' ? (
-        <PricingPage onOpenWaitlist={openModal} />
+        <PricingPage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
       ) : page === 'contact' ? (
-        <ContactPage onOpenWaitlist={openModal} />
+        <ContactPage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
       ) : page === 'marketplace' ? (
-        <MarketplacePage onOpenWaitlist={openModal} />
+        <MarketplacePage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
+      ) : page === 'privacy' || page === 'terms' || page === 'data-deletion' ? (
+        <LegalPage doc={page} onOpenWaitlist={openModal} onNavigate={handleNavigate} />
       ) : (
-        <RolePage onOpenWaitlist={openModal} />
+        <RolePage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
       )}
 
       <WaitlistModal isOpen={modalOpen} onClose={closeModal} />

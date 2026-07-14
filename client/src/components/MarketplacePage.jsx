@@ -5,7 +5,7 @@ import MarketplaceFAQ from './MarketplaceFAQ';
 import MarketplaceCTA from './MarketplaceCTA';
 import Footer from './Footer';
 
-function MarketplacePage({ onOpenWaitlist }) {
+function MarketplacePage({ onOpenWaitlist, onNavigate }) {
   return (
     <>
       <main>
@@ -15,7 +15,7 @@ function MarketplacePage({ onOpenWaitlist }) {
         <MarketplaceFAQ />
         <MarketplaceCTA onOpenWaitlist={onOpenWaitlist} />
       </main>
-      <Footer onOpenWaitlist={onOpenWaitlist} />
+      <Footer onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
     </>
   );
 }

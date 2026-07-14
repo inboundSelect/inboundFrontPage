@@ -4042,14 +4042,22 @@ button.navbar__logo {
   gap: 20px;
 }
 
-.home-footer__col a {
+.home-footer__col a,
+.home-footer__col button {
+  font-family: inherit;
   font-size: 16px;
   line-height: 1.4;
   color: var(--text);
   text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
 }
 
-.home-footer__col a:hover {
+.home-footer__col a:hover,
+.home-footer__col button:hover {
   color: var(--brand);
 }
 
@@ -4071,12 +4079,20 @@ button.navbar__logo {
   gap: 40px;
 }
 
-.home-footer__bottom-links a {
+.home-footer__bottom-links a,
+.home-footer__bottom-links button {
+  font-family: inherit;
+  font-size: inherit;
   color: var(--text);
   text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
-.home-footer__bottom-links a:hover { color: var(--brand); }
+.home-footer__bottom-links a:hover,
+.home-footer__bottom-links button:hover { color: var(--brand); }
 
 /* Wordmark */
 .home-footer__wordmark {
@@ -7619,4 +7635,170 @@ body { background: var(--surface); }
   background: none;
   -webkit-text-fill-color: #fff;
   color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LEGAL PAGES — Privacy Policy, Terms of Service, Data Deletion
+   ═══════════════════════════════════════════════════════════════ */
+.legal {
+  padding: clamp(120px, 14vw, 170px) 24px clamp(60px, 8vw, 100px);
+  background: var(--white);
+}
+
+.legal__inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.legal__head {
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal__eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--brand);
+  margin-bottom: 12px;
+}
+
+.legal__title {
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.legal__dates {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.legal__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 28px 0 40px;
+}
+
+.legal__tab {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.legal__tab:hover {
+  color: var(--brand);
+  border-color: var(--brand-200);
+  background: var(--brand-xlight);
+}
+
+.legal__tab.active {
+  color: var(--white);
+  background: var(--brand);
+  border-color: var(--brand);
+}
+
+.legal__body {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.legal__body h2 {
+  font-size: clamp(19px, 2.4vw, 22px);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 40px 0 14px;
+}
+
+.legal__body h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 24px 0 8px;
+}
+
+.legal__body p {
+  margin: 0 0 16px;
+}
+
+.legal__body ul,
+.legal__body ol {
+  margin: 0 0 18px;
+  padding-left: 24px;
+}
+
+.legal__body li {
+  margin-bottom: 10px;
+}
+
+.legal__body strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.legal__body em {
+  color: var(--ink-700);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.legal__body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--ink);
+  word-break: break-word;
+}
+
+.legal__body a,
+.legal__link {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.legal__body a:hover,
+.legal__link:hover {
+  color: var(--brand-darker);
+}
+
+/* All-caps blocks (disclaimers, liability caps) — keep them legible. */
+.legal__caps {
+  font-size: 14px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: var(--ink-700);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+@media (max-width: 640px) {
+  .legal { padding: 110px 20px 60px; }
+  .legal__body { font-size: 15px; }
 }

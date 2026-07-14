@@ -5,7 +5,7 @@ import RoleKeyFeatures from './RoleKeyFeatures';
 import RoleEnterpriseSecurity from './RoleEnterpriseSecurity';
 import Footer from './Footer';
 
-function RolePage({ onOpenWaitlist }) {
+function RolePage({ onOpenWaitlist, onNavigate }) {
   return (
     <>
       <main>
@@ -15,7 +15,7 @@ function RolePage({ onOpenWaitlist }) {
         <RoleKeyFeatures />
         <RoleEnterpriseSecurity onOpenWaitlist={onOpenWaitlist} />
       </main>
-      <Footer onOpenWaitlist={onOpenWaitlist} />
+      <Footer onOpenWaitlist={onOpenWaitlist} onNavigate={onNavigate} />
     </>
   );
 }

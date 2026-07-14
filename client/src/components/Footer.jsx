@@ -7,19 +7,33 @@ const revBars = [40, 62, 48, 78, 58, 88, 72, 100];
 const footerCols = [
   {
     head: 'Platform',
-    links: ['How It Works', 'For Agencies', 'For Agents', 'Marketplace', 'Pricing'],
+    links: [
+      { label: 'How It Works', page: 'home' },
+      { label: 'For Agencies', page: 'features' },
+      { label: 'For Agents', page: 'role' },
+      { label: 'Marketplace', page: 'marketplace' },
+      { label: 'Pricing', page: 'pricing' },
+    ],
   },
   {
     head: 'Company',
-    links: ['About Us', 'Blog', 'Contact Us'],
+    links: [
+      { label: 'About Us' },
+      { label: 'Blog' },
+      { label: 'Contact Us', page: 'contact' },
+    ],
   },
   {
     head: 'Legal',
-    links: ['Terms of Service', 'Privacy Policy'],
+    links: [
+      { label: 'Terms of Service', page: 'terms' },
+      { label: 'Privacy Policy', page: 'privacy' },
+      { label: 'Data Deletion', page: 'data-deletion' },
+    ],
   },
 ];
 
-function Footer({ onOpenWaitlist }) {
+function Footer({ onOpenWaitlist, onNavigate }) {
   return (
     <footer className="home-footer" id="contact">
 
@@ -106,7 +120,15 @@ function Footer({ onOpenWaitlist }) {
               <div key={col.head} className="home-footer__col">
                 <p className="home-footer__col-heading">{col.head}</p>
                 <ul>
-                  {col.links.map(l => <li key={l}><a href="#">{l}</a></li>)}
+                  {col.links.map(l => (
+                    <li key={l.label}>
+                      {l.page && onNavigate ? (
+                        <button onClick={() => onNavigate(l.page)}>{l.label}</button>
+                      ) : (
+                        <a href="#">{l.label}</a>
+                      )}
+                    </li>
+                  ))}
                 </ul>
               </div>
             ))}
@@ -116,8 +138,9 @@ function Footer({ onOpenWaitlist }) {
         <div className="home-footer__bottom">
           <p>© 2026 InboundSelect. All rights reserved.</p>
           <div className="home-footer__bottom-links">
-            <a href="#">Terms of Service</a>
-            <a href="#">Privacy Policy</a>
+            <button onClick={() => onNavigate?.('terms')}>Terms of Service</button>
+            <button onClick={() => onNavigate?.('privacy')}>Privacy Policy</button>
+            <button onClick={() => onNavigate?.('data-deletion')}>Data Deletion</button>
           </div>
         </div>
       </div>
