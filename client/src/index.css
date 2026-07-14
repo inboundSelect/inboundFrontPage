@@ -11,6 +11,7 @@
   --brand-300: #7BB6ED;     /* Blue 300 */
   --brand-200: #A9D0F4;     /* Blue 200 */
   --blue: #2E8FE2;
+  --logo-blue: #1CA7EC;     /* the icon's tallest bar — "nbound" continues it */
   --ink: #0E1116;           /* Ink 900 */
   --ink-700: #2E3540;       /* Ink 700 */
   --black: #0E1116;
@@ -143,18 +144,66 @@ body {
   max-width: 1300px;
 }
 
+/* BRAND LOCKUP — the icon's tallest bar reads as the "I", so the wordmark
+   starts at "nbound" and is pulled left to meet it. Same construction as the
+   dashboard app (see frontend/src/css/layout.css). */
 .navbar__logo {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-end;   /* baseline-align the letters with the chart bars */
+  gap: 0;
   text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  overflow: visible;
 }
 
 .navbar__logo-img {
-  height: 52px;
-  width: auto;
+  width: 44px;
+  height: 44px;
+  max-width: 44px;
   display: block;
-  object-fit: contain;
+  object-fit: contain;     /* show the full icon — no crop */
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.navbar__logo-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  /* THE MERGE — pull "nbound" left so the "n" kisses the tallest bar. */
+  margin-left: var(--logo-merge-pull, -3px);
+  /* BASELINE — drop the wordmark so it sits on the bars' baseline, matching the
+     app's lockup (text bottom lands 0.223 × icon height above the icon's bottom). */
+  transform: translateY(var(--logo-baseline-drop, 3px));
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.navbar__logo-text--inbound {
+  color: var(--logo-blue);
+  font-weight: 600;
+}
+
+.navbar__logo-text--select {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Sized off the icon the same way the app does it (12px slogan : 60px icon). */
+.navbar__logo-slogan {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1;
+  margin-top: 0;
+  white-space: nowrap;
 }
 
 .navbar__logo-mark {
@@ -175,11 +224,10 @@ body {
 }
 
 .navbar__logo-text {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 700;
+  font-family: 'Sora', 'Plus Jakarta Sans', sans-serif;
   font-size: 20px;
-  color: var(--brand);
-  letter-spacing: -0.3px;
+  letter-spacing: -0.2px;
+  line-height: 1.3;
   white-space: nowrap;
 }
 
@@ -1396,7 +1444,7 @@ button.navbar__logo {
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0;              /* the wordmark merges into the icon — see .navbar__logo-lockup */
   text-decoration: none;
 }
 
@@ -3961,24 +4009,60 @@ button.navbar__logo {
 
 .home-footer__logo {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-end;   /* baseline-align the letters with the chart bars */
+  gap: 0;
+  overflow: visible;
 }
 
 .home-footer__logo-img {
-  height: 60px;
-  width: auto;
+  width: 56px;
+  height: 56px;
+  max-width: 56px;
   display: block;
   object-fit: contain;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
-.home-footer__logo span {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 24px;
+.home-footer__logo-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  /* THE MERGE — see .navbar__logo-lockup. */
+  margin-left: var(--logo-merge-pull, -3px);
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+
+.home-footer__logo-text {
+  font-family: 'Sora', 'Plus Jakarta Sans', sans-serif;
+  font-size: 26px;
+  line-height: 1.3;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+.home-footer__logo-text--inbound {
+  color: var(--logo-blue);
+  font-weight: 600;
+}
+
+.home-footer__logo-text--select {
+  color: var(--ink);
   font-weight: 700;
-  color: var(--brand);
-  line-height: 1.2;
-  letter-spacing: 0.12px;
+}
+
+.home-footer__logo-slogan {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1;
+  margin-top: 0;
+  white-space: nowrap;
 }
 
 .home-footer__tagline {

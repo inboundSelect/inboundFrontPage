@@ -104,7 +104,13 @@ function Footer({ onOpenWaitlist, onNavigate }) {
         <div className="home-footer__top">
           <div className="home-footer__brand">
             <div className="home-footer__logo">
-              <span>InboundSelect</span>
+              <img src="/assets/inboundselect-mark.svg" alt="InboundSelect" className="home-footer__logo-img" />
+              <span className="home-footer__logo-lockup">
+                <span className="home-footer__logo-text">
+                  <span className="home-footer__logo-text--inbound">nbound</span><span className="home-footer__logo-text--select">Select</span>
+                </span>
+                <span className="home-footer__logo-slogan">Connect With Qualified Leads</span>
+              </span>
             </div>
             <p className="home-footer__tagline">
               Inbound call routing for insurance agencies and agents who already generate their own demand.

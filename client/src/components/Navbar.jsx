@@ -47,8 +47,14 @@ function Navbar({ onOpenWaitlist, currentPage, onNavigate }) {
   return (
     <header className={`navbar-wrap${scrolled ? ' scrolled' : ''}`}>
       <nav className="navbar">
-        <button className="navbar__logo" onClick={() => onNavigate('home')}>
-          <span className="navbar__logo-text">InboundSelect</span>
+        <button className="navbar__logo" onClick={() => onNavigate('home')} aria-label="InboundSelect — home">
+          <img src="/assets/inboundselect-mark.svg" alt="" className="navbar__logo-img" />
+          <span className="navbar__logo-lockup">
+            <span className="navbar__logo-text">
+              <span className="navbar__logo-text--inbound">nbound</span><span className="navbar__logo-text--select">Select</span>
+            </span>
+            <span className="navbar__logo-slogan">Connect With Qualified Leads</span>
+          </span>
         </button>
 
         <ul className={`navbar__links${menuOpen ? ' open' : ''}`}>
