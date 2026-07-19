@@ -5,5 +5,6 @@ export const LEGAL_ENTITY = 'INBOUND SELECT LLC';
 export const ADDRESS = '1520 Old Mill Rd, East Lansing, MI 48823';
 export const WEBSITE = 'https://inboundselect.com';
 export const CONTACT_EMAIL = 'support@inboundselect.com';
+export const PHONE = '(727) 248-2830';
 export const EFFECTIVE_DATE = 'June 1, 2026';
-export const LAST_UPDATED = 'July 10, 2026';
+export const LAST_UPDATED = 'July 14, 2026';
