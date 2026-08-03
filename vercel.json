@@ -7,7 +7,7 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "/server.js" },
     {
-      "src": "/(privacy|privacy-policy|terms|terms-of-service|data-deletion|data-deletion-instructions)/?",
+      "src": "/(for-agencies|for-agents|marketplace|pricing|trust|security|contact|privacy|privacy-policy|terms|terms-of-service|data-deletion|data-deletion-instructions)/?",
       "dest": "/client/index.html"
     },
     { "src": "/(.*)", "dest": "/client/$1" }

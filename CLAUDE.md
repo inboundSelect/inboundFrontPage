@@ -1,143 +1,141 @@
-# Inbound Select — Design System Rules
+# InboundSelect marketing site — conventions
 
-## Project Overview
-
-This is a React + Vite landing page project (JSX, not TSX). It follows the same architecture as the `../inbound` project:
-- **Frontend:** React 19 with Vite, `.jsx` files
-- **Backend:** Node.js + Express with a `/api/waitlist` endpoint
-- **Styling:** Global CSS with CSS Custom Properties (no Tailwind, no CSS Modules, no styled-components)
+Public marketing site for **InboundSelect**, the platform insurance agencies run their
+inbound calls on. React 19 + Vite (JSX, no TypeScript), Express for the lead endpoint.
 
 ---
 
-## Component Organization
+## Voice — this matters more than the code
 
-- Place all UI components in `client/src/components/`
-- Use **PascalCase** for filenames matching the component name (e.g., `HeroSection.jsx`)
-- Export components as **default exports**
-- `App.jsx` owns modal/global state and passes callbacks down as props
-- Component structure:
-  ```jsx
-  function ComponentName({ prop1, prop2 }) {
-    return <section className="section-name">...</section>;
-  }
-  export default ComponentName;
-  ```
+The audience is agency owners and licensed insurance agents. They are not technical.
+**Write the way you would explain it to them out loud.**
 
-## Import Conventions
+Banned from anything a visitor reads:
 
-- No path aliases — use relative imports (`./components/Hero`, `../styles/tokens.css`)
-- Group imports: React hooks first, then internal components
+| Don't write | Write instead |
+|---|---|
+| routing, route a call, SelectRoute™ | the call reaches / goes to the right agent |
+| infrastructure, the pipes, platform layer | the system your agency runs on |
+| wallet | account balance |
+| queue, in the queue | in line, next in line, your call flow |
+| IMO | agency |
+| CRM, metadata, eligibility criteria | (say the actual thing in plain words) |
+| tenant, subprocessor, telephony | agency, the companies we use, phone service |
+| seat | agent |
 
----
+There is a check for this — run it before you ship copy:
 
-## Styling Rules
-
-- **IMPORTANT: Use global CSS classes defined in `client/src/index.css` — never use inline styles or Tailwind**
-- **IMPORTANT: Never hardcode color hex values — always reference CSS custom properties**
-- Add CSS for new components directly in `client/src/index.css`
-- Use `clamp()` for responsive fluid sizing (e.g., `clamp(12px, 2.5vw, 16px)`)
-- Use `.container` class for max-width centering (max-width: 960px, centered with auto margins)
-- Responsive breakpoints: 900px, 768px, 640px, 480px
-
-### Design Tokens (CSS Custom Properties)
-
-Define all tokens in `:root` in `client/src/index.css`. The Figma design uses:
-
-```css
-:root {
-  /* Colors */
-  --brand: #837CFE;
-  --blue: #1267f8;
-  --black: #000000;
-  --white: #ffffff;
-  --text: #575757;
-  --text-secondary: #7D7D7D;
-  --text-light: #ffffff;
-  --gray-stroke: #D9D9D9;
-  --gray-bg: #F5F5F5;
-  --warning: #FF9900;
-  --success: #00BF36;
-  --accent: #F1A4C2;
-  --yellow: #ffcd51;
-  --pink: #BE3A3A;
-  --red: #c31e26;
-}
+```bash
+grep -rniE "routing|routed|infrastructure|wallet|queue|\bIMO\b|\bCRM\b|metadata|eligibility|SelectRoute|telephony|\bseat|tenant" client/src --include="*.jsx" | grep -v "/legal/"
 ```
 
-### Typography Scale
-
-Fonts: **Inter**, **Inter Tight**, **Bricolage Grotesque** (load via Google Fonts in `index.html`)
-
-| Token name | Family | Size | Weight | Line-height | Letter-spacing |
-|---|---|---|---|---|---|
-| H3 | Inter | 40px | 400 | 1.3 | 0.5px |
-| H6 | Inter | 20px | 400 | 1.4 | 0.5px |
-| Body Large | Inter | 16px | 400 | 1.4 | 0 |
-| Body Medium Regular | Inter | 14px | 400 | 1.4 | 2px |
-| Body Medium Bold | Inter Tight | 14px | 700 | 1.4 | 0 |
-| Body Small | Inter | 12px | 400 | 1.4 | 0 |
-| Caption Small SemiBold | Bricolage Grotesque | 10px | 600 | 1.0 | 0 |
-| Caption Small Regular | Bricolage Grotesque | 10px | 400 | 1.0 | 0 |
+Only `ROUTES` / `ROUTE_ALIASES` (URL identifiers in code) and the legal documents may match.
 
 ---
 
-## Animation Utilities
+## Two hard content rules
 
-Reuse these animation classes (already in `index.css` if copied from the base project):
+1. **No invented figures.** Never put a revenue number, call count, percentage lift or
+   customer statistic on the site — we have not earned any of them. Illustrations may
+   show the *shape* of a screen (a bar with no value, a listing with no price) and must
+   say so in a caption. Real, published rates (the plan prices, the 25% marketplace
+   share, the 15-second rule) are fine because they are things we actually charge.
 
-```css
-.animate-down   /* fadeDown entrance — for above-the-fold content */
-.animate-up     /* fadeUp entrance — for scroll-in content */
-.delay-1 to .delay-13  /* 0.1s–1.3s animation delays */
+2. **No unearned trust badges.** We are not SOC 2 / ISO 27001 / HIPAA / PCI certified.
+   `/trust` says so in as many words. Never add a certification logo, and never soften
+   that paragraph.
+
+---
+
+## Prices live in exactly one file
+
+`client/src/lib/site.js` holds every amount, and it takes them from **`BILLING_QA.md`**
+at the repo root — the billing system's own reference. **No component may contain a
+dollar amount.** If a price changes, change `BILLING_QA.md` and `site.js`, nothing else.
+
+The site once advertised a price list the product had stopped charging ($499/mo, $30 a
+seat, $1 per connection). That is what this rule exists to prevent.
+
+---
+
+## Structure
+
+```
+client/src/
+├── App.jsx              # history-API router; page → real URL, no router library
+├── main.jsx             # scroll-reveal + broken-image guard
+├── index.css            # the entire design system — one file, tokens at the top
+├── lib/
+│   ├── site.js          # company details, nav, ROUTES, and all prices
+│   ├── icons.jsx        # inline SVG icon set — no icon package
+│   └── leads.js         # the only place that knows the form endpoint
+├── components/          # shared pieces (header, footer, modal, lede, faq, cta)
+│   └── legal/           # compliance-reviewed documents — see below
+└── pages/               # one file per page
 ```
 
----
+## Styling
 
-## Asset Handling
+- **Global CSS classes only**, all in `client/src/index.css`. No Tailwind, no CSS
+  modules, no styled-components.
+- **Never hardcode a colour, size or spacing value.** Everything is a token in `:root`.
+  Colour steps have jobs: `--blue-500` is graphics only (it fails contrast for text),
+  `--blue-600` is actions, `--blue-700` is links and emphasis text.
+- Green (`--positive`) means success or included. It is never decorative.
+- Inline `style` is acceptable only for a one-off geometric value (a bar width, an
+  illustration offset). Anything reusable becomes a class.
+- Sizing uses `clamp()`. Breakpoints: 1040, 1000, 940, 900, 620, 600, 560.
 
-- Store static assets (images, videos) in `client/public/` or `client/src/assets/`
-- Reference public assets with root-relative paths (e.g., `/hero-video.mp4`)
-- **IMPORTANT: If the Figma MCP server returns a localhost source for an image or SVG, use that source directly**
-- **IMPORTANT: Do NOT install new icon packages** — use SVG icons inline or from Figma MCP assets
-- **IMPORTANT: Do NOT use placeholder images** if a Figma asset source is provided
+## Motion
 
----
-
-## Figma MCP Integration Rules
-
-These rules must be followed for every Figma-driven implementation task.
-
-### Required Flow (do not skip)
-
-1. Run `get_design_context` first to fetch the structured representation for the exact node(s)
-2. If the response is too large, run `get_metadata` to get the node map, then re-fetch only required nodes
-3. Run `get_screenshot` for a visual reference of the variant being implemented
-4. After you have both `get_design_context` and `get_screenshot`, download any assets and start implementation
-5. Translate the MCP output (React + Tailwind) into **this project's conventions** (global CSS classes, CSS custom properties, `.jsx` files)
-6. Validate final UI against the Figma screenshot for 1:1 visual parity before marking complete
-
-### Translation Rules
-
-- Replace Tailwind utility classes with **global CSS classes** using CSS custom properties
-- Map Figma color variables to `var(--token-name)` from the token table above
-- Map Figma typography to the typography scale classes/tokens above
-- Reuse existing components from `client/src/components/` instead of duplicating
-- Never hardcode hex values, pixel sizes for typography, or font names as strings in JSX
-
-### Component Validation Checklist
-
-Before marking a Figma component implementation complete:
-- [ ] Colors use CSS custom properties, no hardcoded hex
-- [ ] Typography matches the Figma scale (size, weight, family, line-height)
-- [ ] Spacing uses `clamp()` or consistent multiples of 4px/8px
-- [ ] Component is visually compared against the Figma screenshot
-- [ ] Responsive behavior is tested at 900px and 480px breakpoints
-- [ ] Component added to `App.jsx` if it's a page section
+Add `reveal` (plus `d1`–`d4` to stagger) to fade a block in on scroll. The hidden state
+is scoped under `.js-reveal`, so content stays visible with JavaScript off, and
+`prefers-reduced-motion` disables it. Don't add animation libraries.
 
 ---
 
-## Backend API
+## Things that will break if you touch them
 
-- Waitlist form submissions POST to `/api/waitlist` (Express handler in `server.js`)
-- The server sends email notifications via nodemailer (configured via `.env`)
-- Do not add new API routes without updating `server.js`
+- **Legal documents** (`components/legal/`) are compliance-reviewed. Restyle the wrapper,
+  never edit the words. `legalMeta.js` holds the entity name, address and dates.
+- **Legal URLs** — `/privacy-policy`, `/terms-of-service`, `/data-deletion` are linked
+  directly from Google's OAuth consent screen and Meta's app review. They must resolve on
+  a cold request, which is why they are listed in `vercel.json`. **Add any new page to
+  that route list too**, or it 404s on refresh.
+- **The `#root` fallback in `index.html`** is what a reviewer or crawler sees with
+  scripts blocked. Keep it meaningful.
+- **`.site-header::before` is the veil** that blurs the page showing through the strip
+  above and beside the floating bar. It works because `.site-header` has no background
+  of its own and its `z-index` makes a stacking context, so the veil (`z-index: -1`) can
+  sit behind the bar but above the page. Give the header a background and you cover it.
+  Its `mask-image` stops are **percentages on purpose** — the header is shorter when
+  scrolled and shorter again on a phone, and the fade has to finish at the bar's bottom
+  edge at every height, or content below goes washed out.
+- **The brand lockup is one image, never assembled in CSS.** In the official artwork the
+  mark's tallest bar *is* the "I" of "Inbound" — the wordmark and the mark are a single
+  drawing, so pairing an icon with HTML text can only ever approximate it (it didn't).
+  `public/assets/inboundselect-lockup.svg` is `Inbound_Logo.svg` with a tight `viewBox`;
+  the paths are untouched. Size it by **height only** (`.brand__logo`) and let the aspect
+  ratio come from the file. The icon-only `inboundselect-mark.png` is for the favicon and
+  touch icon.
+
+## Backend
+
+The only endpoint is `POST /api/waitlist` (`server.js`, nodemailer over SMTP). Every form
+goes through `lib/leads.js`. Don't add routes without updating `server.js`.
+
+## Linking to the product
+
+This site is marketing only — signing up and signing in happen in the **dashboard app**
+(`frontend/` in the parent repo), deployed separately at `app.inboundselect.com`. Those
+links live in `APP_LINKS` in `lib/site.js`; override the origin with `VITE_APP_URL`.
+
+`/register` opens on a plan picker that decides for itself whether someone is registering
+as an agent or an agency, so **do not append a role or plan parameter** — it reads none.
+The only query it honours is `?ref=` for agency invite links, which this site never issues.
+Someone who already has an account gets to the login screen from the link on that page, so
+one Sign Up link serves both audiences.
+
+The header's Sign Up appears twice — a button on wide screens (`.site-header__signup`) and
+an item inside the collapsed menu (`.site-nav__signup`) — with exactly one shown at a time.
+If you add a header action, check both, or it goes missing on mobile.

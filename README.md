@@ -1,244 +1,109 @@
-# Inbound Select — ERP SaaS Marketing Website
+# InboundSelect — marketing site
 
-A multi-page marketing site for **Erphoria**, a cloud-native ERP platform. Built with React 19 + Vite on the frontend and Node.js + Express on the backend.
+The public website for **InboundSelect**, the platform US insurance agencies run their
+inbound calls on. React 19 + Vite, with a small Express server for the contact endpoint.
+
+For coding and copy conventions — including the plain-language rules and the
+"prices live in one file" rule — read **[CLAUDE.md](CLAUDE.md)** first.
 
 ---
 
-## Tech Stack
+## Running it
 
-| Layer | Technology |
+```bash
+npm install                 # server dependencies
+cd client && npm install    # site dependencies
+
+# development — Vite on :5173, proxying /api to :3000
+cd client && npm run dev
+npm run dev                 # (separate terminal) Express on :3000, for the form
+
+# production
+cd client && npm run build  # → client/dist
+npm start                   # Express serves client/dist and /api/waitlist
+```
+
+Copy `.env.example` to `.env` and fill in the SMTP details to make the forms deliver.
+Without them the site still runs; submissions just fail with a message.
+
+---
+
+## Tech
+
+| Layer | What |
 |---|---|
-| Frontend framework | React 19 + Vite 7 |
-| Language | JavaScript (JSX — no TypeScript) |
-| Styling | Global CSS with CSS custom properties (`client/src/index.css`) |
-| Backend | Node.js + Express 4 |
-| Email | Nodemailer (SMTP) |
-| Deploy | Vercel (`vercel.json` pre-configured) |
-| Design source | Figma (`AbhmgyKUX5aWM0gd7QGYdT`) |
+| Framework | React 19 + Vite 7, JSX (no TypeScript) |
+| Styling | One global stylesheet, `client/src/index.css`, tokens in `:root` |
+| Icons | Inline SVG in `client/src/lib/icons.jsx` — no icon package |
+| Routing | History API in `App.jsx` — no router library |
+| Fonts | Sora (headings) + Plus Jakarta Sans (body), via Google Fonts |
+| Backend | Express 4 + Nodemailer, single `POST /api/waitlist` |
+| Deploy | Vercel (`vercel.json`) |
 
-No Tailwind. No CSS Modules. No styled-components. No TypeScript.
+### Environment
 
----
+Only one variable, and it is optional — see `client/.env.example`:
 
-## Project Structure
+| Variable | Default | What it does |
+|---|---|---|
+| `VITE_APP_URL` | `https://app.inboundselect.com` | Where the **Sign Up** link in the header points. Set it to aim the site at a local or staging dashboard. |
 
-```
-inbound-select/
-├── server.js              # Express server — serves built client + /api/waitlist
-├── package.json           # Server dependencies (express, nodemailer, cors, dotenv)
-├── vercel.json            # Vercel deployment config
-├── .env.example           # Environment variable template
-├── PRD.md                 # Product requirements document
-├── CLAUDE.md              # AI coding conventions for this repo
-│
-└── client/                # Vite React app
-    ├── index.html
-    ├── package.json       # React 19, Vite 7, ESLint
-    ├── vite.config.js
-    ├── public/
-    │   └── assets/        # Static SVG/PNG assets (served directly)
-    └── src/
-        ├── main.jsx
-        ├── App.jsx         # Page routing (state-based), modal state
-        ├── index.css       # All styles — design tokens, component CSS
-        └── components/
-            ├── Navbar.jsx
-            ├── Hero.jsx
-            ├── ProductOverview.jsx
-            ├── KeyFeaturesBenefits.jsx
-            ├── HomeLiveDemo.jsx
-            ├── WhyErphoria.jsx
-            ├── IndustrySolutions.jsx
-            ├── EnterpriseSecurity.jsx
-            ├── PricingSection.jsx
-            ├── Footer.jsx
-            ├── WaitlistModal.jsx
-            │
-            ├── FeaturesPage.jsx
-            ├── FeaturesHero.jsx
-            ├── FeaturesProductOverview.jsx
-            ├── FeaturesCTA.jsx
-            │
-            ├── RolePage.jsx
-            ├── RoleHero.jsx
-            ├── RoleWhatWeDo.jsx
-            ├── RoleKeyFeatures.jsx
-            ├── RoleWhyErphoria.jsx
-            ├── RoleIndustrySolutions.jsx
-            ├── RoleEnterpriseSecurity.jsx
-            ├── RoleTeam.jsx
-            │
-            ├── PricingPage.jsx
-            ├── PricingHero.jsx
-            ├── PricingProductOverview.jsx
-            ├── PricingFAQ.jsx
-            │
-            ├── ContactPage.jsx
-            ├── ContactHero.jsx
-            ├── ContactForm.jsx
-            └── ContactMap.jsx
-```
+No Tailwind, no CSS modules, no styled-components, no animation library.
 
 ---
 
 ## Pages
 
-| Page | Nav label | Key sections |
+Every page has a real URL, so any of them can be linked or shared.
+
+| URL | Page | What it is for |
 |---|---|---|
-| Home | Home | Hero, Product Overview, Key Features, Live Demo, Why Erphoria, Industry Solutions, Security, Pricing, Footer CTA |
-| Platform Features | Features | Hero, Key Features & Benefits, Product Overview, Security, Why Erphoria, CTA |
-| Select Your Role | Select Your Role | Hero, What We Do, Key Features, Why Erphoria, Industry Solutions, Security, Team, CTA |
-| Pricing | Pricing | Hero, Pricing Cards, Product Overview, Industry Solutions, FAQ, CTA |
-| Contact | Contact us | Hero, Contact Form, Map, CTA |
+| `/` | Home | The problem, how it works, the two ways an agency earns, who it is for |
+| `/for-agencies` | For Agencies | What an owner controls, setup, advertising results, reporting |
+| `/for-agents` | For Agents | What a day looks like, what they get, how to start |
+| `/marketplace` | Lead Marketplace | How listing and buying works, plus a locked preview |
+| `/pricing` | Pricing | The three plans, add-ons, and where the money goes |
+| `/trust` | Trust & Safety | How data is protected — and what we are *not* certified for |
+| `/contact` | Contact | A form that actually submits |
+| `/privacy-policy` `/terms-of-service` `/data-deletion` | Legal | Compliance documents |
 
-Routing is **state-based** (no React Router). `App.jsx` holds a `page` state string (`'home'`, `'features'`, `'role'`, `'pricing'`, `'contact'`). Nav buttons call `setPage()`.
+`/security`, `/privacy`, `/terms` and `/data-deletion-instructions` are kept as aliases
+because they have been linked externally.
+
+> **Adding a page?** Add it to `ROUTES` in `client/src/lib/site.js` **and** to the route
+> list in `vercel.json`, otherwise it 404s when someone refreshes on it.
 
 ---
 
-## Design Tokens
+## Structure
 
-All colors are CSS custom properties in `:root` in `client/src/index.css`. Never use hardcoded hex values in components.
-
-```css
-:root {
-  --brand:          #837CFE;   /* primary purple */
-  --blue:           #1267f8;
-  --black:          #000000;
-  --white:          #ffffff;
-  --text:           #575757;
-  --text-secondary: #7D7D7D;
-  --text-light:     #ffffff;
-  --gray-stroke:    #D9D9D9;
-  --gray-bg:        #F5F5F5;
-  --warning:        #FF9900;
-  --success:        #00BF36;
-  --accent:         #F1A4C2;   /* pink */
-  --yellow:         #ffcd51;
-  --pink:           #BE3A3A;
-  --red:            #c31e26;
-}
+```
+inboundselectfront/
+├── server.js              # Express — serves client/dist and /api/waitlist
+├── vercel.json            # deploy config; the page URL list lives here
+├── CLAUDE.md              # conventions — read this before editing
+└── client/
+    ├── index.html         # meta tags + the no-JavaScript fallback
+    ├── public/assets/     # the brand mark
+    └── src/
+        ├── App.jsx        # router + page shell
+        ├── main.jsx       # scroll reveal, broken-image guard
+        ├── index.css      # the whole design system
+        ├── lib/           # site.js (prices, nav), icons.jsx, leads.js
+        ├── components/    # header, footer, modal, lede, faq, cta, callstage
+        │   └── legal/     # compliance-reviewed — restyle, never reword
+        └── pages/         # one file per page
 ```
 
 ---
 
-## Typography
+## Two things not to break
 
-Fonts loaded via Google Fonts in `client/index.html`.
+**Prices.** Every amount comes from `client/src/lib/site.js`, which mirrors
+`BILLING_QA.md` at the repo root. No component may contain a dollar figure. The site
+previously advertised prices the product had stopped charging; this is the fix.
 
-| Use | Family | Size | Weight |
-|---|---|---|---|
-| Large headings | Inter Tight | 40px | 400 |
-| Section headings | Inter Tight | 20px+ | 500–700 |
-| Body | Inter | 16px | 400 |
-| Body medium | Inter | 14px | 400 |
-| Captions / labels | Bricolage Grotesque | 10px | 400–600 |
-
----
-
-## Responsive Breakpoints
-
-Defined in `index.css` media queries:
-
-| Breakpoint | Usage |
-|---|---|
-| 900px | Two-column → single column layouts |
-| 768px | Tablet — navbar collapses, cards stack |
-| 640px | Small tablet |
-| 480px | Mobile — font sizes reduce via `clamp()` |
-
-Fluid sizing uses `clamp()` throughout (e.g. `clamp(12px, 2.5vw, 16px)`).
-
----
-
-## Animation Utilities
-
-Reusable scroll-entrance classes in `index.css`:
-
-```css
-.animate-down          /* fade + slide down — above-the-fold content */
-.animate-up            /* fade + slide up — scroll-triggered sections */
-.delay-1 … .delay-13   /* 0.1s–1.3s delays */
-```
-
----
-
-## Backend — `/api/waitlist`
-
-`POST /api/waitlist` accepts JSON: `{ name, email, company, message }`
-
-- Sends a notification email to `YOUR_EMAIL` (owner)
-- Sends a confirmation email to the submitter
-- Returns `{ success: true }` on success, `{ success: false, message }` on error
-
-Used by both the **WaitlistModal** and the **ContactForm** components.
-
----
-
-## Environment Variables
-
-Copy `.env.example` to `.env` and fill in:
-
-```env
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your@gmail.com
-SMTP_PASS=your_app_password   # Gmail: use an App Password
-SMTP_FROM=your@gmail.com
-YOUR_EMAIL=you@yourdomain.com
-PORT=3000
-```
-
----
-
-## Local Development
-
-```bash
-# Install server deps
-npm install
-
-# Install client deps
-cd client && npm install && cd ..
-
-# Run backend (port 3000)
-npm run dev
-
-# Run frontend dev server (port 5173)
-npm run dev:client
-```
-
-The Vite dev server proxies are not configured — run both servers simultaneously for full-stack dev. The Express server serves the built client in production.
-
----
-
-## Build & Deploy
-
-```bash
-# Build client
-npm run build:client
-
-# Start production server (serves built client + API)
-npm start
-```
-
-Deployed on **Vercel**. `vercel.json` routes:
-- `/api/*` → `server.js` (Node serverless function)
-- `/*` → `client/dist` (static build)
-
----
-
-## Assets
-
-All static assets (SVGs, PNGs exported from Figma) live in `client/public/assets/` and are referenced as root-relative paths (e.g. `/assets/abc123.svg`). Asset filenames are content-hashed (Figma export format). Do not rename them.
-
----
-
-## Coding Conventions
-
-See `CLAUDE.md` for the full coding guide. Key rules:
-
-- Components in `client/src/components/`, PascalCase filenames, default exports
-- All CSS in `client/src/index.css` — no inline styles, no Tailwind
-- Always use `var(--token)` for colors — never hardcode hex
-- No path aliases — use relative imports
-- `App.jsx` owns all modal/page state and passes callbacks as props
+**Legal URLs.** Google's OAuth consent screen and Meta's app review link straight at the
+legal pages, so those paths must resolve on a cold request — that is what the route list
+in `vercel.json` is for. The `#root` fallback in `index.html` is what those reviewers see
+if scripts are blocked; keep it meaningful.

@@ -30,6 +30,23 @@ const transporter = nodemailer.createTransport({
 
 const YOUR_EMAIL = process.env.YOUR_EMAIL;
 
+// Brand mark for the mail headers: the icon on its own, attached inline (cid:) rather than
+// hot-linked, so it renders even when a client blocks remote images.
+const LOGO_CID = 'inboundselect-mark';
+const LOGO_FILE = ['client/public/assets', 'client/dist/assets']
+  .map((dir) => path.join(__dirname, dir, 'inboundselect-mark.png'))
+  .find((file) => require('fs').existsSync(file));
+
+const logoHeader = () =>
+  LOGO_FILE
+    ? `<img src="cid:${LOGO_CID}" width="44" height="44" alt="Inbound Select" style="display:block;width:44px;height:44px;border:0;margin:0 0 16px;" />`
+    : '';
+
+const logoAttachments = () =>
+  LOGO_FILE
+    ? [{ filename: 'inboundselect-mark.png', path: LOGO_FILE, cid: LOGO_CID, contentDisposition: 'inline' }]
+    : [];
+
 app.post('/api/waitlist', async (req, res) => {
   try {
     const { name, email, company, message } = req.body;
@@ -43,6 +60,7 @@ app.post('/api/waitlist', async (req, res) => {
       to: YOUR_EMAIL,
       subject: `[Inbound Select] New Lead: ${name || email}`,
       html: `
+        ${logoHeader()}
         <h2>New Inbound Select Lead</h2>
         <p><strong>Name:</strong> ${name || 'Not provided'}</p>
         <p><strong>Email:</strong> ${email}</p>
@@ -51,6 +69,7 @@ app.post('/api/waitlist', async (req, res) => {
         <hr>
         <p><em>Submitted from Inbound Select</em></p>
       `,
+      attachments: logoAttachments(),
     };
 
     const confirmMail = {
@@ -58,10 +77,12 @@ app.post('/api/waitlist', async (req, res) => {
       to: email,
       subject: "Thanks for your interest in Inbound Select",
       html: `
+        ${logoHeader()}
         <p>Hi ${name || 'there'},</p>
         <p>Thanks for reaching out. We've received your details and will be in touch shortly.</p>
         <p>Best,<br>The Inbound Select Team</p>
       `,
+      attachments: logoAttachments(),
     };
 
     await transporter.sendMail(ownerMail);

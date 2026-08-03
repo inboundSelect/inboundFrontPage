@@ -1,50 +1,67 @@
-import { useState, useEffect } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import HomeProblem from './components/HomeProblem';
-import HomeDifferentiation from './components/HomeDifferentiation';
-import ProductOverview from './components/ProductOverview';
-import HomeJourney from './components/HomeJourney';
-import HomeRevenue from './components/HomeRevenue';
-import IndustrySolutions from './components/IndustrySolutions';
-import EnterpriseSecurity from './components/EnterpriseSecurity';
-import MarketingHub from './components/MarketingHub';
-import PricingSection from './components/PricingSection';
-import WaitlistModal from './components/WaitlistModal';
-import Footer from './components/Footer';
-import FeaturesPage from './components/FeaturesPage';
-import RolePage from './components/RolePage';
-import PricingPage from './components/PricingPage';
-import ContactPage from './components/ContactPage';
-import MarketplacePage from './components/MarketplacePage';
-import LegalPage from './components/LegalPage';
+import { useState, useEffect, useCallback } from 'react';
+import { ROUTES, ROUTE_ALIASES } from './lib/site';
 
-/* The legal pages need real, shareable URLs — Google's OAuth consent screen and
- * Meta's app review point at them directly. Every other page stays state-driven. */
-const LEGAL_PATHS = {
-  '/privacy': 'privacy',
-  '/privacy-policy': 'privacy',
-  '/terms': 'terms',
-  '/terms-of-service': 'terms',
-  '/data-deletion': 'data-deletion',
-  '/data-deletion-instructions': 'data-deletion',
+import SiteHeader from './components/SiteHeader';
+import SiteFooter from './components/SiteFooter';
+import DemoModal from './components/DemoModal';
+
+import HomePage from './pages/HomePage';
+import AgenciesPage from './pages/AgenciesPage';
+import AgentsPage from './pages/AgentsPage';
+import MarketplacePage from './pages/MarketplacePage';
+import PricingPage from './pages/PricingPage';
+import TrustPage from './pages/TrustPage';
+import ContactPage from './pages/ContactPage';
+import LegalPage from './pages/LegalPage';
+
+/* Every page has a real, shareable URL — the legal documents because Google's
+ * consent screen and Meta's app review link straight to them, the rest because
+ * a marketing page nobody can link to is not much of a marketing page. */
+
+const PATH_TO_PAGE = {
+  ...Object.fromEntries(Object.entries(ROUTES).map(([page, path]) => [path, page])),
+  ...ROUTE_ALIASES,
 };
 
-const CANONICAL_PATH = {
-  privacy: '/privacy-policy',
-  terms: '/terms-of-service',
-  'data-deletion': '/data-deletion',
+const normalise = (pathname) => pathname.replace(/\/+$/, '') || '/';
+
+const pageFromPath = (pathname) => PATH_TO_PAGE[normalise(pathname)] || 'home';
+
+const PAGES = {
+  home: HomePage,
+  agencies: AgenciesPage,
+  agents: AgentsPage,
+  marketplace: MarketplacePage,
+  pricing: PricingPage,
+  trust: TrustPage,
+  contact: ContactPage,
 };
 
-const pageFromPath = (pathname) =>
-  LEGAL_PATHS[pathname.replace(/\/+$/, '') || '/'] || 'home';
+const LEGAL_PAGES = ['privacy', 'terms', 'data-deletion'];
+
+const TITLES = {
+  home: 'InboundSelect — Every call your agency pays for, answered by the right agent',
+  agencies: 'For Agencies — InboundSelect',
+  agents: 'For Agents — InboundSelect',
+  marketplace: 'Lead Marketplace — InboundSelect',
+  pricing: 'Pricing — InboundSelect',
+  trust: 'Trust & Safety — InboundSelect',
+  contact: 'Contact Us — InboundSelect',
+  privacy: 'Privacy Policy — InboundSelect',
+  terms: 'Terms of Service — InboundSelect',
+  'data-deletion': 'Data Deletion Instructions — InboundSelect',
+};
 
 function App() {
-  const [modalOpen, setModalOpen] = useState(false);
   const [page, setPage] = useState(() => pageFromPath(window.location.pathname));
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalIntent, setModalIntent] = useState('demo');
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const openModal = useCallback((intent = 'demo') => {
+    setModalIntent(typeof intent === 'string' ? intent : 'demo');
+    setModalOpen(true);
+  }, []);
+  const closeModal = useCallback(() => setModalOpen(false), []);
 
   useEffect(() => {
     const onPop = () => setPage(pageFromPath(window.location.pathname));
@@ -52,56 +69,39 @@ function App() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  const handleNavigate = (dest) => {
-    setPage(dest);
+  useEffect(() => {
+    document.title = TITLES[page] || TITLES.home;
+  }, [page]);
 
-    const nextPath = CANONICAL_PATH[dest] || '/';
-    if (nextPath !== window.location.pathname) {
-      window.history.pushState({}, '', nextPath);
+  const navigate = useCallback((dest) => {
+    const path = ROUTES[dest] || ROUTES.home;
+    if (normalise(window.location.pathname) !== normalise(path)) {
+      window.history.pushState({}, '', path);
     }
+    setPage(dest);
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const isLegal = LEGAL_PAGES.includes(page);
+  const PageBody = PAGES[page] || HomePage;
 
   return (
     <>
-      <Navbar
-        onOpenWaitlist={openModal}
-        currentPage={page}
-        onNavigate={handleNavigate}
-      />
+      <a className="skip-link" href="#main">Skip to content</a>
 
-      {page === 'home' ? (
-        <>
-          <main>
-            <Hero onOpenWaitlist={openModal} />
-            <HomeProblem />
-            <ProductOverview />
-            <HomeJourney onOpenWaitlist={openModal} />
-            <HomeRevenue />
-            <MarketingHub onOpenWaitlist={openModal} />
-            <HomeDifferentiation />
-            <IndustrySolutions onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-            <EnterpriseSecurity />
-            <PricingSection onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-          </main>
-          <Footer onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-        </>
-      ) : page === 'features' ? (
-        <FeaturesPage onOpenWaitlist={openModal} />
-      ) : page === 'pricing' ? (
-        <PricingPage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-      ) : page === 'contact' ? (
-        <ContactPage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-      ) : page === 'marketplace' ? (
-        <MarketplacePage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-      ) : page === 'privacy' || page === 'terms' || page === 'data-deletion' ? (
-        <LegalPage doc={page} onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-      ) : (
-        <RolePage onOpenWaitlist={openModal} onNavigate={handleNavigate} />
-      )}
+      <SiteHeader currentPage={page} onNavigate={navigate} onOpenModal={openModal} />
 
-      <WaitlistModal isOpen={modalOpen} onClose={closeModal} />
+      <main id="main">
+        {isLegal ? (
+          <LegalPage doc={page} onNavigate={navigate} />
+        ) : (
+          <PageBody onNavigate={navigate} onOpenModal={openModal} />
+        )}
+      </main>
+
+      <SiteFooter onNavigate={navigate} onOpenModal={openModal} />
+
+      <DemoModal isOpen={modalOpen} intent={modalIntent} onClose={closeModal} />
     </>
   );
 }
