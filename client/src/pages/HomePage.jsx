@@ -4,25 +4,75 @@ import CtaBand from '../components/CtaBand';
 import CallStage from '../components/CallStage';
 import { MARKETPLACE_SPLIT } from '../lib/site';
 import {
-  IconArrowRight, IconCheck, IconPhone, IconClock, IconUser, IconUserCheck,
-  IconTag, IconChart, IconUsers, IconBuilding, IconShield, IconLock, IconEye,
+  IconArrowRight, IconCheck, IconPhone, IconPhoneIn, IconUser, IconTag,
+  IconUsers, IconPlus, IconInfo, IconBuilding, IconShield, IconLock, IconEye,
   IconList, IconMegaphone, IconHeadset, IconLayers,
 } from '../lib/icons';
 
-/* ── The two paths a call can take ──────────────────────────────────────── */
+/* ── What a bought lead costs, against a call that comes in ─────────────────
+ * Not one amount anywhere, on purpose. Every stage is a thing that happens and
+ * a thing that gets paid for, and the argument is the count of them — what any
+ * one costs is the reader's own number, not ours to invent. */
 
-const USUAL = [
-  { Icon: IconPhone, label: 'The call comes in', sub: 'Someone you paid to reach' },
-  { Icon: IconClock, label: 'It rings out', sub: 'Voicemail, or one busy agent' },
-  { Icon: IconUser, label: 'You call back later', sub: 'They have already spoken to someone else' },
-  { Icon: IconTag, label: 'The money is spent', sub: 'You paid for that caller either way' },
+const BOUGHT_LEAD = [
+  { label: 'You buy the lead', note: 'A name and a number, and nothing said yet' },
+  { label: 'It goes into your software', note: 'Something has to hold it, and that is a monthly bill' },
+  { label: 'Texts and emails go out', note: 'Charged by the message' },
+  { label: 'Somebody starts dialling', note: 'Another tool to pay for before a word is said' },
+  { label: 'You try again. And again.', note: "Paid for in your agents' hours" },
+  { label: 'You get hold of them', note: 'If they pick up at all' },
+  { label: 'A conversation', note: 'The only step that was ever going to earn', win: true },
 ];
 
-const HERE = [
-  { Icon: IconPhone, label: 'The call comes in', sub: 'On the number from your advert' },
-  { Icon: IconUsers, label: 'Everyone who can take it is asked', sub: 'Licensed, free right now, and in good standing' },
-  { Icon: IconUserCheck, label: 'The first to answer gets it', sub: 'Put through while the caller is still there' },
-  { Icon: IconChart, label: 'It is recorded and settled', sub: 'Nothing left to work out at month end', win: true },
+const INBOUND = [
+  { label: 'The phone rings', note: 'They called you' },
+  { label: 'They already want to talk', note: 'Wanting to talk is already in the price' },
+  { label: 'Everyone who can take it is asked', note: 'Licensed for it and free right now — the first to accept is put straight through' },
+  { label: 'A conversation', note: 'The thing you were paying for all along', win: true },
+];
+
+/* ── The sources side of an agency's account ────────────────────────────────
+ * An illustration of the shape of that screen, and the caption below it says
+ * so. Meta is the one advertising account the product actually connects to, so
+ * it is the only one named. The people an agency buys calls from are in the
+ * list because they are where calls come from — not because we integrate with
+ * them, which is what the caption is there to keep straight. */
+
+const SOURCES = [
+  {
+    Icon: IconPhone,
+    name: 'Your own phone numbers',
+    sub: 'The numbers your adverts already carry, on your own Twilio account',
+    tag: 'Connected',
+    tone: 'positive',
+  },
+  {
+    Icon: IconMegaphone,
+    name: 'Meta Ads',
+    sub: 'Facebook and Instagram — your account, your spend',
+    tag: 'Your spend',
+    tone: 'ink',
+  },
+  {
+    Icon: IconUsers,
+    name: 'The people you buy calls from',
+    sub: 'You agree the price and pay them directly',
+    tag: 'We take no cut',
+    tone: 'blue',
+  },
+  {
+    Icon: IconPlus,
+    name: 'Add another source',
+    sub: 'Whatever else brings people to your phone',
+    tag: 'Add',
+    tone: 'ink',
+  },
+];
+
+const NO_STRINGS = [
+  'Nobody tells you where your calls have to come from.',
+  'Nobody tells you what a call has to cost.',
+  'Nothing you have already built has to be pulled apart and started again.',
 ];
 
 /* ── What the platform is, and what it is not ───────────────────────────── */
@@ -83,21 +133,30 @@ const FAQS = [
   },
 ];
 
-function Track({ items }) {
+/* One row of the cost ladder. The two paths are never squared up to the same
+ * number of cells — the difference in how many there are is the argument. */
+function Path({ tone, tag, caption, pays, steps, delay }) {
+  const good = tone === 'good';
   return (
-    <div className="flowline">
-      {items.map((item, i) => (
-        <div key={item.label}>
-          <div className={`flowline__item${item.win ? ' flowline__item--win' : ''}`}>
-            <span className="flowline__ic"><item.Icon size={16} /></span>
-            <span>
-              <span className="flowline__label">{item.label}</span>
-              <span className="flowline__sub">{item.sub}</span>
-            </span>
+    <div className={`ladder__path${good ? ' ladder__path--good' : ''} reveal d${delay}`}>
+      <div className="ladder__head">
+        <span className={`pill ${good ? 'pill--positive' : 'pill--caution'}`}>{tag}</span>
+        <p className="ladder__caption">{caption}</p>
+        <span className="ladder__sum">
+          <span className="ladder__kicker">What you actually pay for</span>
+          <span className="ladder__sum-v">{pays}</span>
+        </span>
+      </div>
+
+      <div className="ladder__track">
+        {steps.map((s, i) => (
+          <div key={s.label} className={`ladder__stage${s.win ? ' ladder__stage--win' : ''}`}>
+            <span className="ladder__n">{String(i + 1).padStart(2, '0')}</span>
+            <span className="ladder__stage-label">{s.label}</span>
+            <span className="ladder__stage-note">{s.note}</span>
           </div>
-          {i < items.length - 1 && <div className="flowline__rail" aria-hidden="true" />}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
@@ -115,13 +174,14 @@ function HomePage({ onNavigate, onOpenModal }) {
             </p>
 
             <h1 className="hero__title">
-              The call you paid for, <em>answered while they are still on the line.</em>
+              You know what a lead costs. <em>Now find out what a conversation costs.</em>
             </h1>
 
             <p className="hero__text">
-              InboundSelect puts every incoming call in front of the agents who are
-              licensed for it and free right now. You decide who gets which calls and
-              what they pay you for them.
+              Bring the marketing that already works for your agency, and whoever
+              already sends you calls — or let us introduce you to someone who does.
+              Every call goes in front of the agents who are licensed for it and free
+              right now, and every charge is itemised against the call it came from.
             </p>
 
             <div className="btn-row hero__actions">
@@ -135,9 +195,10 @@ function HomePage({ onNavigate, onOpenModal }) {
             </div>
 
             <p className="hero__assurance">
-              <span><IconCheck size={15} />Your callers stay yours</span>
-              <span><IconCheck size={15} />Your agents stay yours</span>
-              <span><IconCheck size={15} />You set the prices</span>
+              <span><IconCheck size={15} />Your own numbers</span>
+              <span><IconCheck size={15} />Your own prices</span>
+              <span><IconCheck size={15} />Your rules on who takes what</span>
+              <span><IconCheck size={15} />Your figures, in one place</span>
             </p>
           </div>
 
@@ -145,32 +206,102 @@ function HomePage({ onNavigate, onOpenModal }) {
         </div>
       </section>
 
-      {/* ── The problem ────────────────────────────────────────────────── */}
+      {/* ── A lead is not a conversation ───────────────────────────────── */}
       <section className="section section--tint">
         <div className="shell">
           <Lede
-            eyebrow="The problem"
-            title="You paid for the call. Then nobody picked up."
-            text="Someone fills in your form and rings the number on your advert. If they do not reach a person in the next minute or two, they ring the next agency instead. That gap is the most expensive thing in an agency."
+            eyebrow="The hidden cost of a cheap lead"
+            title="A lead is not a conversation. It is a long way from one."
+            text="Have you ever worked out what a lead costs you by the time somebody actually speaks to it? The price on the invoice is only the start. The software you keep it in, the texts and the emails, the dialling, the chasing, and the hours your agents spend doing all of it are the rest of the bill."
           />
 
-          <div className="compare mt-xl reveal">
-            <div className="compare__col">
-              <p className="compare__head compare__head--bad">
-                <i><IconClock size={14} /></i>
-                How it usually goes
-              </p>
-              <Track items={USUAL} tone="Without InboundSelect" />
+          <div className="ladder mt-xl">
+            <Path
+              tone="bad"
+              delay={1}
+              tag="Form lead"
+              caption="Every step adds cost. Only the last one can earn."
+              pays="The lead, the tools around it, and your agents' hours"
+              steps={BOUGHT_LEAD}
+            />
+            <Path
+              tone="good"
+              delay={2}
+              tag="Inbound call"
+              caption="The caller has already decided to talk. That is the part you are paying for."
+              pays="The conversation"
+              steps={INBOUND}
+            />
+          </div>
+
+          <p className="ladder__foot reveal">
+            Form leads can work, and plenty of good agencies run on them. The point is
+            narrower: the price on the lead is not the price of getting someone talking.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Bring your own marketing ───────────────────────────────────── */}
+      <section className="section section--ink">
+        <div className="shell split">
+          <div className="reveal">
+            <p className="eyebrow">Bring your own marketing</p>
+            <h2 className="lede__title">Your marketing. Your numbers. Your prices.</h2>
+            <p className="lede__text">
+              Bring the marketing that already works for your agency. Keep your own
+              Twilio account and the numbers your adverts already carry, connect your
+              Meta ad account, and what you spend on advertising sits in the same place
+              as the calls you are working.
+            </p>
+
+            <div className="callout mt-lg">
+              <span className="callout__ic"><IconPhoneIn size={18} /></span>
+              <div>
+                <p className="callout__k">Need calls now?</p>
+                <p className="callout__text">
+                  We will introduce you to a company that sells inbound calls to agencies
+                  like yours. <strong>You agree the rate with them and you pay them
+                  directly.</strong> We charge for the platform, never a cut of what you
+                  spend on calls.
+                </p>
+              </div>
             </div>
 
-            <div className="compare__vs" aria-hidden="true">vs</div>
+            <div className="checks mt-lg">
+              {NO_STRINGS.map((t) => (
+                <p key={t} className="checks__item">
+                  <span className="checks__mark"><IconCheck size={13} /></span>
+                  <span>{t}</span>
+                </p>
+              ))}
+            </div>
+          </div>
 
-            <div className="compare__col compare__col--good">
-              <p className="compare__head compare__head--good">
-                <i><IconCheck size={14} /></i>
-                How it goes with us
+          <div className="split__media reveal d2">
+            <div className="panel panel--onink">
+              <div className="panel__head">
+                <span className="panel__title"><IconLayers size={16} />What you bring</span>
+              </div>
+
+              <div className="panel__items">
+                {SOURCES.map((s) => (
+                  <div key={s.name} className="panel__item">
+                    <span className="panel__item-ic"><s.Icon size={15} /></span>
+                    <span>
+                      <span className="panel__item-k">{s.name}</span>
+                      <span className="panel__item-s">{s.sub}</span>
+                    </span>
+                    <span className={`pill pill--${s.tone}`}>{s.tag}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p className="panel__note">
+                <IconInfo size={14} />
+                An illustration, not a screenshot. Meta is the one advertising account
+                that connects; whatever you pay the people who send you calls stays
+                between you and them.
               </p>
-              <Track items={HERE} tone="With InboundSelect" />
             </div>
           </div>
         </div>

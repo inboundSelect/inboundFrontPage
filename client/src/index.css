@@ -324,6 +324,9 @@ ul, ol { list-style: none; }
 .pill--blue { background: var(--blue-50); color: var(--blue-700); border-color: var(--blue-100); }
 .pill--positive { background: var(--positive-soft); color: var(--positive); border-color: transparent; }
 .pill--ink { background: rgba(255, 255, 255, .1); color: rgba(255, 255, 255, .86); border-color: rgba(255, 255, 255, .16); }
+/* "This costs you" — the counterpart to --positive, so green is never spent on
+   something the reader is paying for. */
+.pill--caution { background: var(--caution-soft); color: var(--caution); border-color: transparent; }
 .pill__dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
 
 .pill--live .pill__dot { background: var(--positive); animation: pulse 2.2s ease-in-out infinite; }
@@ -431,6 +434,57 @@ ul, ol { list-style: none; }
 .section--ink .checks__item { color: rgba(255, 255, 255, .7); }
 .section--ink .checks__item strong { color: var(--white); }
 .section--ink .checks__mark { background: rgba(23, 132, 90, .22); color: #4ED09B; }
+
+/* ── Callout ──────────────────────────────────────────────────────────── */
+
+/* A highlighted aside sitting inside a column of body copy. The same 40px / 1fr
+   shape is still written as an inline style at PricingPage.jsx:200; that one is
+   worth folding in here, but it carries card card--tint, so check the two do not
+   fight over background and border before swapping it. */
+.callout {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+  padding: clamp(18px, 2.2vw, 24px);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--blue-100);
+  background: var(--blue-50);
+}
+.callout__ic {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-sm);
+  display: grid;
+  place-items: center;
+  background: var(--white);
+  border: 1px solid var(--blue-100);
+  color: var(--blue-600);
+}
+.callout__k {
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--blue-700);
+  margin-bottom: 6px;
+}
+.callout__text { font-size: var(--t-sm); line-height: 1.7; color: var(--text-secondary); }
+.callout__text strong { color: var(--ink-900); font-weight: 600; }
+
+.section--ink .callout { background: rgba(46, 143, 226, .12); border-color: rgba(46, 143, 226, .28); }
+.section--ink .callout__ic {
+  background: rgba(46, 143, 226, .18);
+  border-color: rgba(46, 143, 226, .32);
+  color: var(--blue-300);
+}
+.section--ink .callout__k { color: var(--blue-300); }
+.section--ink .callout__text { color: rgba(255, 255, 255, .74); }
+.section--ink .callout__text strong { color: var(--white); }
+
+@media (max-width: 560px) {
+  .callout { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
 
 /* ── Numbered steps ───────────────────────────────────────────────────── */
 
@@ -1032,96 +1086,141 @@ ul, ol { list-style: none; }
 .pagehero__actions { margin-top: 30px; justify-content: center; }
 
 /* ============================================================================
-   HOME — comparison, flow, revenue, trust
+   HOME — cost ladder, sources, revenue, trust
    ========================================================================= */
 
-/* Before / after */
-.compare {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: clamp(16px, 2.4vw, 28px);
-  align-items: stretch;
-}
-@media (max-width: 900px) {
-  .compare { grid-template-columns: minmax(0, 1fr); }
-}
-.compare__col {
+/* Cost ladder — a bought form lead against a call that comes in.
+   Deliberately without a single amount: the argument is how many steps pile up
+   before anyone speaks, not what any one of them costs. The stage count is the
+   whole point, so the two tracks are never forced to the same width.
+   Stages flex from a 140px basis and wrap on their own — no horizontal
+   overflow, which body{overflow-x:hidden} would silently clip. */
+.ladder { display: grid; gap: var(--gap); }
+.ladder__path {
+  padding: clamp(20px, 2.4vw, 28px);
   border-radius: var(--r-lg);
   border: 1px solid var(--border);
   background: var(--white);
-  padding: clamp(22px, 2.4vw, 28px);
   box-shadow: var(--e-1);
 }
-.compare__col--good { border-color: var(--blue-200); background: linear-gradient(170deg, var(--blue-50), var(--white) 58%); }
-.compare__head {
+.ladder__path--good {
+  border-color: var(--blue-200);
+  background: linear-gradient(170deg, var(--blue-50), var(--white) 58%);
+}
+.ladder__head {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-display);
-  font-size: var(--t-h4);
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--gap-xs) var(--gap);
+  margin-bottom: var(--gap);
+}
+.ladder__caption {
+  margin-right: auto;
+  max-width: 46rem;
+  font-size: var(--t-sm);
   font-weight: 600;
-  margin-bottom: 20px;
+  line-height: 1.5;
+  color: var(--ink-900);
 }
-.compare__head i {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-}
-.compare__head--bad i { background: var(--surface-sunken); color: var(--slate-500); }
-.compare__head--good i { background: var(--positive-soft); color: var(--positive); }
-.compare__vs {
-  align-self: center;
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--white);
-  border: 1px solid var(--border);
-  font-size: var(--t-xs);
+.ladder__sum { flex-shrink: 0; }
+.ladder__kicker {
+  display: block;
+  font-size: .6875rem;
   font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: .06em;
+  letter-spacing: .08em;
   text-transform: uppercase;
+  color: var(--text-muted);
 }
-@media (max-width: 900px) { .compare__vs { justify-self: center; } }
+.ladder__sum-v {
+  display: block;
+  margin-top: 3px;
+  font-size: var(--t-xs);
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--slate-700);
+}
+.ladder__path--good .ladder__sum-v { color: var(--blue-700); }
 
-.flowline { display: grid; gap: 4px; }
-.flowline__item {
+.ladder__track { display: flex; flex-wrap: wrap; gap: var(--gap-xs); }
+.ladder__stage {
+  flex: 1 1 140px;
+  min-width: 0;
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
-  gap: 14px;
-  align-items: start;
-  padding: 11px 0;
+  align-content: start;
+  gap: 5px;
+  padding: 12px;
+  border-radius: var(--r-md);
+  background: var(--surface-tint);
+  border: 1px solid var(--border-soft);
 }
-.flowline__ic {
-  width: 30px;
-  height: 30px;
-  border-radius: var(--r-xs);
-  display: grid;
-  place-items: center;
-  background: var(--surface-sunken);
-  color: var(--slate-500);
-  flex-shrink: 0;
+.ladder__path--good .ladder__stage { background: rgba(255, 255, 255, .7); border-color: var(--blue-100); }
+/* Both paths end in the same place. Marking that step on each is what makes
+   the difference in what it took to get there legible. */
+.ladder__stage--win { background: var(--positive-soft); border-color: transparent; }
+.ladder__path--good .ladder__stage--win { background: var(--positive-soft); border-color: transparent; }
+.ladder__n {
+  font-family: var(--font-display);
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--text-muted);
 }
-.compare__col--good .flowline__ic { background: var(--blue-100); color: var(--blue-700); }
-.flowline__item--win .flowline__ic { background: var(--positive-soft); color: var(--positive); }
-.flowline__label { display: block; font-size: var(--t-sm); font-weight: 600; line-height: 1.4; color: var(--ink-900); }
-.flowline__sub { display: block; font-size: var(--t-xs); line-height: 1.45; color: var(--text-secondary); }
-.flowline__rail {
-  grid-column: 1;
-  width: 30px;
-  display: grid;
-  place-items: center;
+.ladder__path--good .ladder__n { color: var(--blue-600); }
+.ladder__stage--win .ladder__n { color: var(--positive); }
+/* A span, not a heading — text-wrap:balance would split a four-word label
+   into a ragged two-and-two inside a cell this narrow. */
+.ladder__stage-label { font-size: var(--t-xs); font-weight: 600; line-height: 1.4; color: var(--ink-900); }
+.ladder__stage-note { font-size: .6875rem; line-height: 1.45; color: var(--text-secondary); }
+.ladder__foot {
+  margin-top: var(--gap-lg);
+  font-size: var(--t-xs);
+  line-height: 1.65;
+  color: var(--text-muted);
 }
-.flowline__rail::after {
-  content: '';
-  width: 1px;
-  height: 14px;
-  background: var(--border-strong);
+@media (max-width: 560px) {
+  .ladder__stage { flex-basis: 100%; padding: 11px 12px; }
+}
+
+/* Bring your own marketing — the sources you connect.
+   .panel is built for a light surface. This modifier restates each piece of it
+   for the ink band, and it is opt-in rather than a `.section--ink .panel`
+   descendant rule on purpose: Pricing puts a deliberately white panel on its
+   own ink band, and a contextual rule would have restyled that page too.
+   .pill modifiers are left alone — a light chip reads correctly on ink, and
+   overriding .pill here would outrank .pill--positive and .pill--blue. */
+/* Chained, not bare: .panel is defined further down this file, so a lone
+   .panel--onink ties on specificity and loses on source order — leaving a white
+   card whose contents these rules have already repainted white. */
+.panel.panel--onink {
+  background: rgba(255, 255, 255, .045);
+  border-color: rgba(255, 255, 255, .12);
+  box-shadow: none;
+}
+.panel--onink .panel__head {
+  background: rgba(255, 255, 255, .04);
+  border-bottom-color: rgba(255, 255, 255, .1);
+}
+.panel--onink .panel__title { color: var(--white); }
+.panel--onink .panel__title svg { color: var(--blue-300); }
+.panel--onink .panel__item:nth-child(odd) { background: rgba(255, 255, 255, .04); }
+.panel--onink .panel__item-ic {
+  background: rgba(46, 143, 226, .16);
+  border-color: rgba(46, 143, 226, .3);
+  color: var(--blue-300);
+}
+.panel--onink .panel__item-k { color: var(--white); }
+.panel--onink .panel__item-s { color: rgba(255, 255, 255, .5); }
+.panel--onink .panel__note {
+  background: rgba(255, 255, 255, .04);
+  border-top-color: rgba(255, 255, 255, .1);
+  color: rgba(255, 255, 255, .5);
+}
+/* Four words in the status column crowd the name once the split has collapsed.
+   Scoped to this panel — elsewhere the third cell is a bare icon that is meant
+   to stay on the row. */
+@media (max-width: 560px) {
+  .panel--onink .panel__item { grid-template-columns: 30px minmax(0, 1fr); }
+  .panel--onink .panel__item .pill { grid-column: 2; justify-self: start; margin-top: 2px; }
 }
 
 /* Two revenue cards */
