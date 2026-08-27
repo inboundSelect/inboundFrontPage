@@ -180,50 +180,61 @@ function MarketplacePage({ onNavigate, onOpenModal }) {
             title="Good for the agency that listed it. Good for the agent who takes it."
           />
 
-          <div className="audience mt-xl">
-            <article className="aud aud--dark reveal d1">
-              <span className="aud__ic"><IconBuilding size={22} /></span>
-              <p className="aud__tag">If you are an agency</p>
-              <h3 className="aud__title">Earn from the calls you could not answer.</h3>
-              <div className="checks">
+          <div className="whoc mt-xl">
+            <span className="whoc__reg whoc__reg--tl" aria-hidden="true" />
+            <span className="whoc__reg whoc__reg--tr" aria-hidden="true" />
+            <span className="whoc__reg whoc__reg--bl" aria-hidden="true" />
+            <span className="whoc__reg whoc__reg--br" aria-hidden="true" />
+
+            <article className="whoc__half whoc__half--agency reveal d1">
+              <div className="whoc__rule" aria-hidden="true" />
+              <header className="whoc__head">
+                <span className="whoc__ic"><IconBuilding size={18} /></span>
+                <p className="whoc__tag">If you are an agency</p>
+              </header>
+              <h3 className="whoc__title">Earn from the calls you could not answer.</h3>
+              <div className="whoc__checks">
                 {[
                   'Put a price on it yourself, per lead',
                   'Newer leads and ones with a message can carry a higher price',
                   `Keep ${MARKETPLACE_SPLIT.agency} of every sale`,
                   'Nothing sells, nothing is charged',
                 ].map((t) => (
-                  <p key={t} className="checks__item">
-                    <span className="checks__mark"><IconCheck size={13} /></span>
+                  <p key={t} className="whoc__row">
+                    <span className="whoc__mark"><IconCheck size={13} /></span>
                     <span>{t}</span>
                   </p>
                 ))}
               </div>
-              <div className="aud__foot">
-                <button className="btn btn--onink" onClick={() => onNavigate('agencies')}>
+              <div className="whoc__foot">
+                <button className="btn btn--primary" onClick={() => onNavigate('agencies')}>
                   For Agencies
                   <IconArrowRight size={16} />
                 </button>
               </div>
             </article>
 
-            <article className="aud reveal d2">
-              <span className="aud__ic"><IconUser size={22} /></span>
-              <p className="aud__tag">If you are an agent</p>
-              <h3 className="aud__title">Something to work when the phone is quiet.</h3>
-              <div className="checks">
+            <article className="whoc__half reveal d2">
+              <div className="whoc__rule" aria-hidden="true" />
+              <header className="whoc__head">
+                <span className="whoc__ic"><IconUser size={18} /></span>
+                <p className="whoc__tag">If you are an agent</p>
+              </header>
+              <h3 className="whoc__title">Something to work when the phone is quiet.</h3>
+              <div className="whoc__checks">
                 {[
                   'Buy only what matches your licences',
                   'See how recent it is before you spend anything',
                   'Buy one, or several at once',
                   'Contact details the moment you buy',
                 ].map((t) => (
-                  <p key={t} className="checks__item">
-                    <span className="checks__mark"><IconCheck size={13} /></span>
+                  <p key={t} className="whoc__row">
+                    <span className="whoc__mark"><IconCheck size={13} /></span>
                     <span>{t}</span>
                   </p>
                 ))}
               </div>
-              <div className="aud__foot">
+              <div className="whoc__foot">
                 <button className="btn btn--ghost" onClick={() => onNavigate('agents')}>
                   For Agents
                   <IconArrowRight size={16} />

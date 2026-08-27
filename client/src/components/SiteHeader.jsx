@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NAV_LINKS, APP_LINKS } from '../lib/site';
+import Brand from './Brand';
 
 function SiteHeader({ currentPage, onNavigate, onOpenModal }) {
   const [scrolled, setScrolled] = useState(false);
@@ -29,10 +30,8 @@ function SiteHeader({ currentPage, onNavigate, onOpenModal }) {
   return (
     <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
       <div className="site-header__bar">
-        {/* The official lockup artwork — the mark's tallest bar is the "I" of
-            "Inbound", so mark and wordmark must not be assembled in CSS. */}
         <button className="brand" onClick={() => go('home')} aria-label="InboundSelect — home">
-          <img src="/assets/inboundselect-lockup.svg" alt="InboundSelect" className="brand__logo" />
+          <Brand />
         </button>
 
         <nav className={`site-nav${menuOpen ? ' site-nav--open' : ''}`} aria-label="Main">

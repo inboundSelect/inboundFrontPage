@@ -73,11 +73,14 @@
   --r-pill: 999px;
 
   /* ── Elevation — soft and cool, never muddy ── */
-  --e-1: 0 1px 2px rgba(14, 17, 22, .04), 0 1px 1px rgba(14, 17, 22, .03);
-  --e-2: 0 2px 8px rgba(14, 17, 22, .05), 0 1px 2px rgba(14, 17, 22, .04);
-  --e-3: 0 8px 24px rgba(14, 17, 22, .07), 0 2px 6px rgba(14, 17, 22, .04);
-  --e-4: 0 20px 48px rgba(14, 17, 22, .10), 0 4px 12px rgba(14, 17, 22, .05);
-  --e-blue: 0 8px 24px rgba(30, 118, 196, .22);
+  /* Elevation is retired (owner, Aug 2026): the system is flat — definition
+     comes from hairline borders and surface tints, never shadows or glows.
+     The tokens stay as no-ops so nothing that composes them breaks. */
+  --e-1: 0 0 0 0 transparent;
+  --e-2: 0 0 0 0 transparent;
+  --e-3: 0 0 0 0 transparent;
+  --e-4: 0 0 0 0 transparent;
+  --e-blue: 0 0 0 0 transparent;
 
   /* ── Type ── */
   --font-display: 'Sora', system-ui, -apple-system, sans-serif;
@@ -105,6 +108,32 @@
   --pad-x: clamp(20px, 4vw, 40px);
 
   --ease: cubic-bezier(.22, 1, .36, 1);
+
+  /* ── Hero ──────────────────────────────────────────────────────────────
+     Tokens for the homepage hero only. The register is flat: white paper,
+     hairline rules, Signal Blue accents — no glows, no glass. */
+  --t-hero: clamp(2.3rem, 1.1rem + 3.3vw, 3.5rem);
+  --t-2xs: .72rem;
+
+  /* ── Cost ladder — "drafted comparison sheet" ──────────────────────────
+     One instrument below the hero: two tracks on a shared seven-unit scale.
+     Hairlines stay in the slate family; the wash is the only blue surface. */
+  --lad-wash:   rgba(222, 237, 250, .48); /* blue-100, translucent over white */
+  --lad-hatch:  rgba(115, 125, 139, .22); /* slate-500 hairline hatch — one step
+                                             above faint, so the voided units
+                                             survive dim laptop panels */
+  --lad-caution-hair: rgba(154, 100, 18, .28); /* caution as a hairline only */
+  --lad-tick:   12px;                     /* major graduation height */
+  --lad-tick-minor: 6px;
+  --e-lad: 0 0 0 0 transparent;           /* retired with the elevation system */
+
+  /* ── Who panel — "washed split sheet" ─────────────────────────────────
+     One ruled sheet split by a hairline. The agency half carries a flat
+     blue-100 tint — the only colour surface in the section — and everything
+     else is hairlines and type. */
+  --who-wash: rgba(222, 237, 250, .55);  /* blue-100, translucent over white */
+  --who-seg: 28px;                       /* measure-bar blue segment length */
+  --who-seg-lead: 52px;                  /* longer segment ranks the agency half */
 }
 
 /* ── Base ─────────────────────────────────────────────────────────────── */
@@ -179,14 +208,6 @@ ul, ol { list-style: none; }
   color: rgba(255, 255, 255, .74);
   position: relative;
   overflow: hidden;
-}
-.section--ink::before {
-  content: '';
-  position: absolute;
-  inset: -40% 30% auto -20%;
-  height: 90%;
-  background: radial-gradient(closest-side, rgba(46, 143, 226, .28), transparent 72%);
-  pointer-events: none;
 }
 .section--ink > * { position: relative; }
 .section--ink h1, .section--ink h2, .section--ink h3, .section--ink h4 { color: var(--white); }
@@ -518,6 +539,7 @@ ul, ol { list-style: none; }
 .step:first-child .step__num { background: var(--action); }
 .step__title { font-size: var(--t-h4); margin-bottom: 8px; }
 .step__text { font-size: var(--t-sm); color: var(--text-secondary); line-height: 1.65; }
+.step__text strong { color: var(--text); font-weight: 600; }
 
 /* ── FAQ / accordion ──────────────────────────────────────────────────── */
 
@@ -674,21 +696,9 @@ ul, ol { list-style: none; }
   inset: 0 0 -6px 0;
   z-index: -1;
   pointer-events: none;
-  background: rgba(255, 255, 255, .82);
-  backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  background: rgba(255, 255, 255, .96);
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 0%, #000 48%, transparent 100%);
-  transition: backdrop-filter .3s var(--ease);
-}
-/* Where the browser cannot blur, the veil has to hide the text on opacity
-   alone — otherwise it only tints what is still perfectly readable. */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .site-header::before { background: rgba(255, 255, 255, .96); }
-}
-.site-header--scrolled::before {
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
 }
 .site-header__bar {
   max-width: var(--shell);
@@ -698,33 +708,78 @@ ul, ol { list-style: none; }
   gap: var(--gap-lg);
   padding: 9px 12px 9px 14px;
   border-radius: var(--r-xl);
-  /* Reads as a bar from the first paint — solid surface, hairline border and a
-     soft shadow. Scrolling only deepens it; it never has to appear. */
-  background: rgba(255, 255, 255, .94);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  /* Reads as a bar from the first paint — solid surface and a hairline
+     border. Scrolling only deepens the border; it never has to appear. */
+  background: var(--white);
   border: 1px solid var(--border);
-  box-shadow: var(--e-2), 0 1px 0 rgba(255, 255, 255, .9) inset;
-  transition: background .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+  transition: border-color .3s var(--ease);
 }
 .site-header--scrolled { padding-top: 10px; }
 .site-header--scrolled .site-header__bar {
-  background: rgba(255, 255, 255, .98);
   border-color: var(--border-strong);
-  box-shadow: var(--e-3), 0 1px 0 rgba(255, 255, 255, .9) inset;
 }
 
-/* Brand — the official lockup artwork, so the mark and the wordmark are aligned
-   by the file itself (the tallest bar is the "I" of "Inbound"). Sized by height
-   only; the aspect ratio comes from the SVG. */
+/* Brand — the dashboard app's logo section, replicated exactly: the mark image
+   (its tallest chart bar doubles as the "I"), then "nbound" in Signal Blue and
+   "Select" in ink, slogan beneath. Same fonts (Sora / Plus Jakarta Sans), same
+   ratios as the dashboard (40px mark, 20px word, 10px slogan), and the same
+   -3px merge pull so the "n" kisses the tallest bar. Scales from --brand-size. */
 .brand {
   display: block;
   flex-shrink: 0;
-  line-height: 0;
   border-radius: var(--r-xs);
+  --brand-size: 40px;
 }
-.brand__logo { height: 44px; width: auto; }
-.site-footer .brand__logo { height: 50px; }
+.brand__lockup {
+  display: flex;
+  /* Bottom of the letters rests on the plane of the chart bars' bottoms,
+     exactly as the dashboard aligns it. */
+  align-items: flex-end;
+  gap: 0;
+  min-width: 0;
+}
+.brand__mark {
+  width: var(--brand-size);
+  height: var(--brand-size);
+  object-fit: contain;
+  flex-shrink: 0;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  text-align: left;
+  /* The merge — pulls "nbound" left so the "n" sits against the tallest bar. */
+  margin-left: -3px;
+  position: relative;
+  z-index: 1;
+}
+.brand__word {
+  display: flex;
+  align-items: baseline;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: calc(var(--brand-size) * .5);
+  letter-spacing: -.2px;
+  line-height: 1.3;
+}
+.brand__word-inbound { color: var(--blue-500); font-weight: 600; }
+.brand__word-select { color: var(--ink-900); font-weight: 700; }
+.brand__tagline {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: calc(var(--brand-size) * .25);
+  line-height: 1;
+  margin-top: 1px;
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+.site-footer .brand { --brand-size: 46px; }
 
 .site-nav { display: flex; align-items: center; gap: 4px; margin-right: auto; }
 .site-nav__link {
@@ -810,11 +865,11 @@ ul, ol { list-style: none; }
   .site-header__actions { gap: 8px; }
   .site-header__actions .btn { padding-inline: 14px; }
   .site-nav { left: 14px; right: 14px; }
-  .brand__logo { height: 34px; }
-  .site-footer .brand__logo { height: 42px; }
+  .brand { --brand-size: 34px; }
+  .site-footer .brand { --brand-size: 40px; }
 }
 @media (max-width: 380px) {
-  .brand__logo { height: 30px; }
+  .brand { --brand-size: 30px; }
 }
 
 /* ============================================================================
@@ -823,108 +878,194 @@ ul, ol { list-style: none; }
 
 .hero {
   position: relative;
-  padding-top: clamp(130px, 15vw, 176px);
-  padding-bottom: clamp(56px, 6vw, 88px);
+  /* Tight enough that the full hero — assurance table included — lands inside
+     a 1440x900 viewport with no scroll; the header is ~96px, so 122px top
+     padding still gives the badge clear air beneath the floating bar. */
+  padding-top: clamp(118px, 12vw, 138px);
+  padding-bottom: clamp(48px, 5vw, 72px);
   overflow: hidden;
+  background: var(--surface);
 }
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -280px;
-  left: 50%;
-  width: min(1300px, 155vw);
-  height: 820px;
-  transform: translateX(-50%);
-  background:
-    radial-gradient(46% 52% at 50% 46%, rgba(46, 143, 226, .16), transparent 72%),
-    radial-gradient(38% 42% at 76% 34%, rgba(46, 143, 226, .09), transparent 70%);
-  pointer-events: none;
+/* Short laptop viewports (e.g. 1280x800): tighten the top and step the display
+   type down one notch so the assurance table still clears the fold. Height-
+   gated, so the full-size hero is untouched on ordinary screens. */
+@media (max-height: 830px) and (min-width: 1000px) {
+  .hero { padding-top: 104px; padding-bottom: 40px; }
+  .hero__title { font-size: clamp(2.2rem, 1rem + 2.9vw, 3.15rem); }
 }
-.hero > * { position: relative; }
+.hero > * { position: relative; z-index: 1; }
 
 .hero__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr);
-  gap: clamp(36px, 5vw, 68px);
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, .84fr);
+  gap: clamp(36px, 5vw, 64px);
   align-items: center;
 }
 @media (max-width: 1000px) {
   .hero__grid { grid-template-columns: minmax(0, 1fr); }
 }
 
+/* Badge — a flat white chip; the category label inside carries the blue. */
 .hero__badge {
   display: inline-flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 9px;
-  padding: 6px 15px 6px 7px;
+  padding: 6px 16px 6px 7px;
   border-radius: var(--r-pill);
   background: var(--white);
-  border: 1px solid var(--border);
-  box-shadow: var(--e-1);
+  border: 1px solid var(--blue-100);
   font-size: var(--t-xs);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: .01em;
   color: var(--slate-700);
-  margin-bottom: 26px;
+  margin-bottom: 18px;
 }
 .hero__badge b {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 9px;
+  padding: 4px 10px;
   border-radius: var(--r-pill);
-  background: var(--blue-50);
-  color: var(--blue-700);
+  background: var(--blue-600);
+  color: var(--white);
   font-size: .6875rem;
   font-weight: 700;
-  letter-spacing: .04em;
+  letter-spacing: .05em;
   text-transform: uppercase;
 }
 
-.hero__title { font-size: var(--t-display); letter-spacing: -.03em; }
+/* Display type — Sora 800, tight leading and tracking. The em breaks onto its
+   own lines as a gradient statement with a slow sheen drifting through it. */
+.hero__title {
+  font-size: var(--t-hero);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -.034em;
+}
 .hero__title em {
   font-style: normal;
-  background: linear-gradient(105deg, var(--blue-500), var(--blue-700) 62%, var(--blue-800));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  display: block;
+  color: var(--blue-700);
+}
+/* The measure bar — a short solid segment read against a longer hairline scale,
+   the beat between the ink statement and the blue one. A separate box, so the
+   parent's background-clip:text never touches it. */
+.hero__title em::before {
+  content: '';
+  display: block;
+  width: 148px;
+  height: 3px;
+  margin: 14px 0 12px;
+  background:
+    linear-gradient(var(--blue-600), var(--blue-600)) 0 50% / 46px 3px no-repeat,
+    linear-gradient(var(--slate-200), var(--slate-200)) 0 50% / 148px 1px no-repeat;
 }
 .hero__text {
-  margin-top: 22px;
-  max-width: 34rem;
+  margin-top: 18px;
+  max-width: 35rem;
   font-size: var(--t-lead);
-  line-height: 1.62;
+  line-height: 1.6;
   color: var(--text-secondary);
 }
-.hero__actions { margin-top: 32px; }
+.hero__actions { margin-top: 26px; gap: 14px; }
+
+/* The primary action stays flat: solid Signal Blue, darker on hover. Scoped
+   to the hero so the shared button primitives stay untouched. */
+.hero .btn--primary {
+  background: var(--action);
+  border-color: var(--blue-700);
+}
+.hero .btn--primary:hover { background: var(--action-hover); }
+
+.hero__actions .btn--ghost {
+  background: var(--white);
+  border-color: var(--slate-200);
+}
+.hero__actions .btn--ghost:hover {
+  border-color: var(--blue-300);
+  color: var(--blue-700);
+}
+.hero__actions .btn--lg { padding: 16px 30px; border-radius: var(--r-md); }
+
+/* Assurance row — a ruled spec-sheet table: hairline top rule, row separators
+   and a centre spine, in sentence case. Uppercase micro-type at .72rem was the
+   one element a sceptical older reader had to squint at, so the rules carry
+   the engineering feel and the words stay full-size. */
 .hero__assurance {
   margin-top: 24px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  font-size: var(--t-xs);
-  color: var(--text-muted);
+  max-width: 35rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--slate-600);
 }
-.hero__assurance span { display: inline-flex; align-items: center; gap: 7px; }
+.hero__assurance span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px 10px 2px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.hero__assurance span:nth-child(even) {
+  border-left: 1px solid var(--border-soft);
+  padding-left: 18px;
+}
 .hero__assurance svg { color: var(--positive); flex-shrink: 0; }
+@media (max-width: 400px) {
+  .hero__assurance { grid-template-columns: minmax(0, 1fr); }
+  .hero__assurance span:nth-child(even) { border-left: 0; padding-left: 2px; }
+}
 
-/* Hero visual — a calm, honest depiction of the product. No invented figures. */
+/* Hero visual — a calm, honest depiction of the product. No invented figures.
+   The card is a flat white sheet with a hairline border; the app window
+   inside carries the detail. */
 .hero__visual { position: relative; }
 
 .stage {
   position: relative;
-  padding: 22px;
+  padding: 20px;
   border-radius: var(--r-xl);
-  background: linear-gradient(160deg, var(--white), var(--blue-50));
-  border: 1px solid var(--border);
-  box-shadow: var(--e-4);
+  background: var(--white);
+  border: 1px solid var(--blue-200);
+}
+/* One pinned accent — a fact from the product, not a figure. */
+.stage__chip {
+  position: absolute;
+  top: -16px;
+  right: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  background: var(--white);
+  border: 1px solid var(--blue-200);
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--slate-600);
+  white-space: nowrap;
+}
+.stage__chip-ic {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--positive-soft);
+  color: var(--positive);
+  flex-shrink: 0;
 }
 .stage__window {
   border-radius: var(--r-lg);
   background: var(--white);
   border: 1px solid var(--border-soft);
   overflow: hidden;
-  box-shadow: var(--e-1);
+  box-shadow: var(--e-2);
 }
 .stage__bar {
   display: flex;
@@ -946,7 +1087,7 @@ ul, ol { list-style: none; }
 /* Incoming call card */
 .callcard {
   border: 1px solid var(--blue-200);
-  background: linear-gradient(150deg, var(--blue-50), var(--white));
+  background: var(--blue-50);
   border-radius: var(--r-md);
   padding: 16px;
   display: grid;
@@ -962,13 +1103,12 @@ ul, ol { list-style: none; }
   background: var(--action);
   color: var(--white);
   flex-shrink: 0;
-  box-shadow: 0 0 0 0 rgba(30, 118, 196, .38);
-  animation: ring 2.4s ease-out infinite;
+  /* Ringing, said flat: the icon breathes instead of throwing light. */
+  animation: ring 2.4s ease-in-out infinite;
 }
 @keyframes ring {
-  0%   { box-shadow: 0 0 0 0 rgba(30, 118, 196, .34); }
-  70%  { box-shadow: 0 0 0 14px rgba(30, 118, 196, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(30, 118, 196, 0); }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .68; }
 }
 .callcard__who { min-width: 0; }
 .callcard__label {
@@ -1009,7 +1149,7 @@ ul, ol { list-style: none; }
   border-radius: var(--r-sm);
   transition: background .2s var(--ease);
 }
-.teamrow--on { background: var(--surface-tint); }
+.teamrow--on { background: var(--blue-50); }
 .teamrow__avatar {
   width: 30px;
   height: 30px;
@@ -1045,6 +1185,7 @@ ul, ol { list-style: none; }
 
 @media (max-width: 560px) {
   .stage { padding: 14px; }
+  .stage__chip { top: -13px; right: 14px; padding: 7px 12px; }
 }
 
 /* ── Page hero (inner pages) ──────────────────────────────────────────── */
@@ -1056,25 +1197,11 @@ ul, ol { list-style: none; }
   text-align: center;
   overflow: hidden;
 }
-.pagehero::before {
-  content: '';
-  position: absolute;
-  top: -300px;
-  left: 50%;
-  width: min(1100px, 150vw);
-  height: 700px;
-  transform: translateX(-50%);
-  background: radial-gradient(46% 50% at 50% 50%, rgba(46, 143, 226, .14), transparent 72%);
-  pointer-events: none;
-}
 .pagehero > * { position: relative; }
 .pagehero__title { font-size: var(--t-h1); letter-spacing: -.028em; }
 .pagehero__title em {
   font-style: normal;
-  background: linear-gradient(105deg, var(--blue-500), var(--blue-700) 62%, var(--blue-800));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--blue-700);
 }
 .pagehero__text {
   margin: 20px auto 0;
@@ -1089,96 +1216,300 @@ ul, ol { list-style: none; }
    HOME — cost ladder, sources, revenue, trust
    ========================================================================= */
 
-/* Cost ladder — a bought form lead against a call that comes in.
-   Deliberately without a single amount: the argument is how many steps pile up
-   before anyone speaks, not what any one of them costs. The stage count is the
-   whole point, so the two tracks are never forced to the same width.
-   Stages flex from a 140px basis and wrap on their own — no horizontal
-   overflow, which body{overflow-x:hidden} would silently clip. */
-.ladder { display: grid; gap: var(--gap); }
-.ladder__path {
-  padding: clamp(20px, 2.4vw, 28px);
-  border-radius: var(--r-lg);
-  border: 1px solid var(--border);
+/* Cost ladder — a bought form lead against a call that comes in, drawn as one
+   drafted comparison sheet. Deliberately without a single amount: the argument
+   is how many steps pile up before anyone speaks, so both tracks sit on the
+   SAME seven-unit scale — equal unit width, shared graduations — and the
+   inbound track visibly ends at four of the seven. The unused three units stay
+   on the sheet as hatched, measured space: steps that never have to happen.
+   Every column is minmax(0,1fr); nothing can poke past body{overflow-x:hidden}. */
+
+/* The sheet itself: one white instrument with registration crosshairs on its
+   corners and hairline rules inside — flat on the tinted section. */
+.ladder {
+  position: relative;
+  padding: clamp(22px, 3vw, 34px) clamp(18px, 2.6vw, 32px) clamp(24px, 3vw, 36px);
   background: var(--white);
-  box-shadow: var(--e-1);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--r-lg);
+  box-shadow: var(--e-lad);
 }
-.ladder__path--good {
-  border-color: var(--blue-200);
-  background: linear-gradient(170deg, var(--blue-50), var(--white) 58%);
+/* Registration marks — fine drafting crosshairs straddling each corner. */
+.ladder__reg {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--slate-300), var(--slate-300)) center / 100% 1px no-repeat,
+    linear-gradient(var(--slate-300), var(--slate-300)) center / 1px 100% no-repeat;
 }
+.ladder__reg--tl { top: -6px; left: -6px; }
+.ladder__reg--tr { top: -6px; right: -6px; }
+.ladder__reg--bl { bottom: -6px; left: -6px; }
+.ladder__reg--br { bottom: -6px; right: -6px; }
+
 .ladder__head {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: var(--gap-xs) var(--gap);
-  margin-bottom: var(--gap);
+  margin-bottom: 16px;
 }
 .ladder__caption {
   margin-right: auto;
-  max-width: 46rem;
+  max-width: 38rem;
   font-size: var(--t-sm);
   font-weight: 600;
   line-height: 1.5;
   color: var(--ink-900);
 }
-.ladder__sum { flex-shrink: 0; }
+.ladder__sum { flex-shrink: 0; max-width: 320px; text-align: right; }
 .ladder__kicker {
   display: block;
-  font-size: .6875rem;
+  font-size: var(--t-2xs);
   font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: .09em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
+/* Set as an accounting total: a double rule under the answer says "this line
+   is the sum of everything above it" — and stops the good path's blue reading
+   as a hyperlink. */
 .ladder__sum-v {
-  display: block;
+  display: inline-block;
   margin-top: 3px;
+  padding-bottom: 5px;
   font-size: var(--t-xs);
   font-weight: 600;
   line-height: 1.45;
   color: var(--slate-700);
+  border-bottom: 3px double var(--slate-300);
 }
-.ladder__path--good .ladder__sum-v { color: var(--blue-700); }
+.ladder__path--good .ladder__sum-v { color: var(--blue-700); border-bottom-color: var(--blue-200); }
 
-.ladder__track { display: flex; flex-wrap: wrap; gap: var(--gap-xs); }
+/* Tracks — seven equal columns separated by hairline rules, spec-sheet style:
+   no cell boxes, just ruled space. Both tracks use the same template, which is
+   what makes the four-against-seven comparison exact. */
+.ladder__track {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-top: 1px solid var(--slate-200);
+  border-bottom: 1px solid var(--border-soft);
+}
 .ladder__stage {
-  flex: 1 1 140px;
   min-width: 0;
   display: grid;
   align-content: start;
-  gap: 5px;
-  padding: 12px;
-  border-radius: var(--r-md);
-  background: var(--surface-tint);
-  border: 1px solid var(--border-soft);
+  gap: 7px;
+  padding: 14px 14px 16px 15px;
+  border-left: 1px solid var(--border-soft);
 }
-.ladder__path--good .ladder__stage { background: rgba(255, 255, 255, .7); border-color: var(--blue-100); }
-/* Both paths end in the same place. Marking that step on each is what makes
-   the difference in what it took to get there legible. */
-.ladder__stage--win { background: var(--positive-soft); border-color: transparent; }
-.ladder__path--good .ladder__stage--win { background: var(--positive-soft); border-color: transparent; }
+.ladder__stage:first-child { border-left: 0; padding-left: 2px; }
+/* The inbound track's used units carry the section's one blue tint, flat. */
+.ladder__path--good .ladder__stage:not(.ladder__stage--win) {
+  background: var(--lad-wash);
+}
+/* Both paths end in the same place. The earning step is flagged with a 2px
+   positive rule under the shared top hairline — green stays success-only. */
+.ladder__stage--win {
+  background: var(--positive-soft);
+  box-shadow: inset 0 2px 0 var(--positive);
+  border-radius: 0 0 var(--r-sm) var(--r-sm);
+}
+/* Engineering numeral: fine, tabular, with a hairline running out behind it. */
 .ladder__n {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-family: var(--font-display);
-  font-size: .6875rem;
-  font-weight: 700;
-  letter-spacing: .06em;
-  color: var(--text-muted);
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: .12em;
+  font-variant-numeric: tabular-nums;
+  color: var(--slate-500);
+}
+.ladder__n::after { content: ''; flex: 1; height: 1px; background: var(--border-soft); }
+/* The one other place the caution family appears: a fine rule running out of
+   each costly step's numeral — a flag, never a flood. */
+.ladder__path:not(.ladder__path--good) .ladder__stage:not(.ladder__stage--win) .ladder__n::after {
+  background: var(--lad-caution-hair);
 }
 .ladder__path--good .ladder__n { color: var(--blue-600); }
+.ladder__path--good .ladder__n::after { background: var(--blue-100); }
 .ladder__stage--win .ladder__n { color: var(--positive); }
+.ladder__stage--win .ladder__n::after { background: rgba(23, 132, 90, .25); }
+/* The earned flag — a check at drafted line-weight beside the win numeral,
+   so "only this step earns" reads for skimmers without a filled badge. */
+.ladder__stage--win .ladder__n svg { color: var(--positive); flex-shrink: 0; }
 /* A span, not a heading — text-wrap:balance would split a four-word label
    into a ragged two-and-two inside a cell this narrow. */
-.ladder__stage-label { font-size: var(--t-xs); font-weight: 600; line-height: 1.4; color: var(--ink-900); }
-.ladder__stage-note { font-size: .6875rem; line-height: 1.45; color: var(--text-secondary); }
+.ladder__stage-label { font-size: var(--t-xs); font-weight: 700; line-height: 1.4; color: var(--ink-900); }
+.ladder__stage-note { font-size: .6875rem; line-height: 1.5; color: var(--text-secondary); }
+
+/* The three units the inbound path never needs: hatched, measured void.
+   Its children keep the column rules running through it. */
+.ladder__void {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: repeating-linear-gradient(-45deg, var(--lad-hatch) 0 1px, transparent 1px 9px);
+  -webkit-mask-image: linear-gradient(to right, #000, rgba(0, 0, 0, .4));
+  mask-image: linear-gradient(to right, #000, rgba(0, 0, 0, .4));
+}
+.ladder__void span { border-left: 1px solid var(--border-soft); }
+
+/* The shared scale between the tracks — the hero's measure bar restated as the
+   argument: a hairline of seven graduations (quarter-ticks between), and a
+   solid blue segment stopping exactly where the inbound path stops. */
+.ladder__ruler {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  height: 26px;
+  /* Closer to the track it measures: the scale belongs to the inbound path. */
+  margin: 28px 0 18px;
+  border-bottom: 1px solid var(--slate-300);
+}
+.ladder__unit {
+  background:
+    linear-gradient(var(--slate-300), var(--slate-300)) 0 100% / 1px var(--lad-tick) no-repeat,
+    repeating-linear-gradient(to right, var(--slate-200) 0 1px, transparent 1px 25%) 0 100% / 100% var(--lad-tick-minor) no-repeat;
+}
+.ladder__unit:last-child {
+  background:
+    linear-gradient(var(--slate-300), var(--slate-300)) 0 100% / 1px var(--lad-tick) no-repeat,
+    linear-gradient(var(--slate-300), var(--slate-300)) 100% 100% / 1px var(--lad-tick) no-repeat,
+    repeating-linear-gradient(to right, var(--slate-200) 0 1px, transparent 1px 25%) 0 100% / 100% var(--lad-tick-minor) no-repeat;
+}
+.ladder__mark {
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 3px;
+  width: calc(100% * 4 / 7);
+  background: var(--blue-600);
+  border-radius: 1px;
+}
+/* Dimension terminator — the upright tick that closes a measured length. */
+.ladder__mark::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: 2px;
+  height: var(--lad-tick);
+  background: var(--blue-600);
+}
+/* The segment draws itself in when the ruler reveals — transform only, and the
+   global reduced-motion kill collapses it to instant. */
+.js-reveal .ladder__ruler .ladder__mark {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.1s var(--ease) .45s;
+}
+.js-reveal .ladder__ruler.is-in .ladder__mark { transform: scaleX(1); }
+
+/* Accumulation you can feel: stages step in left to right, and the bought
+   path's seven beats take visibly longer than the inbound path's four — the
+   cadence is the argument. Transform/opacity only, and the global
+   reduced-motion kill collapses the whole sequence to instant. */
+.js-reveal .ladder__path .ladder__stage,
+.js-reveal .ladder__path .ladder__void {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.js-reveal .ladder__path.is-in .ladder__stage,
+.js-reveal .ladder__path.is-in .ladder__void {
+  opacity: 1;
+  transform: none;
+}
+.js-reveal .ladder__path .ladder__stage:nth-child(1) { transition-delay: .1s; }
+.js-reveal .ladder__path .ladder__stage:nth-child(2) { transition-delay: .19s; }
+.js-reveal .ladder__path .ladder__stage:nth-child(3) { transition-delay: .28s; }
+.js-reveal .ladder__path .ladder__stage:nth-child(4) { transition-delay: .37s; }
+.js-reveal .ladder__path .ladder__stage:nth-child(5) { transition-delay: .46s; }
+.js-reveal .ladder__path .ladder__stage:nth-child(6) { transition-delay: .55s; }
+.js-reveal .ladder__path .ladder__stage:nth-child(7) { transition-delay: .64s; }
+.js-reveal .ladder__path--good .ladder__stage:nth-child(1) { transition-delay: .06s; }
+.js-reveal .ladder__path--good .ladder__stage:nth-child(2) { transition-delay: .12s; }
+.js-reveal .ladder__path--good .ladder__stage:nth-child(3) { transition-delay: .18s; }
+.js-reveal .ladder__path--good .ladder__stage:nth-child(4) { transition-delay: .24s; }
+.js-reveal .ladder__path--good .ladder__void { transition-delay: .34s; }
+
+/* A drafted margin annotation: a left rule instead of the orphan hairline the
+   first cut had, aligned to the sheet's own left edge. */
 .ladder__foot {
   margin-top: var(--gap-lg);
+  padding-left: 16px;
+  max-width: 46rem;
   font-size: var(--t-xs);
   line-height: 1.65;
   color: var(--text-muted);
+  border-left: 2px solid var(--slate-300);
 }
-@media (max-width: 560px) {
-  .ladder__stage { flex-basis: 100%; padding: 11px 12px; }
+
+/* Below 1040px the shared horizontal scale runs out of room (1000–1040 wrapped
+   the long labels to three lines, so the sheet breaks a step early): each track
+   turns into a ruled vertical list — numeral gutter, hairline row rules — and
+   the asymmetry reads as list length instead. A continuous rail threads the
+   gutter so seven rungs read as a longer climb than four, not just more rows. */
+@media (max-width: 1040px) {
+  .ladder__head { margin-bottom: 12px; }
+  .ladder__sum { flex-basis: 100%; max-width: none; text-align: left; }
+  .ladder__track {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    border-bottom: 0;
+  }
+  /* The rail: one hairline dropping row to row for the length of the track —
+     caution-tinted on the bought path, blue on the inbound one. */
+  .ladder__track::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    bottom: 18px;
+    left: 46px;
+    width: 1px;
+    background: var(--lad-caution-hair);
+  }
+  .ladder__path--good .ladder__track::before { background: var(--blue-100); }
+  .ladder__stage {
+    grid-template-columns: 42px minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 3px;
+    padding: 12px 2px;
+    border-left: 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .ladder__stage:first-child { padding-left: 2px; }
+  .ladder__stage:last-child { border-bottom: 0; }
+  .ladder__n { grid-column: 1; grid-row: 1; letter-spacing: .1em; }
+  .ladder__n::after { display: none; }
+  .ladder__stage-label { grid-column: 2; grid-row: 1; }
+  .ladder__stage-note { grid-column: 2; grid-row: 2; }
+  /* The win row keeps its wash without breaking the shared gutter alignment:
+     the background extends outward, the text stays on the grid. Square, not
+     rounded — a soft bracket breaks the sheet's ruled language. */
+  .ladder__stage--win {
+    margin-inline: -10px;
+    padding-inline: 12px 10px;
+    box-shadow: inset 3px 0 0 var(--positive);
+  }
+  .ladder__path--good .ladder__stage:not(.ladder__stage--win) { background: none; }
+  .ladder__void { display: none; }
+  /* With no columns to graduate, the ruler is noise: the two list lengths carry
+     the count. A hairline divider takes over the separation. */
+  .ladder__ruler { display: none; }
+  .ladder__path--good {
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--slate-200);
+  }
+}
+/* Registration crosshairs shrink to artifacts on a phone. */
+@media (max-width: 640px) {
+  .ladder__reg { display: none; }
 }
 
 /* Bring your own marketing — the sources you connect.
@@ -1238,16 +1569,6 @@ ul, ol { list-style: none; }
   flex-direction: column;
   gap: 18px;
 }
-.earn__card::after {
-  content: '';
-  position: absolute;
-  inset: auto -30% -55% auto;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(46, 143, 226, .1), transparent 72%);
-  pointer-events: none;
-}
 .earn__num {
   font-family: var(--font-display);
   font-size: var(--t-xs);
@@ -1257,6 +1578,7 @@ ul, ol { list-style: none; }
 }
 .earn__title { font-size: var(--t-h3); }
 .earn__text { color: var(--text-secondary); font-size: var(--t-sm); line-height: 1.68; }
+.earn__text strong { color: var(--text); font-weight: 600; }
 .earn__foot {
   margin-top: auto;
   padding-top: 18px;
@@ -1293,64 +1615,146 @@ ul, ol { list-style: none; }
   margin-inline: auto;
 }
 
-/* Audience cards (agencies / agents) */
-.audience { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap-lg); }
-@media (max-width: 860px) { .audience { grid-template-columns: minmax(0, 1fr); } }
-.aud {
-  border-radius: var(--r-xl);
-  padding: clamp(28px, 3vw, 40px);
-  border: 1px solid var(--border);
+/* ── Audience split sheet (homepage "Who it is for", marketplace "Both
+   sides win") — washed split sheet. One white sheet on the drafting register:
+   registration crosshairs on the corners, a vertical hairline dividing the
+   two audiences, and a flat blue tint on the agency half. The tint, the
+   longer blue measure segment and the primary button are the whole
+   hierarchy between the halves. */
+.whoc {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   background: var(--white);
-  box-shadow: var(--e-2);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--r-lg);
+  box-shadow: var(--e-lad);
+}
+/* Registration marks — the same drafting crosshairs as the cost sheet. */
+.whoc__reg {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--slate-300), var(--slate-300)) center / 100% 1px no-repeat,
+    linear-gradient(var(--slate-300), var(--slate-300)) center / 1px 100% no-repeat;
+}
+.whoc__reg--tl { top: -6px; left: -6px; }
+.whoc__reg--tr { top: -6px; right: -6px; }
+.whoc__reg--bl { bottom: -6px; left: -6px; }
+.whoc__reg--br { bottom: -6px; right: -6px; }
+
+.whoc__half {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  transition: transform .28s var(--ease), box-shadow .28s var(--ease);
+  gap: 18px;
+  padding: clamp(28px, 3.4vw, 46px);
+  border-radius: 0 var(--r-lg) var(--r-lg) 0;
 }
-.aud:hover { transform: translateY(-4px); box-shadow: var(--e-4); }
-.aud--dark {
-  background: var(--surface-ink);
-  border-color: var(--ink-700);
-  color: rgba(255, 255, 255, .74);
-  position: relative;
-  overflow: hidden;
+.whoc__half--agency {
+  border-radius: var(--r-lg) 0 0 var(--r-lg);
+  background: var(--who-wash);
 }
-.aud--dark::before {
+/* The divider stops at the content padding instead of dead-ending into the
+   sheet's rounded corners. */
+.whoc__half + .whoc__half::before {
   content: '';
   position: absolute;
-  inset: -50% -20% auto auto;
-  width: 380px;
-  height: 380px;
-  background: radial-gradient(closest-side, rgba(46, 143, 226, .3), transparent 72%);
-  pointer-events: none;
+  left: -1px;
+  top: clamp(28px, 3.4vw, 46px);
+  bottom: clamp(28px, 3.4vw, 46px);
+  width: 1px;
+  background: var(--slate-200);
 }
-.aud--dark > * { position: relative; }
-.aud--dark h3 { color: var(--white); }
-.aud__ic {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--r-md);
+
+/* Where subgrid is available, the two halves share row tracks so the
+   measure bars, tags, titles and check tables sit on the same lines on
+   either side of the divider — ruled like one sheet, not two cards. */
+@supports (grid-template-rows: subgrid) {
+  @media (min-width: 861px) {
+    .whoc { grid-template-rows: auto auto auto minmax(0, 1fr) auto; }
+    .whoc__half {
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: span 5;
+      row-gap: 18px;
+    }
+    .whoc__half .whoc__checks { align-self: start; }
+    .whoc__half .whoc__foot { margin-top: 0; align-self: end; }
+  }
+}
+
+/* Measure bar — the site's hairline-with-a-blue-segment motif. The agency
+   column's segment runs longer: rank, said quietly. */
+.whoc__rule {
+  height: 2px;
+  background:
+    linear-gradient(var(--accent), var(--accent)) 0 0 / var(--who-seg) 2px no-repeat,
+    linear-gradient(var(--slate-200), var(--slate-200)) 0 100% / 100% 1px no-repeat;
+}
+.whoc__half--agency .whoc__rule { --who-seg: var(--who-seg-lead); }
+
+.whoc__head { display: flex; align-items: center; gap: 12px; margin-top: 2px; }
+.whoc__ic {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--r-sm);
   display: grid;
   place-items: center;
   background: var(--blue-50);
   color: var(--blue-600);
   border: 1px solid var(--blue-100);
 }
-.aud--dark .aud__ic {
-  background: rgba(46, 143, 226, .18);
-  border-color: rgba(46, 143, 226, .32);
-  color: var(--blue-300);
-}
-.aud__tag {
+.whoc__half--agency .whoc__ic { background: var(--white); }
+.whoc__tag {
   font-size: var(--t-xs);
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--blue-700);
 }
-.aud--dark .aud__tag { color: var(--blue-300); }
-.aud__title { font-size: var(--t-h3); }
-.aud__foot { margin-top: auto; }
+.whoc__title { font-size: var(--t-h3); max-width: 24ch; }
+
+/* Check rows set as a ruled spec table: hairline above each line, closed
+   with a hairline below the last. Bare green ticks, as in the hero's
+   assurance table. */
+.whoc__checks { display: grid; margin-top: 2px; }
+.whoc__row {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding-block: 12px;
+  border-top: 1px solid var(--border-soft);
+  font-size: var(--t-sm);
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+.whoc__row:last-child { border-bottom: 1px solid var(--border-soft); }
+.whoc__mark {
+  display: grid;
+  place-items: center;
+  color: var(--positive);
+  margin-top: 4px;
+}
+.whoc__foot { margin-top: auto; padding-top: 24px; }
+
+@media (max-width: 860px) {
+  .whoc { grid-template-columns: minmax(0, 1fr); }
+  .whoc__half { border-radius: 0 0 var(--r-lg) var(--r-lg); }
+  .whoc__half--agency {
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    background: var(--who-wash);
+  }
+  /* Stacked: the boundary hairline does the ruling on its own — the per-half
+     measure bars would double it. */
+  .whoc__half + .whoc__half::before { content: none; }
+  .whoc__half + .whoc__half { border-top: 1px solid var(--slate-200); }
+  .whoc__rule { display: none; }
+}
 
 /* ============================================================================
    PRICING
@@ -1416,7 +1820,7 @@ ul, ol { list-style: none; }
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(160deg, var(--blue-400), var(--blue-700));
+  background: var(--blue-600);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -1581,8 +1985,6 @@ ul, ol { list-style: none; }
     rgba(255, 255, 255, .96) 66%,
     var(--white) 86%
   );
-  backdrop-filter: blur(1.4px);
-  -webkit-backdrop-filter: blur(1.4px);
   align-content: end;
 }
 .board__veil-card {
@@ -1654,7 +2056,7 @@ ul, ol { list-style: none; }
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--blue-400), var(--blue-600));
+  background: var(--blue-600);
 }
 .panel__row:nth-child(n + 3) .panel__bar { background: var(--blue-300); }
 .panel__note {
@@ -1825,16 +2227,6 @@ a.contact__way-v:hover { color: var(--blue-700); }
   overflow: hidden;
   text-align: center;
 }
-.cta::before {
-  content: '';
-  position: absolute;
-  inset: -60% 20% auto -10%;
-  height: 150%;
-  background:
-    radial-gradient(closest-side, rgba(46, 143, 226, .34), transparent 70%),
-    radial-gradient(closest-side at 80% 60%, rgba(46, 143, 226, .16), transparent 70%);
-  pointer-events: none;
-}
 .cta > * { position: relative; }
 .cta__title { font-size: var(--t-h2); color: var(--white); max-width: 30rem; margin-inline: auto; }
 .cta__text {
@@ -1922,8 +2314,6 @@ a.contact__way-v:hover { color: var(--blue-700); }
   place-items: center;
   padding: var(--gap);
   background: rgba(14, 17, 22, .55);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
   animation: fade .2s var(--ease);
   overflow-y: auto;
 }
@@ -1938,7 +2328,7 @@ a.contact__way-v:hover { color: var(--blue-700); }
   padding: clamp(26px, 3.5vw, 36px);
   border-radius: var(--r-xl);
   background: var(--white);
-  box-shadow: var(--e-4);
+  border: 1px solid var(--border);
   animation: rise .28s var(--ease);
 }
 @keyframes rise { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }

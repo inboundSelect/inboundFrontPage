@@ -121,7 +121,7 @@ const FAQS = [
   },
   {
     q: 'Who decides what our agents pay us?',
-    a: 'You do. You set the monthly amount, the amount per call, or both. We collect it and it goes into your own Stripe account. There is no fixed agent price and we take no share of it.',
+    a: 'You do. You set the monthly amount, the amount per call, or both. It goes into your account. There is no fixed agent price and we take no share of it.',
   },
   {
     q: 'Do we need to bring our own phone service?',
@@ -133,10 +133,17 @@ const FAQS = [
   },
 ];
 
-/* One row of the cost ladder. The two paths are never squared up to the same
- * number of cells — the difference in how many there are is the argument. */
+/* The scale every path is measured on — seven units, because that is what the
+ * long path takes. Both tracks in the sheet use the same seven columns, so the
+ * unit width never changes between them and the length difference is exact. */
+const LADDER_UNITS = 7;
+
+/* One track of the comparison sheet. A path shorter than the scale leaves the
+ * remaining units on the sheet as hatched, measured space — the steps that
+ * never have to happen. */
 function Path({ tone, tag, caption, pays, steps, delay }) {
   const good = tone === 'good';
+  const unused = LADDER_UNITS - steps.length;
   return (
     <div className={`ladder__path${good ? ' ladder__path--good' : ''} reveal d${delay}`}>
       <div className="ladder__head">
@@ -151,11 +158,19 @@ function Path({ tone, tag, caption, pays, steps, delay }) {
       <div className="ladder__track">
         {steps.map((s, i) => (
           <div key={s.label} className={`ladder__stage${s.win ? ' ladder__stage--win' : ''}`}>
-            <span className="ladder__n">{String(i + 1).padStart(2, '0')}</span>
+            <span className="ladder__n">
+              {String(i + 1).padStart(2, '0')}
+              {s.win && <IconCheck size={11} />}
+            </span>
             <span className="ladder__stage-label">{s.label}</span>
             <span className="ladder__stage-note">{s.note}</span>
           </div>
         ))}
+        {unused > 0 && (
+          <div className="ladder__void" aria-hidden="true" style={{ gridColumn: `span ${unused}` }}>
+            {Array.from({ length: unused }, (_, i) => <span key={i} />)}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -216,6 +231,10 @@ function HomePage({ onNavigate, onOpenModal }) {
           />
 
           <div className="ladder mt-xl">
+            <span className="ladder__reg ladder__reg--tl" aria-hidden="true" />
+            <span className="ladder__reg ladder__reg--tr" aria-hidden="true" />
+            <span className="ladder__reg ladder__reg--bl" aria-hidden="true" />
+            <span className="ladder__reg ladder__reg--br" aria-hidden="true" />
             <Path
               tone="bad"
               delay={1}
@@ -224,9 +243,17 @@ function HomePage({ onNavigate, onOpenModal }) {
               pays="The lead, the tools around it, and your agents' hours"
               steps={BOUGHT_LEAD}
             />
+            {/* The shared scale, between the tracks: seven graduations, and a
+                solid segment stopping where the inbound path stops. */}
+            <div className="ladder__ruler reveal d2" aria-hidden="true">
+              {Array.from({ length: LADDER_UNITS }, (_, i) => (
+                <span key={i} className="ladder__unit" />
+              ))}
+              <span className="ladder__mark" />
+            </div>
             <Path
               tone="good"
-              delay={2}
+              delay={3}
               tag="Inbound call"
               caption="The caller has already decided to talk. That is the part you are paying for."
               pays="The conversation"
@@ -328,7 +355,7 @@ function HomePage({ onNavigate, onOpenModal }) {
               },
               {
                 title: 'The call connects itself',
-                text: 'Everyone who matches is offered the call at once. The first to accept is put straight through — no dialling, no transferring, no waiting.',
+                text: <>Everyone who matches is offered the call at once. The <strong>first to accept</strong> is put straight through — no dialling, no transferring, no waiting.</>,
               },
               {
                 title: 'Everything is written down',
@@ -361,8 +388,8 @@ function HomePage({ onNavigate, onOpenModal }) {
               <h3 className="earn__title">Calls your team works</h3>
               <p className="earn__text">
                 You decide what it costs an agent to be part of your call flow — a monthly
-                amount, an amount for each call they take, or both. We collect it and it
-                goes into your own Stripe account. No invoices to raise and nobody to chase.
+                amount, an amount for each call they take, or both. It
+                goes into your account. <strong>No invoices to raise and nobody to chase.</strong>
               </p>
               <p className="earn__foot">You set the price. We never take a share of it.</p>
             </article>
@@ -374,7 +401,7 @@ function HomePage({ onNavigate, onOpenModal }) {
               <p className="earn__text">
                 Not every call gets worked, and the ones that do not are usually written off.
                 Instead, list them in the Lead Marketplace at a price you choose. Other agents
-                on the platform buy them, and what would have been nothing becomes something.
+                on the platform buy them, and <strong>what would have been nothing becomes something</strong>.
               </p>
               <p className="earn__foot">
                 Your agency keeps {MARKETPLACE_SPLIT.agency} of each sale. We keep {MARKETPLACE_SPLIT.platform}.
@@ -390,7 +417,7 @@ function HomePage({ onNavigate, onOpenModal }) {
           <Lede
             eyebrow="Let's be clear"
             title="We are not in the business of selling you leads"
-            text="A lot of platforms in this market make their money from the calls themselves, which means their interests and yours are not the same. Ours is a simpler arrangement."
+            text="You pay us for the platform. Your callers stay yours, your agents stay yours, and what passes between you and them is set by you, not by us."
           />
 
           <div className="grid grid--3 mt-xl">
@@ -405,12 +432,12 @@ function HomePage({ onNavigate, onOpenModal }) {
 
           <div className="statement mt-xl reveal">
             <p className="statement__text">
-              If you cannot set what your agents pay you, it is not really your operation.
-              <b> Here, every one of those numbers is yours.</b>
+              The prices inside your agency are yours to set — what an agent pays to join,
+              and what they pay for a call.
+              <b> Ours is a flat monthly fee, and it never moves with yours.</b>
             </p>
             <p className="statement__sub">
-              We charge a flat monthly fee for the platform. What happens between your agency
-              and your agents is between you and them.
+              Anything else we charge is listed on the pricing page, in full.
             </p>
           </div>
         </div>
@@ -425,50 +452,61 @@ function HomePage({ onNavigate, onOpenModal }) {
             text="If callers are reaching you and some of them are slipping through, this closes that gap."
           />
 
-          <div className="audience mt-xl">
-            <article className="aud aud--dark reveal d1">
-              <span className="aud__ic"><IconBuilding size={22} /></span>
-              <p className="aud__tag">Agency owners</p>
-              <h3 className="aud__title">Run your whole call operation from one screen.</h3>
-              <div className="checks">
+          <div className="whoc mt-xl">
+            <span className="whoc__reg whoc__reg--tl" aria-hidden="true" />
+            <span className="whoc__reg whoc__reg--tr" aria-hidden="true" />
+            <span className="whoc__reg whoc__reg--bl" aria-hidden="true" />
+            <span className="whoc__reg whoc__reg--br" aria-hidden="true" />
+
+            <article className="whoc__half whoc__half--agency reveal d1">
+              <div className="whoc__rule" aria-hidden="true" />
+              <header className="whoc__head">
+                <span className="whoc__ic"><IconBuilding size={18} /></span>
+                <p className="whoc__tag">Agency owners</p>
+              </header>
+              <h3 className="whoc__title">Run your whole call operation from one screen.</h3>
+              <div className="whoc__checks">
                 {[
                   'Decide what your agents pay and keep all of it',
                   'Send calls only to agents licensed for that state and product',
                   'Sell the calls nobody could get to, at your price',
                   'See what every call cost and what it earned',
                 ].map((t) => (
-                  <p key={t} className="checks__item">
-                    <span className="checks__mark"><IconCheck size={13} /></span>
+                  <p key={t} className="whoc__row">
+                    <span className="whoc__mark"><IconCheck size={13} /></span>
                     <span>{t}</span>
                   </p>
                 ))}
               </div>
-              <div className="aud__foot">
-                <button className="btn btn--onink" onClick={() => onNavigate('agencies')}>
+              <div className="whoc__foot">
+                <button className="btn btn--primary" onClick={() => onNavigate('agencies')}>
                   For Agencies
                   <IconArrowRight size={16} />
                 </button>
               </div>
             </article>
 
-            <article className="aud reveal d2">
-              <span className="aud__ic"><IconUser size={22} /></span>
-              <p className="aud__tag">Agents</p>
-              <h3 className="aud__title">Spend your day talking, not dialling.</h3>
-              <div className="checks">
+            <article className="whoc__half reveal d2">
+              <div className="whoc__rule" aria-hidden="true" />
+              <header className="whoc__head">
+                <span className="whoc__ic"><IconUser size={18} /></span>
+                <p className="whoc__tag">Agents</p>
+              </header>
+              <h3 className="whoc__title">Spend your day talking,<br aria-hidden="true" /> not dialling.</h3>
+              <div className="whoc__checks">
                 {[
                   'Join an agency already on the platform',
                   'Choose your states and the products you sell',
                   'Take live calls from people who rang in themselves',
                   'Buy extra leads from the marketplace on quiet days',
                 ].map((t) => (
-                  <p key={t} className="checks__item">
-                    <span className="checks__mark"><IconCheck size={13} /></span>
+                  <p key={t} className="whoc__row">
+                    <span className="whoc__mark"><IconCheck size={13} /></span>
                     <span>{t}</span>
                   </p>
                 ))}
               </div>
-              <div className="aud__foot">
+              <div className="whoc__foot">
                 <button className="btn btn--ghost" onClick={() => onNavigate('agents')}>
                   For Agents
                   <IconArrowRight size={16} />

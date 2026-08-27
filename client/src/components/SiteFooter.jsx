@@ -1,4 +1,5 @@
 import { COMPANY } from '../lib/site';
+import Brand from './Brand';
 
 const COLUMNS = [
   {
@@ -35,7 +36,7 @@ function SiteFooter({ onNavigate, onOpenModal }) {
         <div className="site-footer__top">
           <div>
             <button className="brand" onClick={() => onNavigate('home')} aria-label="InboundSelect — home">
-              <img src="/assets/inboundselect-lockup.svg" alt="InboundSelect" className="brand__logo" />
+              <Brand />
             </button>
             <p className="site-footer__tag">
               The system insurance agencies run their inbound calls on. You bring the

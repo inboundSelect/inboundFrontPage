@@ -1,4 +1,4 @@
-import { IconPhoneIn } from '../lib/icons';
+import { IconPhoneIn, IconCheck } from '../lib/icons';
 
 /* An honest picture of the product: a call arriving, and the people who could
  * take it. Deliberately no revenue figures, call counts or percentages —
@@ -19,6 +19,12 @@ function CallStage() {
   return (
     <div className="hero__visual reveal d2">
       <div className="stage">
+        {/* A floating fact, not a floating figure — recording is simply true
+            of every call, and the trust section says the same words. */}
+        <span className="stage__chip" role="presentation">
+          <span className="stage__chip-ic"><IconCheck size={11} /></span>
+          Every call recorded
+        </span>
         <div className="stage__window">
           <div className="stage__bar">
             <span className="stage__bar-title">Your agency</span>

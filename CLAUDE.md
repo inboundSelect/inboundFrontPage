@@ -78,6 +78,18 @@ client/src/
 
 - **Global CSS classes only**, all in `client/src/index.css`. No Tailwind, no CSS
   modules, no styled-components.
+- **The system is flat** (owner decision, Aug 2026: "no glare or shadow — it feels
+  like an AI-generated website"). No drop shadows, no glows, no frosted glass, and
+  **no multi-colour gradient ramps of any kind** — that includes gradient-clipped
+  headline text, gradient border rings and gradient-filled chart bars, which are
+  opaque and so survive a "fades to transparent" test but still read as lit.
+  Definition comes from hairline borders and flat surface tints. The `--e-*`
+  elevation tokens are kept as `0 0 0 0 transparent` no-ops so old compositions
+  don't break — never give them real values. A `box-shadow` is allowed only with
+  zero blur and zero spread, as a drawn rule (e.g. `inset 0 2px 0`). Gradients are
+  allowed only as flat drawing tools with repeated identical colour stops (hairline
+  rules, measure bars, hatching) or as the two content veils (the fade that hides
+  dummy data in the product illustration, and the header veil below).
 - **Never hardcode a colour, size or spacing value.** Everything is a token in `:root`.
   Colour steps have jobs: `--blue-500` is graphics only (it fails contrast for text),
   `--blue-600` is actions, `--blue-700` is links and emphasis text.
@@ -104,20 +116,26 @@ is scoped under `.js-reveal`, so content stays visible with JavaScript off, and
   that route list too**, or it 404s on refresh.
 - **The `#root` fallback in `index.html`** is what a reviewer or crawler sees with
   scripts blocked. Keep it meaningful.
-- **`.site-header::before` is the veil** that blurs the page showing through the strip
-  above and beside the floating bar. It works because `.site-header` has no background
-  of its own and its `z-index` makes a stacking context, so the veil (`z-index: -1`) can
-  sit behind the bar but above the page. Give the header a background and you cover it.
-  Its `mask-image` stops are **percentages on purpose** — the header is shorter when
+- **`.site-header::before` is the veil** — near-opaque white (no blur; the flat rule
+  above) that hides the page showing through the strip above and beside the floating
+  bar. It works because `.site-header` has no background of its own and its `z-index`
+  makes a stacking context, so the veil (`z-index: -1`) can sit behind the bar but
+  above the page. Give the header itself a background and you cover it. Its
+  `mask-image` stops are **percentages on purpose** — the header is shorter when
   scrolled and shorter again on a phone, and the fade has to finish at the bar's bottom
   edge at every height, or content below goes washed out.
-- **The brand lockup is one image, never assembled in CSS.** In the official artwork the
-  mark's tallest bar *is* the "I" of "Inbound" — the wordmark and the mark are a single
-  drawing, so pairing an icon with HTML text can only ever approximate it (it didn't).
-  `public/assets/inboundselect-lockup.svg` is `Inbound_Logo.svg` with a tight `viewBox`;
-  the paths are untouched. Size it by **height only** (`.brand__logo`) and let the aspect
-  ratio come from the file. The icon-only `inboundselect-mark.png` is for the favicon and
-  touch icon.
+- **The brand lockup mirrors the dashboard app's logo section exactly** (owner
+  decision, Aug 2026 — this replaced the older rule that the lockup stay a single
+  image). `components/Brand.jsx` reproduces what the dashboard sidebar and auth pages
+  render: `public/assets/brand-mark.svg` (a byte-for-byte copy of the dashboard's
+  `inbound_logo.svg` — renamed because this folder already holds a *different*
+  `Inbound_Logo.svg` and the filesystem is case-insensitive) whose tallest chart bar
+  doubles as the "I", then the text "nbound" (Signal Blue, Sora 600) + "Select"
+  (ink, Sora 700) with the slogan beneath, merged onto the bar with a -3px pull.
+  If the dashboard's logo changes, change `Brand.jsx` to match, never the other way
+  round. Everything scales from `--brand-size` (the mark's height). The old
+  `inboundselect-lockup.svg` is kept only for anything that hotlinks it; the icon-only
+  `inboundselect-mark.png` is still the favicon and touch icon.
 
 ## Backend
 
